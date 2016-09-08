@@ -1,7 +1,9 @@
-package com.yangyuning.baidumusic;
+package com.yangyuning.baidumusic.controller.activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.yangyuning.baidumusic.R;
 
 public class MainActivity extends AppCompatActivity {
 
