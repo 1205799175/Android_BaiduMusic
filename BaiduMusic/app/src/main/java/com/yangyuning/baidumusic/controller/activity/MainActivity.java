@@ -1,5 +1,6 @@
 package com.yangyuning.baidumusic.controller.activity;
 
+import android.graphics.Color;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -43,5 +44,6 @@ public class MainActivity extends AbsBaseActivity {
         mainTb.getTabAt(0).setText("我的");
         mainTb.getTabAt(1).setText("乐库");
         mainTb.getTabAt(2).setText("K歌");
+        mainTb.setTabTextColors(Color.argb(255, 207, 207, 207), Color.WHITE);
     }
 }
