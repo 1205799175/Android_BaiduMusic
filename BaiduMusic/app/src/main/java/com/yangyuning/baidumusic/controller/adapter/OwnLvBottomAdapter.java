@@ -14,13 +14,13 @@ import com.yangyuning.baidumusic.model.bean.OwnLvBean;
 import java.util.List;
 
 /**
- * Created by dllo on 16/9/9.
+ * Created by dllo on 16/9/10.
  */
-public class OwnLvAdapter extends BaseAdapter {
+public class OwnLvBottomAdapter extends BaseAdapter {
     private Context context;
     private List<OwnLvBean> datas;
 
-    public OwnLvAdapter(Context context, List<OwnLvBean> datas) {
+    public OwnLvBottomAdapter(Context context, List<OwnLvBean> datas) {
         this.context = context;
         this.datas = datas;
     }
@@ -44,7 +44,7 @@ public class OwnLvAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder = null;
         if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.item_own_top_lv, parent, false);
+            convertView = LayoutInflater.from(context).inflate(R.layout.item_own_bottom_lv, parent, false);
             viewHolder = new ViewHolder(convertView);
             convertView.setTag(viewHolder);
         } else {
@@ -69,3 +69,4 @@ public class OwnLvAdapter extends BaseAdapter {
         }
     }
 }
+

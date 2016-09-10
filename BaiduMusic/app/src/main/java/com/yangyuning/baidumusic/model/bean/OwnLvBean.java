@@ -9,14 +9,16 @@ public class OwnLvBean {
     private int imgId;
     private String name;
     private String number;
+    private int arrowImgId;
 
     public OwnLvBean() {
     }
 
-    public OwnLvBean(int imgId, String name, String number) {
+    public OwnLvBean(int imgId, String name, String number, int arrowImgId) {
         this.imgId = imgId;
         this.name = name;
         this.number = number;
+        this.arrowImgId = arrowImgId;
     }
 
     public int getImgId() {
@@ -41,5 +43,13 @@ public class OwnLvBean {
 
     public void setNumber(String number) {
         this.number = number;
+    }
+
+    public int getArrowImgId() {
+        return arrowImgId;
+    }
+
+    public void setArrowImgId(int arrowImgId) {
+        this.arrowImgId = arrowImgId;
     }
 }

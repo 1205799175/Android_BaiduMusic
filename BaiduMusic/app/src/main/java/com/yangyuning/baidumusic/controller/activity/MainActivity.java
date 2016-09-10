@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.widget.LinearLayout;
 
 import com.yangyuning.baidumusic.R;
 import com.yangyuning.baidumusic.controller.adapter.VpAdapter;
