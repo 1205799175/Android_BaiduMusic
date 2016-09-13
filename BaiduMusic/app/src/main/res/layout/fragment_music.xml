@@ -8,15 +8,15 @@
     <android.support.design.widget.TabLayout
         android:id="@+id/music_tb"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
-        app:tabIndicatorHeight="1dp"
+        android:layout_height="@dimen/margin_threety"
+        app:tabIndicatorHeight="@dimen/margin_one"
         app:tabIndicatorColor="@android:color/holo_blue_bright"
         app:tabTextAppearance="@style/MyTabLayoutTextAppearanceInverse"/>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/music_vp"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="@dimen/margin_zero"
         android:layout_weight="1"/>
 
 </LinearLayout>

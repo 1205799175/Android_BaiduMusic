@@ -1,6 +1,8 @@
 package com.yangyuning.baidumusic.controller.fragment;
 
+import android.content.Context;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -13,12 +15,30 @@ import java.util.List;
 
 /**
  * Created by dllo on 16/9/9.
+ * 乐库Fragment
  */
 public class MusicFragment extends AbsBaseFragment{
     private ViewPager musicVp;
     private TabLayout musicTb;
     private List<Fragment> datas;
     private VpAdapter vpAdapter;
+    private Context context;
+
+    public static MusicFragment newInstance() {
+        
+        Bundle args = new Bundle();
+        
+        MusicFragment fragment = new MusicFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        this.context = context;
+    }
+
     @Override
     protected int setLayout() {
         return R.layout.fragment_music;
@@ -33,11 +53,11 @@ public class MusicFragment extends AbsBaseFragment{
     @Override
     protected void initDatas() {
         datas = new ArrayList<>();
-        datas.add(new RecommendFragment());
-        datas.add(new RankingFragment());
-        datas.add(new SongFragment());
-        datas.add(new RadioFragment());
-        datas.add(new MvFragment());
+        datas.add(RecommendFragment.newInstance());
+        datas.add(RankingFragment.newInstance());
+        datas.add(SongFragment.newInstance());
+        datas.add(RadioFragment.newInstance());
+        datas.add(MvFragment.newInstance());
         vpAdapter = new VpAdapter(getChildFragmentManager(), datas);
         musicVp.setAdapter(vpAdapter);
         musicTb.setupWithViewPager(musicVp);

@@ -1,11 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:textSize="40sp"
-        android:text="电台"/>
-</LinearLayout>
+        android:orientation="vertical">
+        <!--频道-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_margin="@dimen/margin_ten">
+            <LinearLayout
+                android:id="@+id/radio_lebo_red"
+                android:layout_width="@dimen/margin_zero"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginRight="@dimen/margin_five"
+                android:background="@mipmap/img_recommend_lebo_orange">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/ic_radiopage_icon_like"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/radio_lebo_blue"
+                android:layout_width="@dimen/margin_zero"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginLeft="@dimen/margin_five"
+                android:background="@mipmap/img_recommend_lebo_blue">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/ic_radiopage_icon_personal"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!--推荐电台-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_marginLeft="@dimen/margin_ten"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/ic_launcher"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/text_color_black"
+                    android:text="推荐电台"/>
+            </LinearLayout>
+
+            <com.yangyuning.baidumusic.view.MyRecyclerView
+                android:id="@+id/music_radio_rv"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
+
+        </LinearLayout>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_ten"
+            android:text="更多电台分类"
+            android:background="@drawable/bg_shape_radio_tv"/>
+    </LinearLayout>
+
+</ScrollView>

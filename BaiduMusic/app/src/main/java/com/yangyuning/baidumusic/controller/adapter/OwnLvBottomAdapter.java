@@ -15,6 +15,7 @@ import java.util.List;
 
 /**
  * Created by dllo on 16/9/10.
+ * 我的Fragment下端ListView适配器
  */
 public class OwnLvBottomAdapter extends BaseAdapter {
     private Context context;

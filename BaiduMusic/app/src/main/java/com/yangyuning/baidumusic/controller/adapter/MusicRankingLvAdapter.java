@@ -15,12 +15,13 @@ import java.util.List;
 
 /**
  * Created by dllo on 16/9/10.
+ * 乐库 排行 ListView适配器
  */
-public class MusicRankingAdapter extends BaseAdapter {
+public class MusicRankingLvAdapter extends BaseAdapter {
     private Context context;
     private List<MusicRankingBean> datas;
 
-    public MusicRankingAdapter(Context context, List<MusicRankingBean> datas) {
+    public MusicRankingLvAdapter(Context context, List<MusicRankingBean> datas) {
         this.context = context;
         this.datas = datas;
     }
