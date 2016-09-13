@@ -1,9 +1,12 @@
 package com.yangyuning.baidumusic.model.bean;
 
+import java.util.List;
+
 /**
  * Created by dllo on 16/9/10.
  */
 public class MusicRankingBean {
+
     private String title;   //例如 新歌榜
     private String songOne, songTwo, songThree;
 //    private int imgId;
@@ -50,5 +53,8 @@ public class MusicRankingBean {
     public void setSongThree(String songThree) {
         this.songThree = songThree;
     }
+
+
+
 
 }

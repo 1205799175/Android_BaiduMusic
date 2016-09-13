@@ -21,9 +21,13 @@ public class MusicRankingLvAdapter extends BaseAdapter {
     private Context context;
     private List<MusicRankingBean> datas;
 
-    public MusicRankingLvAdapter(Context context, List<MusicRankingBean> datas) {
+    public MusicRankingLvAdapter(Context context) {
         this.context = context;
+    }
+
+    public void setDatas(List<MusicRankingBean> datas) {
         this.datas = datas;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -64,7 +68,7 @@ public class MusicRankingLvAdapter extends BaseAdapter {
         LinearLayout imgId;
         private ViewHolder(View view){
             songOneTv = (TextView) view.findViewById(R.id.item_ranking_song_one);
-            songTwoTv = (TextView) view.findViewById(R.id.item_rankging_song_two);
+            songTwoTv = (TextView) view.findViewById(R.id.item_ranking_song_two);
             songThreeTv = (TextView) view.findViewById(R.id.item_ranking_song_three);
             titleTv = (TextView) view.findViewById(R.id.item_ranking_title);
             imgId = (LinearLayout) view.findViewById(R.id.item_ranking_img);

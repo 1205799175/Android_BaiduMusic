@@ -5,6 +5,8 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 
 import com.yangyuning.baidumusic.R;
@@ -68,5 +70,7 @@ public class MainFragment extends AbsBaseFragment {
         frameTb.getTabAt(2).setText("K歌");
         frameTb.getTabAt(3).setText("直播");
         frameTb.setTabTextColors(Color.argb(255, 207, 207, 207), Color.WHITE);
+
+
     }
 }

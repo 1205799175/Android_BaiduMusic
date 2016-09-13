@@ -8,7 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import com.yangyuning.baidumusic.R;
 import com.yangyuning.baidumusic.controller.adapter.MusicRadioRvAdapter;
 import com.yangyuning.baidumusic.model.bean.MusicRadioBean;
-import com.yangyuning.baidumusic.view.MyRecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +18,7 @@ import java.util.List;
  */
 public class RadioFragment extends AbsBaseFragment {
     private Context context;
-    private MyRecyclerView rv;
+    private RecyclerView rv;
     private List<MusicRadioBean> datas;
     private MusicRadioRvAdapter musicRadioRvAdapter;
 

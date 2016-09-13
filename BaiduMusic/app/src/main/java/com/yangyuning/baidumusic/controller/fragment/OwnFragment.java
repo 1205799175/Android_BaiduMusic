@@ -1,11 +1,18 @@
 package com.yangyuning.baidumusic.controller.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -33,6 +40,8 @@ public class OwnFragment extends AbsBaseFragment {
     private MyListView topLv, bottomLv;
     private TextView ownLoginTv;
     private Context context;
+
+    private static final String THE_ACTION = "com.yangyuning.baidumusic.controller.fragment.OwnFragment";
 
     public static OwnFragment newInstance() {
         
@@ -63,6 +72,9 @@ public class OwnFragment extends AbsBaseFragment {
 
     @Override
     protected void initDatas() {
+        FragmentManager manager = getFragmentManager();
+        final FragmentTransaction fragmentTransaction = manager.beginTransaction();
+
         //我的Fragment上面的ListView
         topDatas = new ArrayList<>();
         topDatas.add(new OwnLvBean(R.mipmap.ic_mymusic_local_normal, "本地歌曲", "10首", R.mipmap.bt_artist_item_play_nor));
@@ -83,5 +95,19 @@ public class OwnFragment extends AbsBaseFragment {
         SpannableString span = new SpannableString("立即登录, 让音乐跟着你走");
         span.setSpan(new ForegroundColorSpan(Color.argb(255, 45, 208, 242)),0, 4, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
         ownLoginTv.setText(span);
+
+        //ListView点击事件进入详情页
+        topLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //发送广播
+                Intent intent = new Intent();
+                intent.setAction(THE_ACTION);
+                intent.putExtra("frame", R.id.main_frame_layout);
+                intent.putExtra("id", position);
+                context.sendBroadcast(intent);
+            }
+        });
+
     }
 }
