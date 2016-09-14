@@ -1,17 +1,15 @@
-package com.yangyuning.baidumusic.controller.fragment;
+package com.yangyuning.baidumusic.controller.fragment.musicfragment;
 
-import android.content.Context;
 import android.os.Bundle;
 
 import com.yangyuning.baidumusic.R;
+import com.yangyuning.baidumusic.controller.fragment.AbsBaseFragment;
 
 /**
  * Created by dllo on 16/9/9.
  * 乐库 推荐 Fragment
  */
 public class RecommendFragment extends AbsBaseFragment {
-    private Context context;
-
     public static RecommendFragment newInstance() {
         
         Bundle args = new Bundle();
@@ -19,12 +17,6 @@ public class RecommendFragment extends AbsBaseFragment {
         RecommendFragment fragment = new RecommendFragment();
         fragment.setArguments(args);
         return fragment;
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        this.context = context;
     }
 
     @Override

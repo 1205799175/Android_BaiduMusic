@@ -16,6 +16,7 @@ import java.util.List;
 
 /**
  * Created by dllo on 16/9/13.
+ * K个Fragment的ListView适配器
  */
 public class KLvAdapter extends BaseAdapter {
     private Context context;

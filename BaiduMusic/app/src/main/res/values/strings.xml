@@ -1,3 +1,33 @@
 <resources>
     <string name="app_name">BaiduMusic</string>
+
+    <!--主界面TabLayout标题-->
+    <string name="tab_title_own">我的</string>
+    <string name="tab_title_music">乐库</string>
+    <string name="tab_title_k">K歌</string>
+    <string name="tab_title_alive">直播</string>
+    
+    <!--我的界面-ListView-行布局名称-->
+    <string name="own_lv_local_music">本地音乐</string>
+    <string name="own_lv_recently_play">最近播放</string>
+    <string name="own_lv_download_manage">下载管理</string>
+    <string name="own_lv_my_k">我的K歌</string>
+    <string name="own_lv_my_like">我最喜欢的单曲</string>
+    <string name="own_lv_new_create">新建歌单</string>
+    <string name="own_lv_login">立即登录, 让音乐跟着你走</string>
+    <string name="own_lv_song_number">100首</string>
+
+    <!--主界面-乐库Fragment-TabLayout标签-->
+    <string name="music_tab_recommend">推荐</string>
+    <string name="music_tab_ranking">排行</string>
+    <string name="music_tab_song">歌单</string>
+    <string name="music_tab_radio">电台</string>
+    <string name="music_tab_mv">MV</string>
+
+    <!--我的Fragment-本地音乐二级页面TabLayout标题-->
+    <string name="local_tab_song">歌曲</string>
+    <string name="local_tab_file">文件夹</string>
+    <string name="local_tab_songer">歌手</string>
+    <string name="local_tab_album">专辑</string>
+
 </resources>

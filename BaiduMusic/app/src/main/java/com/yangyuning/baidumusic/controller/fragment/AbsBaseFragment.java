@@ -20,7 +20,8 @@ import com.yangyuning.baidumusic.R;
  */
 public abstract class AbsBaseFragment extends Fragment {
 
-    private Context context;
+    protected Context context;
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);

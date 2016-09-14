@@ -1,11 +1,10 @@
-package com.yangyuning.baidumusic.controller.fragment;
+package com.yangyuning.baidumusic.controller.fragment.kfragment;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.widget.ListView;
 
 import com.yangyuning.baidumusic.R;
 import com.yangyuning.baidumusic.controller.adapter.KLvAdapter;
+import com.yangyuning.baidumusic.controller.fragment.AbsBaseFragment;
 import com.yangyuning.baidumusic.model.bean.KLvBean;
 import com.yangyuning.baidumusic.view.MyListView;
 
@@ -17,7 +16,6 @@ import java.util.List;
  * K歌Fragment
  */
 public class KFragment extends AbsBaseFragment {
-    private Context context;
     private List<KLvBean> datas;
     private KLvAdapter kLvAdapter;
     private MyListView myListView;
@@ -29,12 +27,6 @@ public class KFragment extends AbsBaseFragment {
         KFragment fragment = new KFragment();
         fragment.setArguments(args);
         return fragment;
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        this.context = context;
     }
 
     @Override
@@ -50,6 +42,7 @@ public class KFragment extends AbsBaseFragment {
     @Override
     protected void initDatas() {
         datas = new ArrayList<>();
+        //假数据
         for (int i = 0; i < 10; i++) {
             datas.add(new KLvBean("歌手-歌名", "1000人唱过"));
         }

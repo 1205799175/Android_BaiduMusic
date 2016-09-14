@@ -7,17 +7,17 @@ import android.content.IntentFilter;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.widget.FrameLayout;
-import android.widget.Toast;
 
 import com.yangyuning.baidumusic.R;
-import com.yangyuning.baidumusic.controller.fragment.LocalMusicDetailsFragment;
+import com.yangyuning.baidumusic.controller.fragment.ownfragment.LocalMusicDetailsFragment;
 import com.yangyuning.baidumusic.controller.fragment.MainFragment;
+import com.yangyuning.baidumusic.controller.fragment.ownfragment.OwnFragment;
+import com.yangyuning.baidumusic.utils.BaiduMusicValues;
 
 public class MainActivity extends AbsBaseActivity {
     private FrameLayout frameLayout;
 
     private FrameReceiver frameReceiver;
-    private static final String THE_ACTION = "com.yangyuning.baidumusic.controller.fragment.OwnFragment";
 
     @Override
     protected int setLayout() {
@@ -33,40 +33,43 @@ public class MainActivity extends AbsBaseActivity {
         //注册
         frameReceiver = new FrameReceiver();
         IntentFilter filter = new IntentFilter();
-        filter.addAction(THE_ACTION);
+        filter.addAction(BaiduMusicValues.THE_ACTION_OWN_LOCAL);
         registerReceiver(frameReceiver, filter);
 
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.main_frame_layout, MainFragment.newInstance());
         ft.commit();
-
     }
 
-    //广播接收者
+    //广播接收者  从OwnFragment发送
     class FrameReceiver extends BroadcastReceiver {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            int i = intent.getIntExtra("id", 1);
+            int i = intent.getIntExtra(BaiduMusicValues.THE_ACTION_KEY_POAITION, BaiduMusicValues.MAIN_RECEIVER_POSITION_ZREO);
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             switch (i){
-                case 0:
+                case -1:
+                    fragmentManager.popBackStack();
+                    break;
+                case BaiduMusicValues.MAIN_RECEIVER_POSITION_ZREO:
                     fragmentTransaction.addToBackStack(null);
                     fragmentTransaction.replace(R.id.main_frame_layout, LocalMusicDetailsFragment.newInstance());
                     break;
-                case 1:
+                case BaiduMusicValues.MAIN_RECEIVER_POSITION_ONE:
                     break;
-                case 2:
+                case BaiduMusicValues.MAIN_RECEIVER_POSITION_TWO:
                     break;
-                case 3:
+                case BaiduMusicValues.MAIN_RECEIVER_POSITION_THREE:
                     break;
             }
             fragmentTransaction.commit();
         }
     }
 
+    //广播接收者取消注册
     @Override
     protected void onDestroy() {
         super.onDestroy();

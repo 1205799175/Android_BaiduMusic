@@ -1,12 +1,12 @@
-package com.yangyuning.baidumusic.controller.fragment;
+package com.yangyuning.baidumusic.controller.fragment.musicfragment;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.yangyuning.baidumusic.R;
 import com.yangyuning.baidumusic.controller.adapter.MusicRadioRvAdapter;
+import com.yangyuning.baidumusic.controller.fragment.AbsBaseFragment;
 import com.yangyuning.baidumusic.model.bean.MusicRadioBean;
 
 import java.util.ArrayList;
@@ -17,7 +17,6 @@ import java.util.List;
  * 乐库 电台Fragment
  */
 public class RadioFragment extends AbsBaseFragment {
-    private Context context;
     private RecyclerView rv;
     private List<MusicRadioBean> datas;
     private MusicRadioRvAdapter musicRadioRvAdapter;
@@ -29,12 +28,6 @@ public class RadioFragment extends AbsBaseFragment {
         RadioFragment fragment = new RadioFragment();
         fragment.setArguments(args);
         return fragment;
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        this.context = context;
     }
 
     @Override
@@ -50,6 +43,7 @@ public class RadioFragment extends AbsBaseFragment {
     @Override
     protected void initDatas() {
         datas = new ArrayList<>();
+        //假数据
         for (int i = 0; i < 12; i++) {
             datas.add(new MusicRadioBean("电台", R.mipmap.ic_launcher));
         }

@@ -1,16 +1,17 @@
 package com.yangyuning.baidumusic.controller.fragment;
 
-import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 
 import com.yangyuning.baidumusic.R;
 import com.yangyuning.baidumusic.controller.adapter.VpAdapter;
+import com.yangyuning.baidumusic.controller.fragment.alivefragment.AliveFragment;
+import com.yangyuning.baidumusic.controller.fragment.kfragment.KFragment;
+import com.yangyuning.baidumusic.controller.fragment.musicfragment.MusicFragment;
+import com.yangyuning.baidumusic.controller.fragment.ownfragment.OwnFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,8 +21,6 @@ import java.util.List;
  * 占位Fragment
  */
 public class MainFragment extends AbsBaseFragment {
-    private Context context;
-
     private TabLayout frameTb;
     private ViewPager frameVp;
 
@@ -35,12 +34,6 @@ public class MainFragment extends AbsBaseFragment {
         MainFragment fragment = new MainFragment();
         fragment.setArguments(args);
         return fragment;
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        this.context = context;
     }
 
     @Override
@@ -65,12 +58,10 @@ public class MainFragment extends AbsBaseFragment {
         frameVp.setAdapter(vpAdapter);
         frameTb.setupWithViewPager(frameVp);
 
-        frameTb.getTabAt(0).setText("我的");
-        frameTb.getTabAt(1).setText("乐库");
-        frameTb.getTabAt(2).setText("K歌");
-        frameTb.getTabAt(3).setText("直播");
+        frameTb.getTabAt(0).setText(getString(R.string.tab_title_own));
+        frameTb.getTabAt(1).setText(getString(R.string.tab_title_music));
+        frameTb.getTabAt(2).setText(getString(R.string.tab_title_k));
+        frameTb.getTabAt(3).setText(getString(R.string.tab_title_alive));
         frameTb.setTabTextColors(Color.argb(255, 207, 207, 207), Color.WHITE);
-
-
     }
 }

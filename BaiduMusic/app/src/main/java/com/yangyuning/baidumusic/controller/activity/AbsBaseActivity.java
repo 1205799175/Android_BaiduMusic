@@ -10,6 +10,9 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.yangyuning.baidumusic.R;
+import com.yangyuning.baidumusic.utils.BaiduMusicValues;
+
 /**
  * Created by dllo on 16/9/8.
  * Activity基类
@@ -28,7 +31,7 @@ public abstract class AbsBaseActivity extends AppCompatActivity {
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         //Color.parseColor 将不是int类型的颜色转换为int类型
         //为状态栏添加新的颜色
-        window.setStatusBarColor(Color.parseColor("#58ACE0"));
+        window.setStatusBarColor(Color.parseColor(BaiduMusicValues.STATUSBARCOLOR));
 
         //设置布局
         setContentView(setLayout());

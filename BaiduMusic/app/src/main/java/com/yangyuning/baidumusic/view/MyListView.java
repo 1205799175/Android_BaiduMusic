@@ -8,7 +8,7 @@ import android.widget.ListView;
  * Created by dllo on 16/9/10.
  * 自定义ListView 解决ScrollVIew和ListView的滑动冲突
  */
-public class MyListView extends ListView{
+public class MyListView extends ListView {
     public MyListView(Context context) {
         super(context);
     }

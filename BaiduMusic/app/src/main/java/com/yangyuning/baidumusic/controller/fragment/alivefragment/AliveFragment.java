@@ -1,16 +1,15 @@
-package com.yangyuning.baidumusic.controller.fragment;
+package com.yangyuning.baidumusic.controller.fragment.alivefragment;
 
-import android.content.Context;
 import android.os.Bundle;
 
 import com.yangyuning.baidumusic.R;
+import com.yangyuning.baidumusic.controller.fragment.AbsBaseFragment;
 
 /**
  * Created by dllo on 16/9/9.
  * 直播Fragment
  */
 public class AliveFragment extends AbsBaseFragment {
-    private Context context;
 
     public static AliveFragment newInstance() {
         
@@ -19,12 +18,6 @@ public class AliveFragment extends AbsBaseFragment {
         AliveFragment fragment = new AliveFragment();
         fragment.setArguments(args);
         return fragment;
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        this.context = context;
     }
 
     @Override

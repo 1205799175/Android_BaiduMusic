@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -19,13 +20,13 @@ import java.util.List;
  */
 public class MusicRankingLvAdapter extends BaseAdapter {
     private Context context;
-    private List<MusicRankingBean> datas;
+    private List<MusicRankingBean.ContentBean.ContentChildBean> datas;
 
     public MusicRankingLvAdapter(Context context) {
         this.context = context;
     }
 
-    public void setDatas(List<MusicRankingBean> datas) {
+    public void setDatas(List<MusicRankingBean.ContentBean.ContentChildBean> datas) {
         this.datas = datas;
         notifyDataSetChanged();
     }
@@ -55,23 +56,23 @@ public class MusicRankingLvAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        viewHolder.songOneTv.setText(datas.get(position).getSongOne());
-        viewHolder.songTwoTv.setText(datas.get(position).getSongTwo());
-        viewHolder.songThreeTv.setText(datas.get(position).getSongThree());
-        viewHolder.titleTv.setText(datas.get(position).getTitle());
+        viewHolder.songOneTv.setText(datas.get(position).getTitle() + "-" + datas.get(position).getAuthor());
+        viewHolder.songTwoTv.setText(datas.get(position).getTitle() + "-" + datas.get(position).getAuthor());
+        viewHolder.songThreeTv.setText(datas.get(position).getTitle() + "-" + datas.get(position).getAuthor());
+//        viewHolder.titleTv.setText(datas.get(position).getName());
         return convertView;
     }
 
     class ViewHolder{
         TextView songOneTv, songTwoTv, songThreeTv;
         TextView titleTv;
-        LinearLayout imgId;
+        ImageView titleImg;
         private ViewHolder(View view){
             songOneTv = (TextView) view.findViewById(R.id.item_ranking_song_one);
             songTwoTv = (TextView) view.findViewById(R.id.item_ranking_song_two);
             songThreeTv = (TextView) view.findViewById(R.id.item_ranking_song_three);
             titleTv = (TextView) view.findViewById(R.id.item_ranking_title);
-            imgId = (LinearLayout) view.findViewById(R.id.item_ranking_img);
+            titleImg = (ImageView) view.findViewById(R.id.item_ranking_img);
         }
     }
 }
