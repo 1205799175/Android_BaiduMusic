@@ -4,10 +4,14 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.google.gson.Gson;
 import com.yangyuning.baidumusic.R;
 import com.yangyuning.baidumusic.controller.adapter.MusicRadioRvAdapter;
 import com.yangyuning.baidumusic.controller.fragment.AbsBaseFragment;
 import com.yangyuning.baidumusic.model.bean.MusicRadioBean;
+import com.yangyuning.baidumusic.model.net.VolleyInstance;
+import com.yangyuning.baidumusic.model.net.VolleyResult;
+import com.yangyuning.baidumusic.utils.BaiduMusicValues;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +22,6 @@ import java.util.List;
  */
 public class RadioFragment extends AbsBaseFragment {
     private RecyclerView rv;
-    private List<MusicRadioBean> datas;
     private MusicRadioRvAdapter musicRadioRvAdapter;
 
     public static RadioFragment newInstance() {
@@ -42,13 +45,22 @@ public class RadioFragment extends AbsBaseFragment {
 
     @Override
     protected void initDatas() {
-        datas = new ArrayList<>();
-        //假数据
-        for (int i = 0; i < 12; i++) {
-            datas.add(new MusicRadioBean("电台", R.mipmap.ic_launcher));
-        }
-        musicRadioRvAdapter = new MusicRadioRvAdapter(context, datas);
+        musicRadioRvAdapter = new MusicRadioRvAdapter(context);
         rv.setAdapter(musicRadioRvAdapter);
+        VolleyInstance.getInstance().startResult(BaiduMusicValues.MUSIC_RADIO, new VolleyResult() {
+            @Override
+            public void success(String resultStr) {
+                Gson gson = new Gson();
+                MusicRadioBean musicRadioBean = gson.fromJson(resultStr, MusicRadioBean.class);
+                List<MusicRadioBean.ResultBean> datas = musicRadioBean.getResult();
+                musicRadioRvAdapter.setDatas(datas);
+            }
+
+            @Override
+            public void failure() {
+
+            }
+        });
         rv.setLayoutManager(new GridLayoutManager(context, 4));
     }
 }

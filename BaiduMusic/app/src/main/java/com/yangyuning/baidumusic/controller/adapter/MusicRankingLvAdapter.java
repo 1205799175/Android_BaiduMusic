@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
 import com.yangyuning.baidumusic.R;
 import com.yangyuning.baidumusic.model.bean.MusicRankingBean;
 
@@ -20,13 +21,13 @@ import java.util.List;
  */
 public class MusicRankingLvAdapter extends BaseAdapter {
     private Context context;
-    private List<MusicRankingBean.ContentBean.ContentChildBean> datas;
+    private List<MusicRankingBean.ContentBean> datas;
 
     public MusicRankingLvAdapter(Context context) {
         this.context = context;
     }
 
-    public void setDatas(List<MusicRankingBean.ContentBean.ContentChildBean> datas) {
+    public void setDatas(List<MusicRankingBean.ContentBean> datas) {
         this.datas = datas;
         notifyDataSetChanged();
     }
@@ -56,10 +57,11 @@ public class MusicRankingLvAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        viewHolder.songOneTv.setText(datas.get(position).getTitle() + "-" + datas.get(position).getAuthor());
-        viewHolder.songTwoTv.setText(datas.get(position).getTitle() + "-" + datas.get(position).getAuthor());
-        viewHolder.songThreeTv.setText(datas.get(position).getTitle() + "-" + datas.get(position).getAuthor());
-//        viewHolder.titleTv.setText(datas.get(position).getName());
+        viewHolder.titleTv.setText(datas.get(position).getName());
+        Picasso.with(context).load(datas.get(position).getPic_s210()).resize(220, 220).into(viewHolder.titleImg);
+        viewHolder.songOneTv.setText(datas.get(position).getmContent().get(0).getTitle() + " - " + datas.get(position).getmContent().get(0).getAuthor());
+        viewHolder.songTwoTv.setText(datas.get(position).getmContent().get(1).getTitle() + " - " + datas.get(position).getmContent().get(1).getAuthor());
+        viewHolder.songThreeTv.setText(datas.get(position).getmContent().get(2).getTitle() + " - " + datas.get(position).getmContent().get(2).getAuthor());
         return convertView;
     }
 

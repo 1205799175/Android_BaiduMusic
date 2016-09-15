@@ -4,6 +4,7 @@ import java.util.List;
 
 /**
  * Created by dllo on 16/9/12.
+ * 乐库 歌单 实体类
  */
 public class MusicSongBean {
     /**

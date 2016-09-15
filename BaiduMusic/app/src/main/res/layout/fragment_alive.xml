@@ -10,7 +10,7 @@
         android:orientation="vertical">
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/alive_rv_top"
+            android:id="@+id/alive_top_rv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
@@ -58,7 +58,7 @@
         </LinearLayout>
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/alive_rv_bottom"
+            android:id="@+id/alive_bottom_rv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
     </LinearLayout>

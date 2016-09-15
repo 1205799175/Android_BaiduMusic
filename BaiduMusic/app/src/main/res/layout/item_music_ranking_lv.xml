@@ -19,8 +19,10 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@id/item_ranking_img"
-                android:layout_alignRight="@id/item_ranking_img"
+                android:layout_marginBottom="@dimen/margin_five"
+                android:layout_marginRight="@dimen/margin_five"
+                android:layout_alignBottom="@+id/item_ranking_img"
+                android:layout_alignRight="@+id/item_ranking_img"
                 android:src="@mipmap/bt_play_nor" />
         </RelativeLayout>
 
@@ -50,7 +52,6 @@
                     android:id="@+id/item_ranking_song_one"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/text_color_black"
                     android:layout_marginLeft="@dimen/margin_five"
                     android:textSize="@dimen/size_twelve"
                     android:text="歌曲名-歌手"/>
@@ -58,7 +59,7 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="@dimen/margin_five"
                 android:gravity="center_vertical">
                 <ImageView
                     android:layout_width="wrap_content"
@@ -68,16 +69,15 @@
                     android:id="@+id/item_ranking_song_two"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="#000"
-                    android:layout_marginLeft="5dp"
-                    android:textSize="12sp"
+                    android:layout_marginLeft="@dimen/margin_five"
+                    android:textSize="@dimen/size_twelve"
                     android:text="歌曲名-歌手"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:layout_marginTop="5dp">
+                android:layout_marginTop="@dimen/margin_five">
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -86,9 +86,8 @@
                     android:id="@+id/item_ranking_song_three"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="#000"
-                    android:layout_marginLeft="5dp"
-                    android:textSize="12sp"
+                    android:layout_marginLeft="@dimen/margin_five"
+                    android:textSize="@dimen/size_twelve"
                     android:text="歌曲名-歌手"/>
             </LinearLayout>
         </LinearLayout>

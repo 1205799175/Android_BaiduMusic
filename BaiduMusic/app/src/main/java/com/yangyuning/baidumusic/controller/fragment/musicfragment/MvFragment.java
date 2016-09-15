@@ -4,10 +4,15 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.google.gson.Gson;
 import com.yangyuning.baidumusic.R;
+import com.yangyuning.baidumusic.controller.adapter.MusicMvRvAdapter;
 import com.yangyuning.baidumusic.controller.adapter.MusicSongRvAdapter;
 import com.yangyuning.baidumusic.controller.fragment.AbsBaseFragment;
+import com.yangyuning.baidumusic.model.bean.MusicMvBean;
 import com.yangyuning.baidumusic.model.bean.MusicSongBean;
+import com.yangyuning.baidumusic.model.net.VolleyInstance;
+import com.yangyuning.baidumusic.model.net.VolleyResult;
 import com.yangyuning.baidumusic.utils.BaiduMusicValues;
 
 import java.util.ArrayList;
@@ -19,8 +24,7 @@ import java.util.List;
  */
 public class MvFragment extends AbsBaseFragment {
     private RecyclerView rv;
-    private List<MusicSongBean> datas;
-    private MusicSongRvAdapter musicSongRvAdapter;
+    private MusicMvRvAdapter musicMvRvAdapter;
 
     public static MvFragment newInstance() {
 
@@ -43,14 +47,23 @@ public class MvFragment extends AbsBaseFragment {
 
     @Override
     protected void initDatas() {
-        datas = new ArrayList<>();
-        //假数据
-//        for (int i = 0; i < 20; i++) {
-//            datas.add(new MusicSongBean("title", "area"));
-//        }
-//        musicSongRvAdapter = new MusicSongRvAdapter(context, datas);
-//        rv.setAdapter(musicSongRvAdapter);
+        musicMvRvAdapter = new MusicMvRvAdapter(context);
+        rv.setAdapter(musicMvRvAdapter);
+        VolleyInstance.getInstance().startResult(BaiduMusicValues.MUSIC_MV, new VolleyResult() {
+            @Override
+            public void success(String resultStr) {
+                Gson gson = new Gson();
+                MusicMvBean musicMvBean = gson.fromJson(resultStr, MusicMvBean.class);
+                List<MusicMvBean.ResultBean.MvListBean> datas = musicMvBean.getResult().getMv_list();
+                musicMvRvAdapter.setDatas(datas);
+            }
 
-//        rv.setLayoutManager(new GridLayoutManager(context, BaiduMusicValues.MV_RECYCLERVIEW_ROW_NUM));
+            @Override
+            public void failure() {
+
+            }
+        });
+
+        rv.setLayoutManager(new GridLayoutManager(context, BaiduMusicValues.MV_RECYCLERVIEW_ROW_NUM));
     }
 }

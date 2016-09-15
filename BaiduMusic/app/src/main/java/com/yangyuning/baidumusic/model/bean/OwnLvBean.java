@@ -4,6 +4,7 @@ import android.widget.ImageView;
 
 /**
  * Created by dllo on 16/9/9.
+ * 我的Fragment ListView实体类
  */
 public class OwnLvBean {
     private int imgId;

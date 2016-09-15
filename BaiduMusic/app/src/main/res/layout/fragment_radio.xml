@@ -49,6 +49,7 @@
             android:layout_width="match_parent"
             android:orientation="vertical"
             android:layout_marginLeft="@dimen/margin_ten"
+            android:layout_marginRight="@dimen/margin_ten"
             android:layout_height="0dp"
             android:layout_weight="1">
             <LinearLayout
@@ -73,14 +74,13 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"/>
 
-        </LinearLayout>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="更多电台分类"
+                android:background="@drawable/bg_shape_radio_tv"/>
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_ten"
-            android:text="更多电台分类"
-            android:background="@drawable/bg_shape_radio_tv"/>
+        </LinearLayout>
     </LinearLayout>
 
 </ScrollView>

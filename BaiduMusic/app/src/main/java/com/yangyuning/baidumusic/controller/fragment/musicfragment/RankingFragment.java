@@ -1,20 +1,18 @@
 package com.yangyuning.baidumusic.controller.fragment.musicfragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.yangyuning.baidumusic.R;
 import com.yangyuning.baidumusic.controller.adapter.MusicRankingLvAdapter;
 import com.yangyuning.baidumusic.controller.fragment.AbsBaseFragment;
 import com.yangyuning.baidumusic.model.bean.MusicRankingBean;
-import com.yangyuning.baidumusic.model.bean.MusicSongBean;
 import com.yangyuning.baidumusic.model.net.VolleyInstance;
 import com.yangyuning.baidumusic.model.net.VolleyResult;
 import com.yangyuning.baidumusic.utils.BaiduMusicValues;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,9 +22,6 @@ import java.util.List;
 public class RankingFragment extends AbsBaseFragment {
     private MusicRankingLvAdapter musicRankingLvAdapter;
     private ListView rangkingLv;
-
-    private TextView songOneTv, songTwoTv, songThreeTv;
-    private List<MusicRankingBean> datas;
 
     public static RankingFragment newInstance() {
         
@@ -45,20 +40,10 @@ public class RankingFragment extends AbsBaseFragment {
     @Override
     protected void initView() {
         rangkingLv = byView(R.id.ranking_lv);
-        songOneTv = byView(R.id.item_ranking_song_one);
-        songTwoTv = byView(R.id.item_ranking_song_two);
-        songThreeTv = byView(R.id.item_ranking_song_three);
     }
 
     @Override
     protected void initDatas() {
-//        datas = new ArrayList<>();
-//        //假数据
-//        for (int i = 0; i < 10; i++) {
-//            datas.add(new MusicRankingBean("新歌榜", "歌曲一-歌手", "歌曲二-歌手", "歌曲三-歌手"));
-//        }
-
-
         musicRankingLvAdapter = new MusicRankingLvAdapter(context);
         rangkingLv.setAdapter(musicRankingLvAdapter);
         VolleyInstance.getInstance().startResult(BaiduMusicValues.MUSIC_RANKING, new VolleyResult() {
@@ -66,16 +51,14 @@ public class RankingFragment extends AbsBaseFragment {
             public void success(String resultStr) {
                 Gson gson = new Gson();
                 MusicRankingBean musicRankingBean = gson.fromJson(resultStr, MusicRankingBean.class);
-                List<MusicRankingBean.ContentBean.ContentChildBean> datas = musicRankingBean.getContent().getChildContent();
+                List<MusicRankingBean.ContentBean> datas = musicRankingBean.getContent();
                 musicRankingLvAdapter.setDatas(datas);
             }
 
             @Override
             public void failure() {
-
             }
         });
-
 
     }
 }

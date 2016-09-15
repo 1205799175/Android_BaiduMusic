@@ -48,7 +48,6 @@
                 android:layout_alignParentRight="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
                 android:src="@mipmap/bt_minibar_next_normal"/>
             <ImageView
                 android:id="@+id/main_play"

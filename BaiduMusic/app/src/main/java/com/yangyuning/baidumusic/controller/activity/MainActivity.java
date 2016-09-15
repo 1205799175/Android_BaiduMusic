@@ -18,7 +18,6 @@ public class MainActivity extends AbsBaseActivity {
     private FrameLayout frameLayout;
 
     private FrameReceiver frameReceiver;
-
     @Override
     protected int setLayout() {
         return R.layout.activity_main;

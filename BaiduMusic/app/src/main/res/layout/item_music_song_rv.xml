@@ -21,7 +21,7 @@
                 android:id="@+id/item_music_song_ear"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@id/item_music_song_img"
+                android:layout_alignBottom="@+id/item_music_song_img"
                 android:layout_marginBottom="@dimen/margin_five"
                 android:layout_marginLeft="@dimen/margin_five"
                 android:src="@mipmap/ic_listen_count" />
@@ -30,8 +30,8 @@
                 android:id="@+id/item_music_song_listenum"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@id/item_music_song_img"
-                android:layout_toRightOf="@id/item_music_song_ear"
+                android:layout_alignBottom="@+id/item_music_song_img"
+                android:layout_toRightOf="@+id/item_music_song_ear"
                 android:textColor="@color/colorLocalMusic"
                 android:layout_marginBottom="@dimen/margin_five"
                 android:layout_marginLeft="@dimen/margin_five"
@@ -44,8 +44,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/margin_two"
                 android:layout_marginRight="@dimen/margin_two"
-                android:layout_alignBottom="@id/item_music_song_img"
-                android:layout_alignRight="@id/item_music_song_img"
+                android:layout_alignBottom="@+id/item_music_song_img"
+                android:layout_alignRight="@+id/item_music_song_img"
                 android:src="@mipmap/bt_play_nor" />
         </RelativeLayout>
 
@@ -59,8 +59,7 @@
         android:id="@+id/item_music_song_style_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/margin_twelve"
-        android:text="TextView"/>
+        android:textSize="@dimen/margin_twelve" />
 
 
 </LinearLayout>
