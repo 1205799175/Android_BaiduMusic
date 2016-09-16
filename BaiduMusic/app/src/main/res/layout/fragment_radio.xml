@@ -60,10 +60,11 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@mipmap/ic_launcher"/>
+                    android:src="@mipmap/bule_lines"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_five"
                     android:textColor="@color/text_color_black"
                     android:text="推荐电台"/>
             </LinearLayout>

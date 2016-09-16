@@ -1,30 +1,20 @@
 package com.yangyuning.baidumusic.controller.fragment.musicfragment;
 
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.widget.RadioGroup;
 
-import com.google.gson.Gson;
 import com.yangyuning.baidumusic.R;
-import com.yangyuning.baidumusic.controller.adapter.MusicMvRvAdapter;
-import com.yangyuning.baidumusic.controller.adapter.MusicSongRvAdapter;
 import com.yangyuning.baidumusic.controller.fragment.AbsBaseFragment;
-import com.yangyuning.baidumusic.model.bean.MusicMvBean;
-import com.yangyuning.baidumusic.model.bean.MusicSongBean;
-import com.yangyuning.baidumusic.model.net.VolleyInstance;
-import com.yangyuning.baidumusic.model.net.VolleyResult;
 import com.yangyuning.baidumusic.utils.BaiduMusicValues;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by dllo on 16/9/9.
  * MV Fragment
  */
 public class MvFragment extends AbsBaseFragment {
-    private RecyclerView rv;
-    private MusicMvRvAdapter musicMvRvAdapter;
+    private RadioGroup radioGroup;
 
     public static MvFragment newInstance() {
 
@@ -42,28 +32,28 @@ public class MvFragment extends AbsBaseFragment {
 
     @Override
     protected void initView() {
-        rv = byView(R.id.music_mv_rv);
+        radioGroup = byView(R.id.music_mv_rg);
     }
 
     @Override
     protected void initDatas() {
-        musicMvRvAdapter = new MusicMvRvAdapter(context);
-        rv.setAdapter(musicMvRvAdapter);
-        VolleyInstance.getInstance().startResult(BaiduMusicValues.MUSIC_MV, new VolleyResult() {
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
-            public void success(String resultStr) {
-                Gson gson = new Gson();
-                MusicMvBean musicMvBean = gson.fromJson(resultStr, MusicMvBean.class);
-                List<MusicMvBean.ResultBean.MvListBean> datas = musicMvBean.getResult().getMv_list();
-                musicMvRvAdapter.setDatas(datas);
-            }
-
-            @Override
-            public void failure() {
-
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                FragmentManager fm = getChildFragmentManager();
+                FragmentTransaction ft = fm.beginTransaction();
+                switch (checkedId){
+                    case R.id.music_mv_new_rb:
+                        ft.replace(R.id.music_mv_frame_layout, MvNewAndHotFragment.newInstance(BaiduMusicValues.MUSIC_NEW_MV));
+                        break;
+                    case R.id.music_mv_hot_rb:
+                        ft.replace(R.id.music_mv_frame_layout, MvNewAndHotFragment.newInstance(BaiduMusicValues.MUSIC_HOT_MV));
+                        break;
+                }
+                ft.commit();
             }
         });
-
-        rv.setLayoutManager(new GridLayoutManager(context, BaiduMusicValues.MV_RECYCLERVIEW_ROW_NUM));
+        //默认选中
+        radioGroup.check(R.id.music_mv_new_rb);
     }
 }

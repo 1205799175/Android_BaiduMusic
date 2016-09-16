@@ -16,6 +16,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_ten"
             android:drawableLeft="@mipmap/ic_k_k"
+            android:padding="@dimen/margin_five"
+            android:cursorVisible="false"
             android:textSize="12sp"
             android:hint="搜索K歌伴奏"
             android:background="@drawable/bg_shape_radio_tv"/>
@@ -26,10 +28,23 @@
             android:orientation="vertical">
 
             <!--轮播图-->
-            <ImageView
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/ic_launcher"/>
+                android:layout_height="70dp">
+
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/k_rotate_vp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+                <!--装载小方框的容器-->
+                <LinearLayout
+                    android:id="@+id/k_rotate_point_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center|bottom"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="horizontal" />
+            </FrameLayout>
 
             <!--分类 第一行-->
             <LinearLayout
@@ -152,22 +167,23 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_ten"
                 android:orientation="horizontal"
                 android:gravity="center_vertical">
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@mipmap/ic_launcher"/>
+                    android:src="@mipmap/bule_lines"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_five"
                     android:textColor="@color/text_color_black"
                     android:text="大家都在唱"/>
             </LinearLayout>
 
             <com.yangyuning.baidumusic.view.MyListView
                 android:id="@+id/k_lv"
+                android:layout_marginTop="@dimen/margin_ten"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 

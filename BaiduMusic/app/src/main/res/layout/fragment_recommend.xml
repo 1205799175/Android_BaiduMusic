@@ -14,14 +14,26 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center">
+            android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/recommend_rotate_img"
-                android:layout_width="320dp"
-                android:layout_height="150dp"
-                android:scaleType="fitXY"
-                android:src="@mipmap/lunbo" />
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="150dp">
+
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/recommend_rotate_vp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+                <!--装载小方框的容器-->
+                <LinearLayout
+                    android:id="@+id/recommend_rotate_point_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center|bottom"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="horizontal" />
+            </FrameLayout>
+
         </LinearLayout>
 
         <!--分类-->
@@ -35,7 +47,9 @@
             android:orientation="vertical"
             android:showDividers="end">
 
-            <include layout="@layout/include_item_title" />
+            <include
+                android:id="@+id/recommend_kinds_include"
+                layout="@layout/include_item_title" />
         </LinearLayout>
 
         <!--歌单推荐-->
@@ -161,7 +175,9 @@
                     android:textSize="@dimen/size_twelve" />
             </LinearLayout>
 
-            <include layout="@layout/include_item_title_songer" />
+            <include
+                android:id="@+id/recommend_hot_sold_include"
+                layout="@layout/include_item_title_songer" />
         </LinearLayout>
 
         <!--场景电台-->

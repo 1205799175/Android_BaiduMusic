@@ -64,7 +64,7 @@ public class OwnLvAdapter extends BaseAdapter {
 
         public ViewHolder(View view) {
             nameTv = (TextView) view.findViewById(R.id.item_own_name_tv);
-            numberTv = (TextView) view.findViewById(R.id.item_own_number_tv);
+            numberTv = (TextView) view.findViewById(R.id.item_own_top_number_tv);
             img = (ImageView) view.findViewById(R.id.item_own_img);
             arrowImg = (ImageView) view.findViewById(R.id.item_own_arrow);
         }

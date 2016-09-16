@@ -3,29 +3,31 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="@dimen/margin_ten"
-    android:layout_marginLeft="@dimen/margin_ten"
-    android:layout_marginRight="@dimen/margin_ten">
+    android:layout_margin="@dimen/margin_ten">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:gravity="center_vertical">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/ic_launcher"/>
+            android:layout_marginLeft="@dimen/margin_five"
+            android:src="@mipmap/bule_lines"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="全部歌单"
+            android:layout_marginLeft="@dimen/margin_five"
             android:textColor="@color/text_color_black"
             android:textSize="@dimen/size_eignteen"/>
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/ic_launcher"/>
+            android:layout_marginLeft="@dimen/margin_five"
+            android:src="@mipmap/bt_mv_pull_down_normal"/>
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView

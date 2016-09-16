@@ -20,11 +20,15 @@ import java.util.List;
  */
 public class KLvAdapter extends BaseAdapter {
     private Context context;
-    private List<KLvBean> datas;
+    private List<KLvBean.ResultBean.ItemsBean> datas;
 
-    public KLvAdapter(Context context, List<KLvBean> datas) {
+    public KLvAdapter(Context context) {
         this.context = context;
+    }
+
+    public void setDatas(List<KLvBean.ResultBean.ItemsBean> datas) {
         this.datas = datas;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -52,8 +56,8 @@ public class KLvAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        viewHolder.nameTv.setText(datas.get(position).getName());
-        viewHolder.timeTv.setText(datas.get(position).getTiem());
+        viewHolder.nameTv.setText(datas.get(position).getSong_title() + " - " + datas.get(position).getArtist_name());
+        viewHolder.timeTv.setText(datas.get(position).getPlay_num() + "唱过");
         return convertView;
     }
 

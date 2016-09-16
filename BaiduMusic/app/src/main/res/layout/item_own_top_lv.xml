@@ -32,7 +32,7 @@
                 android:textSize="15sp" />
 
             <TextView
-                android:id="@+id/item_own_number_tv"
+                android:id="@+id/item_own_top_number_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"

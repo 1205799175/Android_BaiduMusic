@@ -4,8 +4,7 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
-    <color name="main_title_layout">#08ACE0</color>
-    <color name="colorText">#2E97C4</color>
+    <color name="main_title_layout">#00B4FF</color>
     <color name="text_color_black">#000</color>
     <color name="split_line_color">#9d9d9d</color>
     <color name="colorLocalMusic">#fff</color>
