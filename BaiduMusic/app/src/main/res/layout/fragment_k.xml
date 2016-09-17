@@ -14,12 +14,12 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_ten"
+            android:layout_margin="@dimen/small_dimen"
             android:drawableLeft="@mipmap/ic_k_k"
-            android:padding="@dimen/margin_five"
+            android:padding="@dimen/little_dimen"
             android:cursorVisible="false"
-            android:textSize="12sp"
-            android:hint="搜索K歌伴奏"
+            android:textSize="@dimen/small_size"
+            android:hint="@string/k_search_hint"
             android:background="@drawable/bg_shape_radio_tv"/>
 
         <LinearLayout
@@ -30,7 +30,7 @@
             <!--轮播图-->
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="70dp">
+                android:layout_height="80dp">
 
                 <android.support.v4.view.ViewPager
                     android:id="@+id/k_rotate_vp"
@@ -40,9 +40,9 @@
                 <LinearLayout
                     android:id="@+id/k_rotate_point_container"
                     android:layout_width="match_parent"
-                    android:layout_height="20dp"
+                    android:layout_height="@dimen/middle_dimen"
                     android:layout_gravity="center|bottom"
-                    android:layout_marginBottom="10dp"
+                    android:layout_marginBottom="@dimen/small_dimen"
                     android:orientation="horizontal" />
             </FrameLayout>
 
@@ -50,7 +50,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_ten"
+                android:layout_margin="@dimen/small_dimen"
                 android:orientation="horizontal">
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -65,7 +65,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="KTV热歌榜"/>
+                        android:text="@string/k_hot_song"/>
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -80,7 +80,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="华语金曲"/>
+                        android:text="@string/k_china_song"/>
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -95,7 +95,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="欧美经典"/>
+                        android:text="@string/k_classifty"/>
                 </LinearLayout>
             </LinearLayout>
 
@@ -103,7 +103,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_ten"
+                android:layout_margin="@dimen/small_dimen"
                 android:orientation="horizontal">
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -118,7 +118,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="男歌手"/>
+                        android:text="@string/k_man"/>
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -133,7 +133,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="女歌手"/>
+                        android:text="@string/k_woman"/>
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -148,21 +148,21 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="乐队组合"/>
+                        android:text="@string/K_team"/>
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="@dimen/margin_zeropointone"
+            android:layout_height="@dimen/the_height_of_line"
             android:background="@color/split_line_color"/>
 
         <!--大家都在唱-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_ten"
+            android:layout_margin="@dimen/small_dimen"
             android:orientation="vertical">
             <LinearLayout
                 android:layout_width="match_parent"
@@ -176,14 +176,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/margin_five"
+                    android:layout_marginLeft="@dimen/little_dimen"
                     android:textColor="@color/text_color_black"
-                    android:text="大家都在唱"/>
+                    android:text="@string/k_all_song"/>
             </LinearLayout>
 
             <com.yangyuning.baidumusic.view.MyListView
                 android:id="@+id/k_lv"
-                android:layout_marginTop="@dimen/margin_ten"
+                android:layout_marginTop="@dimen/small_dimen"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 

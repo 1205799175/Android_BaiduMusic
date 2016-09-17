@@ -30,4 +30,40 @@
     <string name="local_tab_songer">歌手</string>
     <string name="local_tab_album">专辑</string>
 
+    <!--直播-->
+    <string name="hot_live">热门直播</string>
+    <!--标题-->
+    <string name="more">更多</string>
+    <!--K歌搜索框提示-->
+    <string name="k_search_hint">搜索K歌伴奏</string>
+    <!--K歌-->
+    <string name="k_hot_song">KTV热歌榜</string>
+    <string name="k_china_song">华语金曲</string>
+    <string name="k_classifty">欧美经典</string>
+    <string name="k_man">男歌手</string>
+    <string name="k_woman">女歌手</string>
+    <string name="K_team">乐队组合</string>
+    <string name="k_all_song">大家都在唱</string>
+
+    <!--乐库 MV 标题-->
+    <string name="music_mv_all_song">全部歌单</string>
+
+    <!--乐库 MV 最新最热-->
+    <string name="music_mv_hot">最热</string>
+    <string name="music_mv_new">最新</string>
+
+    <!--我的界面 随便听听-->
+    <string name="own_listen">随便听听</string>
+
+    <!--我的界面-->
+    <string name="own_create_self">自建歌单</string>
+    <string name="own_songlist">收藏歌单</string>
+
+    <!--我的界面 本地音乐二级页面-->
+    <string name="own_local_two">本地音乐</string>
+
+    <!--乐库 电台-->
+    <string name="music_radio_recommend">推荐电台</string>
+    <string name="music_radio_more_kinds">更多电台分类</string>
+
 </resources>

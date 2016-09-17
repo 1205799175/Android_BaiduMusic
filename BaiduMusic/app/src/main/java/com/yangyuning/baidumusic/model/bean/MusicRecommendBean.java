@@ -92,6 +92,7 @@ public class MusicRecommendBean {
          */
 
         private EntryBean entry;
+
         /**
          * result : {"action":[{"icon_ios":"http://b.hiphotos.baidu.com/ting/pic/item/a5c27d1ed21b0ef4d176a9aedbc451da80cb3ea7.jpg","scene_name":"放松","bgpic_android":"","icon_android":"http://a.hiphotos.baidu.com/ting/pic/item/0b7b02087bf40ad1e3996ee0502c11dfa9ecceb0.jpg","scene_model":"1","scene_desc":"","bgpic_ios":"","scene_id":"8"},{"icon_ios":"http://b.hiphotos.baidu.com/ting/pic/item/94cad1c8a786c917cd5a64c9cf3d70cf3ac757e0.jpg","scene_name":"在路上","bgpic_android":"","icon_android":"http://c.hiphotos.baidu.com/ting/pic/item/b999a9014c086e06604a914805087bf40bd1cbd7.jpg","scene_model":"2","scene_desc":"","bgpic_ios":"","scene_id":"0"},{"icon_ios":"http://c.hiphotos.baidu.com/ting/pic/item/b90e7bec54e736d15a00bff89d504fc2d562692a.jpg","scene_name":"工作","bgpic_android":"","icon_android":"http://d.hiphotos.baidu.com/ting/pic/item/77c6a7efce1b9d1617f33262f4deb48f8c5464f9.jpg","scene_model":"1","scene_desc":"","bgpic_ios":"","scene_id":"12"},{"icon_ios":"http://a.hiphotos.baidu.com/ting/pic/item/0dd7912397dda144f5a95742b4b7d0a20df48699.jpg","scene_name":"咖啡时光","bgpic_android":"","icon_android":"http://c.hiphotos.baidu.com/ting/pic/item/b8014a90f603738dc815a721b41bb051f819ec52.jpg","scene_model":"1","scene_desc":"","bgpic_ios":"","scene_id":"23"},{"icon_ios":"http://c.hiphotos.baidu.com/ting/pic/item/b3fb43166d224f4a0e1143e30ff790529922d1b1.jpg","scene_name":"一个人","bgpic_android":"","icon_android":"http://c.hiphotos.baidu.com/ting/pic/item/f636afc379310a55e4d177f7b04543a98226103f.jpg","scene_model":"1","scene_desc":"","bgpic_ios":"","scene_id":"10"}],"emotion":[{"icon_ios":"http://c.hiphotos.baidu.com/ting/pic/item/f703738da9773912590da891fe198618367ae213.jpg","scene_name":"愤怒","bgpic_android":"","icon_android":"http://c.hiphotos.baidu.com/ting/pic/item/b8389b504fc2d56250c54feee01190ef77c66ce0.jpg","scene_model":"1","scene_desc":"","bgpic_ios":"","scene_id":"80"},{"icon_ios":"http://b.hiphotos.baidu.com/ting/pic/item/a1ec08fa513d26974c932aad53fbb2fb4216d8f9.jpg","scene_name":"开心","bgpic_android":"","icon_android":"http://c.hiphotos.baidu.com/ting/pic/item/f703738da9773912e4621a62ff198618367ae269.jpg","scene_model":"1","scene_desc":"","bgpic_ios":"","scene_id":"38"},{"icon_ios":"http://b.hiphotos.baidu.com/ting/pic/item/9d82d158ccbf6c810ea60f18ba3eb13532fa40a8.jpg","scene_name":"治愈","bgpic_android":"","icon_android":"http://a.hiphotos.baidu.com/ting/pic/item/472309f790529822ffa5a6c0d0ca7bcb0a46d41b.jpg","scene_model":"1","scene_desc":"","bgpic_ios":"","scene_id":"37"},{"icon_ios":"http://d.hiphotos.baidu.com/ting/pic/item/3bf33a87e950352a854306f85543fbf2b2118b1b.jpg","scene_name":"激动","bgpic_android":"","icon_android":"http://b.hiphotos.baidu.com/ting/pic/item/5882b2b7d0a20cf4f1ac61dc71094b36acaf99f1.jpg","scene_model":"1","scene_desc":"","bgpic_ios":"","scene_id":"34"}],"operation":[{"icon_ios":"http://d.hiphotos.baidu.com/ting/pic/item/c8ea15ce36d3d539961d09c13d87e950352ab08b.jpg","scene_name":"舒缓","bgpic_android":"","icon_android":"http://a.hiphotos.baidu.com/ting/pic/item/0824ab18972bd40792add5ff7c899e510fb3094d.jpg","scene_model":"1","scene_desc":"","bgpic_ios":"","scene_id":"159"},{"icon_ios":"http://d.hiphotos.baidu.com/ting/pic/item/c2fdfc039245d6884448bf29a2c27d1ed31b24f0.jpg","scene_name":"经典老歌","bgpic_android":"","icon_android":"http://a.hiphotos.baidu.com/ting/pic/item/d058ccbf6c81800a68b98f0cb63533fa828b4757.jpg","scene_model":"1","scene_desc":"","bgpic_ios":"","scene_id":"161"},{"icon_ios":"http://a.hiphotos.baidu.com/ting/pic/item/d01373f082025aaff566d3a4fcedab64034f1a0c.jpg","scene_name":"热歌","bgpic_android":"","icon_android":"http://a.hiphotos.baidu.com/ting/pic/item/838ba61ea8d3fd1f55b20f55374e251f95ca5f21.jpg","scene_model":"1","scene_desc":"","bgpic_ios":"","scene_id":"162"},{"icon_ios":"http://c.hiphotos.baidu.com/ting/pic/item/faedab64034f78f04fd1977e7f310a55b2191c60.jpg","scene_name":"古风","bgpic_android":"","icon_android":"http://c.hiphotos.baidu.com/ting/pic/item/2cf5e0fe9925bc313c5e079a59df8db1cb1370b4.jpg","scene_model":"1","scene_desc":"","bgpic_ios":"","scene_id":"157"},{"icon_ios":"http://a.hiphotos.baidu.com/ting/pic/item/dbb44aed2e738bd461c6bebca78b87d6267ff95c.jpg","scene_name":"情人节","bgpic_android":"","icon_android":"http://c.hiphotos.baidu.com/ting/pic/item/63d0f703918fa0ecfe25630f219759ee3c6ddbd6.jpg","scene_model":"1","scene_desc":"","bgpic_ios":"","scene_id":"155"},{"icon_ios":"http://c.hiphotos.baidu.com/ting/pic/item/bd3eb13533fa828bd727916efb1f4134970a5a32.jpg","scene_name":"新歌抢鲜听","bgpic_android":"","icon_android":"http://b.hiphotos.baidu.com/ting/pic/item/9213b07eca8065382359a31190dda144ad348204.jpg","scene_model":"1","scene_desc":"网罗全球最新歌曲","bgpic_ios":"","scene_id":"33"},{"icon_ios":"http://b.hiphotos.baidu.com/ting/pic/item/18d8bc3eb13533faf2ba9fa3aed3fd1f41345b2a.jpg","scene_name":"网络歌曲","bgpic_android":"","icon_android":"http://b.hiphotos.baidu.com/ting/pic/item/9922720e0cf3d7ca73313874f51fbe096a63a9e8.jpg","scene_model":"1","scene_desc":"","bgpic_ios":"","scene_id":"156"},{"icon_ios":"http://d.hiphotos.baidu.com/ting/pic/item/cb8065380cd79123bb1999f9ab345982b3b78045.jpg","scene_name":"小清新","bgpic_android":"","icon_android":"http://a.hiphotos.baidu.com/ting/pic/item/80cb39dbb6fd526672003a16ac18972bd407368c.jpg","scene_model":"1","scene_desc":"","bgpic_ios":"","scene_id":"158"},{"icon_ios":"http://a.hiphotos.baidu.com/ting/pic/item/4a36acaf2edda3cc469cb5ad07e93901203f92c6.jpg","scene_name":"校园歌曲","bgpic_android":"","icon_android":"http://b.hiphotos.baidu.com/ting/pic/item/a71ea8d3fd1f4134ed57037c221f95cad1c85e4b.jpg","scene_model":"1","scene_desc":"","bgpic_ios":"","scene_id":"160"}],"other":[{"icon_ios":"http://c.hiphotos.baidu.com/ting/pic/item/b2de9c82d158ccbfe74098ca1fd8bc3eb0354145.jpg","scene_name":"国语","bgpic_android":"","icon_android":"http://a.hiphotos.baidu.com/ting/pic/item/d439b6003af33a87423e9e19c15c10385343b566.jpg","scene_model":"1","scene_desc":"","bgpic_ios":"","scene_id":"42"},{"icon_ios":"http://c.hiphotos.baidu.com/ting/pic/item/f2deb48f8c5494ee82b526e92bf5e0fe98257eae.jpg","scene_name":"民谣","bgpic_android":"","icon_android":"http://b.hiphotos.baidu.com/ting/pic/item/a044ad345982b2b76a8ea2c736adcbef76099ba4.jpg","scene_model":"1","scene_desc":"","bgpic_ios":"","scene_id":"50"},{"icon_ios":"http://d.hiphotos.baidu.com/ting/pic/item/377adab44aed2e7364d7a8dc8101a18b87d6fa00.jpg","scene_name":"2000年代","bgpic_android":"","icon_android":"http://b.hiphotos.baidu.com/ting/pic/item/aa64034f78f0f736ec9dd4020d55b319ebc41355.jpg","scene_model":"1","scene_desc":"","bgpic_ios":"","scene_id":"71"}]}
          * error_code : 22000
@@ -583,7 +584,7 @@ public class MusicRecommendBean {
         }
 
         public static class SceneBean {
-            private ResultBean result;
+            private ScenResultBean result;
             private int error_code;
             /**
              * color_other :
@@ -598,13 +599,13 @@ public class MusicRecommendBean {
              * button_color :
              */
 
-            private List<scenResultBean> config;
+            private List<ConfigBean> config;
 
-            public ResultBean getResult() {
+            public ScenResultBean getResult() {
                 return result;
             }
 
-            public void setResult(ResultBean result) {
+            public void setResult(ScenResultBean result) {
                 this.result = result;
             }
 
@@ -616,15 +617,15 @@ public class MusicRecommendBean {
                 this.error_code = error_code;
             }
 
-            public List<scenResultBean> getConfig() {
+            public List<ConfigBean> getConfig() {
                 return config;
             }
 
-            public void setConfig(List<scenResultBean> config) {
+            public void setConfig(List<ConfigBean> config) {
                 this.config = config;
             }
 
-            public static class scenResultBean {
+            public static class ScenResultBean {
                 /**
                  * icon_ios : http://b.hiphotos.baidu.com/ting/pic/item/a5c27d1ed21b0ef4d176a9aedbc451da80cb3ea7.jpg
                  * scene_name : 放松

@@ -5,6 +5,6 @@
     <size
         android:width="10px"
         android:height="1px" />
-    <solid android:color="@color/text_color_black" />
+    <solid android:color="@color/split_line_color" />
 
 </shape>

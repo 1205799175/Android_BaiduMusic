@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="horizontal">
+
+    <!--推荐 今日推荐-->
+    <RelativeLayout
+        android:id="@+id/today_recommend_rl"
+        android:layout_width="@dimen/margin_zero"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:paddingBottom="@dimen/little_dimen"
+        android:paddingTop="@dimen/little_dimen">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/today_recommend_cirimg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@mipmap/ic_launcher" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@mipmap/bt_sceneplay_play" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="@dimen/margin_zero"
+        android:layout_height="wrap_content"
+        android:layout_weight="7"
+        android:divider="@drawable/divider_linearlayout_rect"
+        android:gravity="left|center"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/small_dimen"
+        android:paddingRight="@dimen/small_dimen">
+
+        <LinearLayout
+            android:layout_width="@dimen/margin_zero"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/today_recommend_title_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/margin_zero"
+                android:layout_weight="2"
+                android:padding="@dimen/min_dimen"
+                android:text="1111" />
+
+            <TextView
+                android:id="@+id/today_recommend_singer_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/margin_zero"
+                android:layout_weight="3"
+                android:padding="@dimen/min_dimen"
+                android:text="11111" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/little_dimen"
+                android:paddingTop="@dimen/little_dimen"
+                android:src="@mipmap/bt_recsong_more" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</LinearLayout>

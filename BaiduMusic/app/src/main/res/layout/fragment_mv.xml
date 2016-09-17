@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:layout_margin="@dimen/margin_ten">
+    android:layout_margin="@dimen/small_dimen">
 
     <!--乐库 MV-->
 
@@ -14,7 +14,7 @@
         android:orientation="horizontal">
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="@dimen/margin_zero"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="left"
@@ -23,26 +23,26 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_five"
-                android:text="全部歌单"
+                android:layout_marginLeft="@dimen/little_dimen"
+                android:text="@string/music_mv_all_song"
                 android:drawableLeft="@mipmap/bule_lines"
-                android:drawablePadding="@dimen/margin_ten"
+                android:drawablePadding="@dimen/small_dimen"
                 android:textColor="@color/text_color_black"
-                android:textSize="@dimen/size_eignteen" />
+                android:textSize="@dimen/middle_size" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_five"
+                android:layout_marginLeft="@dimen/little_dimen"
                 android:src="@mipmap/bt_mv_pull_down_normal" />
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="@dimen/margin_zero"
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginRight="@dimen/margin_ten"
+            android:layout_marginRight="@dimen/small_dimen"
             android:gravity="right">
             <RadioGroup
                 android:id="@+id/music_mv_rg"
@@ -55,11 +55,11 @@
                     android:layout_height="wrap_content"
                     android:button="@null"
                     android:textColor="@drawable/bg_text_mv_hot_new"
-                    android:layout_marginRight="@dimen/margin_ten"
-                    android:text="最新"/>
+                    android:layout_marginRight="@dimen/little_dimen"
+                    android:text="@string/music_mv_new"/>
                 <View
-                    android:layout_width="1dp"
-                    android:layout_height="18dp"
+                    android:layout_width="@dimen/the_height_of_line"
+                    android:layout_height="@dimen/small_middle_dimen"
                     android:background="@color/text_color_black"/>
                 <RadioButton
                     android:id="@+id/music_mv_hot_rb"
@@ -67,8 +67,8 @@
                     android:layout_height="wrap_content"
                     android:button="@null"
                     android:textColor="@drawable/bg_text_mv_hot_new"
-                    android:layout_marginLeft="@dimen/margin_ten"
-                    android:text="最热"/>
+                    android:layout_marginLeft="@dimen/small_dimen"
+                    android:text="@string/music_mv_hot"/>
             </RadioGroup>
 
         </LinearLayout>
@@ -78,6 +78,6 @@
     <FrameLayout
         android:id="@+id/music_mv_frame_layout"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="@dimen/margin_zero"
         android:layout_weight="1"/>
 </LinearLayout>

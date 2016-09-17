@@ -1,6 +1,7 @@
 package com.yangyuning.baidumusic.controller.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,6 +76,7 @@ public class MusicRankingLvAdapter extends BaseAdapter {
             songThreeTv = (TextView) view.findViewById(R.id.item_ranking_song_three);
             titleTv = (TextView) view.findViewById(R.id.item_ranking_title);
             titleImg = (ImageView) view.findViewById(R.id.item_ranking_img);
+
         }
     }
 }

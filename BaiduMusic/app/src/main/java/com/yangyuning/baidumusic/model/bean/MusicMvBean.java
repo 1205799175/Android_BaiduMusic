@@ -4,6 +4,7 @@ import java.util.List;
 
 /**
  * Created by dllo on 16/9/15.
+ * 乐库 MV 实体类
  */
 public class MusicMvBean {
 

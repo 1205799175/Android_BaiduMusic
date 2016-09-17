@@ -17,6 +17,7 @@ import java.util.List;
 
 /**
  * Created by dllo on 16/9/16.
+ * MV 最新最热Fragment
  */
 public class MvNewAndHotFragment extends AbsBaseFragment {
     private RecyclerView rv;

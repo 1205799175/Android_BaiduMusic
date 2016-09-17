@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import com.squareup.picasso.Picasso;
 import com.yangyuning.baidumusic.R;
 import com.yangyuning.baidumusic.model.bean.MusicRecommendRotateBean;
+import com.yangyuning.baidumusic.utils.ScreenSizeUtil;
 
 import java.util.List;
 

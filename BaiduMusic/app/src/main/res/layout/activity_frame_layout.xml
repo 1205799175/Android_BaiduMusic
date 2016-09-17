@@ -18,7 +18,7 @@
             app:tabIndicatorHeight="@dimen/margin_zero"
             app:tabTextAppearance="@style/MyTabLayoutTextAppearanceInverse"
             android:layout_width="@dimen/margin_zero"
-            android:layout_height="@dimen/margin_fourty"
+            android:layout_height="@dimen/the_height_of_tab"
             android:layout_weight="6" />
 
         <RelativeLayout
@@ -31,15 +31,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="@dimen/margin_five"
-                android:layout_marginTop="@dimen/margin_five"
+                android:layout_marginRight="@dimen/little_dimen"
+                android:layout_marginTop="@dimen/little_dimen"
                 android:src="@mipmap/bt_titlebar_setting_normal" />
 
             <ImageView
                 android:id="@+id/frame_login_img"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/margin_five"
+                android:layout_marginRight="@dimen/little_dimen"
                 android:layout_toLeftOf="@+id/frame_setting_img"
                 android:src="@mipmap/img_titlebar_login" />
 
@@ -47,7 +47,7 @@
                 android:id="@+id/frame_search_img"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/margin_twenty"
+                android:layout_marginRight="@dimen/middle_dimen"
                 android:layout_toLeftOf="@+id/frame_login_img"
                 android:src="@mipmap/bt_titlebar_new_search_normal" />
         </RelativeLayout>

@@ -2,12 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/margin_twenty"
-    android:layout_marginLeft="@dimen/margin_five"
-    android:layout_marginRight="@dimen/margin_five"
+    android:layout_marginTop="@dimen/middle_dimen"
+    android:layout_marginLeft="@dimen/little_dimen"
+    android:layout_marginRight="@dimen/little_dimen"
     android:gravity="center"
     android:orientation="vertical">
 
+    <!--直播-->
     <ImageView
         android:id="@+id/item_alive_top_img"
         android:layout_width="wrap_content"
@@ -18,7 +19,7 @@
         android:id="@+id/item_alive_top_title_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_five"
+        android:layout_marginTop="@dimen/little_dimen"
         android:textColor="@color/text_color_black"
         android:text="2222"/>
 

@@ -2,11 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="@dimen/margin_five"
-    android:layout_marginTop="@dimen/margin_ten"
-    android:layout_marginRight="@dimen/margin_five"
+    android:layout_marginLeft="@dimen/little_dimen"
+    android:layout_marginTop="@dimen/small_dimen"
+    android:layout_marginRight="@dimen/little_dimen"
     android:orientation="vertical">
 
+    <!--歌单-->
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
@@ -22,8 +23,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/item_music_song_img"
-                android:layout_marginBottom="@dimen/margin_five"
-                android:layout_marginLeft="@dimen/margin_five"
+                android:layout_marginBottom="@dimen/little_dimen"
+                android:layout_marginLeft="@dimen/little_dimen"
                 android:src="@mipmap/ic_listen_count" />
 
             <TextView
@@ -33,17 +34,17 @@
                 android:layout_alignBottom="@+id/item_music_song_img"
                 android:layout_toRightOf="@+id/item_music_song_ear"
                 android:textColor="@color/colorLocalMusic"
-                android:layout_marginBottom="@dimen/margin_five"
-                android:layout_marginLeft="@dimen/margin_five"
+                android:layout_marginBottom="@dimen/little_dimen"
+                android:layout_marginLeft="@dimen/little_dimen"
                 android:text="11111"
-                android:textSize="@dimen/size_ten" />
+                android:textSize="@dimen/min_size" />
 
             <ImageView
                 android:id="@+id/item_music_song_play"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/margin_two"
-                android:layout_marginRight="@dimen/margin_two"
+                android:layout_marginBottom="@dimen/rank_item_margin"
+                android:layout_marginRight="@dimen/rank_item_margin"
                 android:layout_alignBottom="@+id/item_music_song_img"
                 android:layout_alignRight="@+id/item_music_song_img"
                 android:src="@mipmap/bt_play_nor" />
@@ -59,7 +60,7 @@
         android:id="@+id/item_music_song_style_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/margin_twelve" />
+        android:textSize="@dimen/small_size" />
 
 
 </LinearLayout>

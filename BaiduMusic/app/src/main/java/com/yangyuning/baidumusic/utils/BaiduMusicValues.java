@@ -2,6 +2,7 @@ package com.yangyuning.baidumusic.utils;
 
 /**
  * Created by dllo on 16/9/14.
+ * 常量类
  */
 public class BaiduMusicValues {
     public BaiduMusicValues() {}
@@ -41,7 +42,7 @@ public class BaiduMusicValues {
     public static final String K_ROTATE = "http://tingapi.ting.baidu.com/v1/restserver/ting?from=android&version=5.8.2.0&channel=875b&operator=0&method=baidu.ting.active.showList";
     //K歌 接口
     public static final String K = "http://tingapi.ting.baidu.com/v1/restserver/ting?from=android&version=5.8.2.0&channel=875b&operator=0&method=baidu.ting.learn.now&page_size=50";
-    //直播 上部 ListView接口数据
+    //直播 上部 RecyclerView接口数据
     public static final String ALIVE_TOP_RECYCLERVIEW = "http://tingapi.ting.baidu.com/v1/restserver/ting?from=android&version=5.8.2.0&channel=875b&operator=0&method=baidu.ting.show.category";
     //直播 下部 RecyclerView接口数据
     public static final String ALIVE_BOTTOM_RECYCLERVIEW = "http://tingapi.ting.baidu.com/v1/restserver/ting?from=android&version=5.8.2.0&channel=875b&operator=0&method=baidu.ting.show.live&page_no=1&page_size=40";

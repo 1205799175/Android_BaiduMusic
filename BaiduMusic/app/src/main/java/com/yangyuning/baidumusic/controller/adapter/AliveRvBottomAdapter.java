@@ -16,6 +16,7 @@ import java.util.List;
 
 /**
  * Created by dllo on 16/9/15.
+ * 直播 下方 RecyClerView适配器
  */
 public class AliveRvBottomAdapter extends RecyclerView.Adapter<AliveRvBottomAdapter.AliveBottomRvViewHolder>{
     private Context context;

@@ -6,12 +6,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.yangyuning.baidumusic.R;
 import com.yangyuning.baidumusic.model.bean.MusicRadioBean;
 import com.yangyuning.baidumusic.model.bean.MusicSongBean;
+import com.yangyuning.baidumusic.utils.ScreenSizeUtil;
 
 import java.util.List;
 
@@ -22,6 +25,8 @@ import java.util.List;
 public class MusicRadioRvAdapter extends RecyclerView.Adapter<MusicRadioRvAdapter.RadioViewHolder> {
     private Context context;
     private List<MusicRadioBean.ResultBean> datas;
+    private int width = ScreenSizeUtil.getScreenSize(ScreenSizeUtil.ScreenState.WIDTH) / 6;
+    private int height = ScreenSizeUtil.getScreenSize(ScreenSizeUtil.ScreenState.HEIGHT) / 7;
 
     public MusicRadioRvAdapter(Context context) {
         this.context = context;
@@ -41,13 +46,31 @@ public class MusicRadioRvAdapter extends RecyclerView.Adapter<MusicRadioRvAdapte
 
     @Override
     public void onBindViewHolder(RadioViewHolder holder, int position) {
-            holder.titleTv.setText(datas.get(position).getScene_name());
-            Picasso.with(context).load(datas.get(position).getIcon_android()).resize(50, 50).into(holder.imgId);
+        switch (position){
+            case 0:
+                holder.imgId.setImageTintList(context.getResources().getColorStateList(R.color.colorMLRadioOne));
+                break;
+            case 1:
+                holder.imgId.setImageTintList(context.getResources().getColorStateList(R.color.colorMLRadioTwo));
+                break;
+            case 2:
+                holder.imgId.setImageTintList(context.getResources().getColorStateList(R.color.colorMLRadioThree));
+                break;
+            case 3:
+                holder.imgId.setImageTintList(context.getResources().getColorStateList(R.color.colorMLRadioFour));
+                break;
+            default:
+                holder.imgId.setImageTintList(context.getResources().getColorStateList(R.color.split_line_color));
+        }
+        holder.titleTv.setText(datas.get(position).getScene_name());
+        Picasso.with(context).load(datas.get(position).getIcon_android()).into(holder.imgId);
+//        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(width,height);
+//        holder.imgId.setLayoutParams(params);
     }
 
     @Override
     public int getItemCount() {
-        return datas != null && datas.size() > 0 ? datas.size() : 0;
+        return datas != null && datas.size() >= 12 ? 12 : 0;
     }
 
     class RadioViewHolder extends RecyclerView.ViewHolder {
