@@ -30,8 +30,39 @@
     <string name="local_tab_songer">歌手</string>
     <string name="local_tab_album">专辑</string>
 
-    <!--直播-->
-    <string name="hot_live">热门直播</string>
+    <!--直播 上部Rv 二级界面 TabLayout标题-->
+    <string name="alive_top_rv_tab_title_all">全部</string>
+    <string name="alive_top_rv_tab_title_woman">女神</string>
+    <string name="alive_top_rv_tab_title_goodVoice">好声音</string>
+    <string name="alive_top_rv_tab_title_new">新秀</string>
+    <string name="alive_top_rv_tab_title_boom">劲爆</string>
+    <string name="alive_top_rv_tab_title_joy">搞笑</string>
+    <string name="alive_top_rv_tab_title_sister">萌妹</string>
+    <string name="alive_top_rv_tab_title_recommend">推荐</string>
+
+    <!--////////////////////////////////////////////////-->
+
+    <!--我的界面-->
+    <string name="own_create_self">自建歌单</string>
+    <string name="own_songlist">收藏歌单</string>
+    <!--我的界面 随便听听-->
+    <string name="own_listen">随便听听</string>
+
+    <!--乐库 歌单 popwindow-->
+    <string name="pw_selete_kinds">选择分类</string>
+    <string name="pw_all">全部</string>
+
+    <!--乐库 MV 标题-->
+    <string name="music_mv_all_song">全部歌单</string>
+
+    <!--乐库 MV 最新最热-->
+    <string name="music_mv_hot">最热</string>
+    <string name="music_mv_new">最新</string>
+
+    <!--乐库 电台-->
+    <string name="music_radio_recommend">推荐电台</string>
+    <string name="music_radio_more_kinds">更多电台分类</string>
+
     <!--标题-->
     <string name="more">更多</string>
     <!--K歌搜索框提示-->
@@ -45,25 +76,12 @@
     <string name="K_team">乐队组合</string>
     <string name="k_all_song">大家都在唱</string>
 
-    <!--乐库 MV 标题-->
-    <string name="music_mv_all_song">全部歌单</string>
 
-    <!--乐库 MV 最新最热-->
-    <string name="music_mv_hot">最热</string>
-    <string name="music_mv_new">最新</string>
-
-    <!--我的界面 随便听听-->
-    <string name="own_listen">随便听听</string>
-
-    <!--我的界面-->
-    <string name="own_create_self">自建歌单</string>
-    <string name="own_songlist">收藏歌单</string>
+    <!--直播-->
+    <string name="hot_live">热门直播</string>
 
     <!--我的界面 本地音乐二级页面-->
     <string name="own_local_two">本地音乐</string>
 
-    <!--乐库 电台-->
-    <string name="music_radio_recommend">推荐电台</string>
-    <string name="music_radio_more_kinds">更多电台分类</string>
 
 </resources>

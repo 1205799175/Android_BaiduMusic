@@ -3,9 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="@dimen/small_dimen">
+    android:padding="@dimen/control_margin_pbone_boeder">
 
-    <!--推荐-->
+    <!--推荐 标题带歌手名-->
     <LinearLayout
         android:id="@+id/item_song_with_singer_bg_ll"
         android:layout_width="match_parent"
@@ -16,8 +16,8 @@
             android:id="@+id/item_song_layout_with_singer_img"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@mipmap/ic_launcher"
-            android:scaleType="fitCenter"/>
+            android:scaleType="fitCenter"
+            android:src="@mipmap/ic_launcher" />
     </LinearLayout>
 
     <LinearLayout
@@ -30,16 +30,16 @@
             android:id="@+id/item_song_with_singer_title_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="11111"
-            android:textSize="@dimen/small_size"
+            android:ellipsize="end"
+            android:text="111"
             android:maxLines="2"
-            android:ellipsize="end"/>
+            android:textSize="@dimen/recommend_text_size" />
 
         <TextView
             android:id="@+id/item_song_with_singer_singer_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="111111"
-            android:textSize="@dimen/small_size" />
+            android:text="222"
+            android:textSize="@dimen/recommend_text_size" />
     </LinearLayout>
 </LinearLayout>

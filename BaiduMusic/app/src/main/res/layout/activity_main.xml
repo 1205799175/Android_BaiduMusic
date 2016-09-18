@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".controller.activity.MainActivity">
 
     <FrameLayout
         android:id="@+id/main_frame_layout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/margin_zero"
-        android:layout_weight="1"/>
+        android:layout_weight="1" />
 
     <!--播放栏-->
     <LinearLayout
@@ -22,46 +22,52 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/ic_launcher"/>
+            android:src="@mipmap/ic_launcher" />
+
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/small_dimen">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="歌曲名"/>
+            android:layout_marginLeft="@dimen/control_margin_pbone_boeder"
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="歌手"/>
+                android:text="歌曲名" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="歌手" />
         </LinearLayout>
+
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/middle_dimen">
+            android:layout_marginRight="@dimen/the_play_right">
+
             <ImageView
                 android:id="@+id/main_next"
-                android:layout_alignParentRight="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/bt_minibar_next_normal"/>
+                android:layout_alignParentRight="true"
+                android:src="@mipmap/bt_minibar_next_normal" />
+
             <ImageView
                 android:id="@+id/main_play"
-                android:layout_toLeftOf="@+id/main_next"
-                android:paddingRight="@dimen/small_dimen"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/bt_minibar_play_normal"/>
+                android:layout_toLeftOf="@+id/main_next"
+                android:paddingRight="@dimen/the_play_right"
+                android:src="@mipmap/bt_minibar_play_normal" />
+
             <ImageView
                 android:id="@+id/main_playinglist"
-                android:layout_toLeftOf="@+id/main_play"
-                android:paddingRight="@dimen/small_dimen"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/bt_minibar_playinglist_normal"/>
+                android:layout_toLeftOf="@+id/main_play"
+                android:paddingRight="@dimen/the_play_right"
+                android:src="@mipmap/bt_minibar_playinglist_normal" />
         </RelativeLayout>
 
     </LinearLayout>

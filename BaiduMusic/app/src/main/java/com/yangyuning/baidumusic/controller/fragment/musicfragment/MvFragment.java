@@ -37,6 +37,12 @@ public class MvFragment extends AbsBaseFragment {
 
     @Override
     protected void initDatas() {
+        //点击切换最新最热
+        ChangePageOfNewHot();
+    }
+
+    //点击切换最新最热
+    private void ChangePageOfNewHot() {
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {

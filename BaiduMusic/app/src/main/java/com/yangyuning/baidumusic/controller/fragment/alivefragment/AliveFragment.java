@@ -1,8 +1,12 @@
 package com.yangyuning.baidumusic.controller.fragment.alivefragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.View;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.yangyuning.baidumusic.R;
@@ -14,7 +18,9 @@ import com.yangyuning.baidumusic.model.bean.AliveRvTopBean;
 import com.yangyuning.baidumusic.model.net.VolleyInstance;
 import com.yangyuning.baidumusic.model.net.VolleyResult;
 import com.yangyuning.baidumusic.utils.BaiduMusicValues;
+import com.yangyuning.baidumusic.utils.interfaces.OnRvItemClick;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,6 +32,8 @@ public class AliveFragment extends AbsBaseFragment {
     private AliveRvTopAdpter aliveRvTopAdpter;
     private AliveRvBottomAdapter aliveRvBottomAdapter;
     private RecyclerView topRv, bottomRv;
+    private int topRvSize = 0, bottomRvSize = 0;
+
     public static AliveFragment newInstance() {
         
         Bundle args = new Bundle();
@@ -51,31 +59,47 @@ public class AliveFragment extends AbsBaseFragment {
         //直播上部RecyClerView操作
         aliveRvTopAdpter = new AliveRvTopAdpter(context);
         topRv.setAdapter(aliveRvTopAdpter);
-        VolleyInstance.getInstance().startResult(BaiduMusicValues.ALIVE_TOP_RECYCLERVIEW, new VolleyResult() {
-            @Override
-            public void success(String resultStr) {
-                Gson gson = new Gson();
-                AliveRvTopBean aliveRvTopBean = gson.fromJson(resultStr, AliveRvTopBean.class);
-                List<AliveRvTopBean.DataBean> topDatas = aliveRvTopBean.getData();
-                aliveRvTopAdpter.setDatas(topDatas);
-            }
-
-            @Override
-            public void failure() {
-
-            }
-        });
+        //获取,解析数据
+        getTopNetDatas();
+        //设置布局管理器
         topRv.setLayoutManager(new GridLayoutManager(context, 4));
+        //点击事件, 进入二级页面
+        addTopRvListener();
 
         //直播下部RecyClerView操作
         aliveRvBottomAdapter = new AliveRvBottomAdapter(context);
         bottomRv.setAdapter(aliveRvBottomAdapter);
+        //获取,解析上部数据
+        getBottomNetDatas();
+        //设置布局管理器
+        bottomRv.setLayoutManager(new GridLayoutManager(context, 2));
+
+    }
+
+    //上部Rv点击事件, 进入二级页面
+    private void addTopRvListener() {
+        aliveRvTopAdpter.setOnRvItemClick(new OnRvItemClick<AliveRvTopBean.DataBean>() {
+            @Override
+            public void onRvItemClickListener(int position, AliveRvTopBean.DataBean dataBean) {
+                Intent intent = new Intent();
+                intent.setAction(BaiduMusicValues.THE_ACTION_ALIVE_RV);
+                intent.putExtra(BaiduMusicValues.THE_ACTION_KEY_POAITION, position);
+                //长度
+                intent.putExtra(BaiduMusicValues.THE_ACTION_KEY_POAITION, topRvSize);
+                context.sendBroadcast(intent);
+            }
+        });
+    }
+
+    //获取,解析下部数据
+    private void getBottomNetDatas() {
         VolleyInstance.getInstance().startResult(BaiduMusicValues.ALIVE_BOTTOM_RECYCLERVIEW, new VolleyResult() {
+
             @Override
             public void success(String resultStr) {
                 Gson gson = new Gson();
                 AliveRvBottomBean aliveRvBottomBean = gson.fromJson(resultStr, AliveRvBottomBean.class);
-                List<AliveRvBottomBean.DataBean.mDataBean> bottomDatas = aliveRvBottomBean.getData().getmData();
+                List<AliveRvBottomBean.DataBean.mDataBean> bottomDatas =  aliveRvBottomBean.getData().getmData();
                 aliveRvBottomAdapter.setDatas(bottomDatas);
             }
 
@@ -84,6 +108,25 @@ public class AliveFragment extends AbsBaseFragment {
 
             }
         });
-        bottomRv.setLayoutManager(new GridLayoutManager(context, 2));
+    }
+
+    //获取,解析上部数据
+    private void getTopNetDatas() {
+        VolleyInstance.getInstance().startResult(BaiduMusicValues.ALIVE_TOP_RECYCLERVIEW, new VolleyResult() {
+            @Override
+            public void success(String resultStr) {
+                Gson gson = new Gson();
+                AliveRvTopBean aliveRvTopBean = gson.fromJson(resultStr, AliveRvTopBean.class);
+                List<AliveRvTopBean.DataBean> topDatas = aliveRvTopBean.getData();
+                //获得数据的长度用广播传给MainActivity, Fragment跳转判断用
+                topRvSize = topDatas.size();
+                aliveRvTopAdpter.setDatas(topDatas);
+            }
+
+            @Override
+            public void failure() {
+
+            }
+        });
     }
 }

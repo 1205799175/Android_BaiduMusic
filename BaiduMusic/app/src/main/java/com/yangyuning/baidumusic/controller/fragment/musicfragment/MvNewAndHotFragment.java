@@ -26,7 +26,7 @@ public class MvNewAndHotFragment extends AbsBaseFragment {
     public static MvNewAndHotFragment newInstance(String url) {
 
         Bundle args = new Bundle();
-        args.putString("url", url);
+        args.putString(BaiduMusicValues.THE_NEWINSTANCE_URL_KEY, url);
         MvNewAndHotFragment fragment = new MvNewAndHotFragment();
         fragment.setArguments(args);
         return fragment;
@@ -44,10 +44,20 @@ public class MvNewAndHotFragment extends AbsBaseFragment {
 
     @Override
     protected void initDatas() {
-        Bundle bundle = getArguments();
-        String mvUrl = bundle.getString("url");
+        //获得网络数据并解析
+        getNetDatas();
+        //初始化适配器, 绑定适配器
         musicMvRvAdapter = new MusicMvRvAdapter(context);
         rv.setAdapter(musicMvRvAdapter);
+        //设置布局管理器
+        rv.setLayoutManager(new GridLayoutManager(context, BaiduMusicValues.MV_RECYCLERVIEW_ROW_NUM));
+    }
+
+    //获得网络数据并解析
+    private void getNetDatas() {
+        //获得传来的网址
+        Bundle bundle = getArguments();
+        String mvUrl = bundle.getString(BaiduMusicValues.THE_NEWINSTANCE_URL_KEY);
         VolleyInstance.getInstance().startResult(mvUrl, new VolleyResult() {
             @Override
             public void success(String resultStr) {
@@ -62,7 +72,5 @@ public class MvNewAndHotFragment extends AbsBaseFragment {
 
             }
         });
-
-        rv.setLayoutManager(new GridLayoutManager(context, BaiduMusicValues.MV_RECYCLERVIEW_ROW_NUM));
     }
 }

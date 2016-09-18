@@ -8,6 +8,7 @@ import com.yangyuning.baidumusic.controller.app.BaiduMusicApp;
 
 /**
  * Created by dllo on 16/9/16.
+ * 屏幕大小工具类
  */
 public class ScreenSizeUtil {
     //枚举:整型常量, 一般用枚举规定一些特殊状态, 如横屏,竖屏,窗口化,  如播放, 暂停, 停止,  如宽高

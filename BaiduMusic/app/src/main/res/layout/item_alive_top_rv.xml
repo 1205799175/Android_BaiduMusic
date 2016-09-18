@@ -2,9 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/middle_dimen"
-    android:layout_marginLeft="@dimen/little_dimen"
-    android:layout_marginRight="@dimen/little_dimen"
+    android:layout_marginLeft="@dimen/alive_rv_margin_right_left"
+    android:layout_marginRight="@dimen/alive_rv_margin_right_left"
+    android:layout_marginTop="@dimen/alive_rv_margin_top"
     android:gravity="center"
     android:orientation="vertical">
 
@@ -13,14 +13,13 @@
         android:id="@+id/item_alive_top_img"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@mipmap/ic_launcher"/>
+        android:src="@mipmap/ic_launcher" />
 
     <TextView
         android:id="@+id/item_alive_top_title_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/little_dimen"
-        android:textColor="@color/text_color_black"
-        android:text="2222"/>
+        android:layout_marginTop="@dimen/alive_rv_margin_right_left"
+        android:textColor="@color/text_color_black" />
 
 </LinearLayout>

@@ -3,6 +3,7 @@ package com.yangyuning.baidumusic.controller.fragment.musicfragment;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -194,6 +195,7 @@ public class RecommendFragment extends AbsBaseFragment {
             TextView singerTv = (TextView) views.get(i).findViewById(R.id.item_song_with_singer_singer_tv);
             //数据
             titleTv.setText(mix5Bean.getResult().get(i).getTitle());
+//            Log.d("www","------" + mix5Bean.getResult().get(i).getTitle());
             singerTv.setText(mix5Bean.getResult().get(i).getAuthor());
             // 调整大小
             int width = ll.getMeasuredWidth();
@@ -258,13 +260,13 @@ public class RecommendFragment extends AbsBaseFragment {
         views.add(byView(R.id.item_scene_three));
         for (int i = 0; i < views.size(); i++) {
             ImageView img = (ImageView) views.get(i).findViewById(R.id.item_song_center);
-            TextView tv = (TextView) views.get(i).findViewById(R.id.item_song_tv);
+            TextView tvBottom = (TextView) views.get(i).findViewById(R.id.item_song_center_bottom);
             ImageView imgListent = (ImageView) views.get(i).findViewById(R.id.item_song_listen_img);
             ImageView imgBack = (ImageView) views.get(i).findViewById(R.id.item_song_bg_img);
             imgListent.setVisibility(View.GONE);
             imgBack.setImageResource(imgs[i]);
             Picasso.with(context).load(actionBean.get(i).getIcon_android()).into(img);
-            tv.setText(actionBean.get(i).getScene_name());
+            tvBottom.setText(actionBean.get(i).getScene_name());
 
         }
 

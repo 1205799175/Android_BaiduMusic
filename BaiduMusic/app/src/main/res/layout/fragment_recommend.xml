@@ -18,7 +18,7 @@
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="120dp">
+                android:layout_height="@dimen/recommend_rotate_height">
 
                 <android.support.v4.view.ViewPager
                     android:id="@+id/recommend_rotate_vp"
@@ -28,9 +28,9 @@
                 <LinearLayout
                     android:id="@+id/recommend_rotate_point_container"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/middle_dimen"
+                    android:layout_height="@dimen/recommend_rotate_point_container_height"
                     android:layout_gravity="center|bottom"
-                    android:layout_marginBottom="@dimen/small_dimen"
+                    android:layout_marginBottom="@dimen/recommend_rotate_point_container_bottom"
                     android:orientation="horizontal" />
             </FrameLayout>
         </LinearLayout>
@@ -39,10 +39,10 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/control_margin_pbone_boeder"
             android:orientation="vertical"
-            android:layout_marginTop="@dimen/small_dimen"
-            android:paddingLeft="@dimen/small_dimen"
-            android:paddingRight="@dimen/small_dimen">
+            android:paddingLeft="@dimen/control_margin_pbone_boeder"
+            android:paddingRight="@dimen/control_margin_pbone_boeder">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -76,8 +76,8 @@
                 android:layout_height="wrap_content"
                 android:divider="@drawable/divider_linearlayout_rect"
                 android:orientation="vertical"
-                android:paddingBottom="@dimen/small_dimen"
-                android:paddingTop="@dimen/small_dimen"
+                android:paddingBottom="@dimen/control_margin_pbone_boeder"
+                android:paddingTop="@dimen/control_margin_pbone_boeder"
                 android:showDividers="end">
 
                 <LinearLayout
@@ -152,8 +152,8 @@
                 android:layout_height="wrap_content"
                 android:divider="@drawable/divider_linearlayout_rect"
                 android:orientation="vertical"
-                android:paddingBottom="@dimen/small_dimen"
-                android:paddingTop="@dimen/small_dimen"
+                android:paddingBottom="@dimen/control_margin_pbone_boeder"
+                android:paddingTop="@dimen/control_margin_pbone_boeder"
                 android:showDividers="end">
 
                 <LinearLayout
@@ -175,21 +175,21 @@
                     <include
                         android:id="@+id/item_new_disk_zero"
                         layout="@layout/item_icon_title_with_singer"
-                        android:layout_width="0dp"
+                        android:layout_width="@dimen/margin_zero"
                         android:layout_height="wrap_content"
                         android:layout_weight="1" />
 
                     <include
                         android:id="@+id/item_new_disk_one"
                         layout="@layout/item_icon_title_with_singer"
-                        android:layout_width="0dp"
+                        android:layout_width="@dimen/margin_zero"
                         android:layout_height="wrap_content"
                         android:layout_weight="1" />
 
                     <include
                         android:id="@+id/item_new_disk_two"
                         layout="@layout/item_icon_title_with_singer"
-                        android:layout_width="0dp"
+                        android:layout_width="@dimen/margin_zero"
                         android:layout_height="wrap_content"
                         android:layout_weight="1" />
                 </LinearLayout>
@@ -228,8 +228,8 @@
                 android:layout_height="wrap_content"
                 android:divider="@drawable/divider_linearlayout_rect"
                 android:orientation="vertical"
-                android:paddingBottom="@dimen/small_dimen"
-                android:paddingTop="@dimen/small_dimen"
+                android:paddingBottom="@dimen/control_margin_pbone_boeder"
+                android:paddingTop="@dimen/control_margin_pbone_boeder"
                 android:showDividers="end">
 
                 <LinearLayout
@@ -250,21 +250,21 @@
                     <include
                         android:id="@+id/item_hot_zero"
                         layout="@layout/item_icon_title_with_singer"
-                        android:layout_width="0dp"
+                        android:layout_width="@dimen/margin_zero"
                         android:layout_height="wrap_content"
                         android:layout_weight="1" />
 
                     <include
                         android:id="@+id/item_hot_one"
                         layout="@layout/item_icon_title_with_singer"
-                        android:layout_width="0dp"
+                        android:layout_width="@dimen/margin_zero"
                         android:layout_height="wrap_content"
                         android:layout_weight="1" />
 
                     <include
                         android:id="@+id/item_hot_two"
                         layout="@layout/item_icon_title_with_singer"
-                        android:layout_width="0dp"
+                        android:layout_width="@dimen/margin_zero"
                         android:layout_height="wrap_content"
                         android:layout_weight="1" />
                 </LinearLayout>
@@ -328,9 +328,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/control_margin_pbone_boeder"
                 android:divider="@drawable/divider_linearlayout_rect"
                 android:orientation="vertical"
-                android:layout_marginTop="@dimen/small_dimen"
                 android:showDividers="end">
 
                 <LinearLayout
@@ -361,9 +361,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/control_margin_pbone_boeder"
                 android:divider="@drawable/divider_linearlayout_rect"
                 android:orientation="vertical"
-                android:layout_marginTop="@dimen/small_dimen"
                 android:showDividers="end">
 
                 <LinearLayout
@@ -385,21 +385,21 @@
                     <include
                         android:id="@+id/item_original_zero"
                         layout="@layout/item_icon_title_with_singer"
-                        android:layout_width="0dp"
+                        android:layout_width="@dimen/margin_zero"
                         android:layout_height="wrap_content"
                         android:layout_weight="1" />
 
                     <include
                         android:id="@+id/item_original_one"
                         layout="@layout/item_icon_title_with_singer"
-                        android:layout_width="0dp"
+                        android:layout_width="@dimen/margin_zero"
                         android:layout_height="wrap_content"
                         android:layout_weight="1" />
 
                     <include
                         android:id="@+id/item_original_two"
                         layout="@layout/item_icon_title_with_singer"
-                        android:layout_width="0dp"
+                        android:layout_width="@dimen/margin_zero"
                         android:layout_height="wrap_content"
                         android:layout_weight="1" />
                 </LinearLayout>
@@ -409,9 +409,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/control_margin_pbone_boeder"
                 android:divider="@drawable/divider_linearlayout_rect"
                 android:orientation="vertical"
-                android:layout_marginTop="@dimen/small_dimen"
                 android:showDividers="end">
 
                 <LinearLayout
@@ -433,21 +433,21 @@
                     <include
                         android:id="@+id/item_original_zero"
                         layout="@layout/item_icon_title_with_singer"
-                        android:layout_width="0dp"
+                        android:layout_width="@dimen/margin_zero"
                         android:layout_height="wrap_content"
                         android:layout_weight="1" />
 
                     <include
                         android:id="@+id/item_original_one"
                         layout="@layout/item_icon_title_with_singer"
-                        android:layout_width="0dp"
+                        android:layout_width="@dimen/margin_zero"
                         android:layout_height="wrap_content"
                         android:layout_weight="1" />
 
                     <include
                         android:id="@+id/item_original_two"
                         layout="@layout/item_icon_title_with_singer"
-                        android:layout_width="0dp"
+                        android:layout_width="@dimen/margin_zero"
                         android:layout_height="wrap_content"
                         android:layout_weight="1" />
                 </LinearLayout>
@@ -460,21 +460,21 @@
                     <include
                         android:id="@+id/item_original_three"
                         layout="@layout/item_icon_title_with_singer"
-                        android:layout_width="0dp"
+                        android:layout_width="@dimen/margin_zero"
                         android:layout_height="wrap_content"
                         android:layout_weight="1" />
 
                     <include
                         android:id="@+id/item_original_four"
                         layout="@layout/item_icon_title_with_singer"
-                        android:layout_width="0dp"
+                        android:layout_width="@dimen/margin_zero"
                         android:layout_height="wrap_content"
                         android:layout_weight="1" />
 
                     <include
                         android:id="@+id/item_original_five"
                         layout="@layout/item_icon_title_with_singer"
-                        android:layout_width="0dp"
+                        android:layout_width="@dimen/margin_zero"
                         android:layout_height="wrap_content"
                         android:layout_weight="1" />
                 </LinearLayout>
@@ -484,9 +484,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/control_margin_pbone_boeder"
                 android:divider="@drawable/divider_linearlayout_rect"
                 android:orientation="vertical"
-                android:layout_marginTop="@dimen/small_dimen"
                 android:showDividers="end">
 
                 <LinearLayout
@@ -508,21 +508,21 @@
                     <include
                         android:id="@+id/item_happy_pro_zero"
                         layout="@layout/item_icon_title_with_singer"
-                        android:layout_width="0dp"
+                        android:layout_width="@dimen/margin_zero"
                         android:layout_height="wrap_content"
                         android:layout_weight="1" />
 
                     <include
                         android:id="@+id/item_happy_pro_one"
                         layout="@layout/item_icon_title_with_singer"
-                        android:layout_width="0dp"
+                        android:layout_width="@dimen/margin_zero"
                         android:layout_height="wrap_content"
                         android:layout_weight="1" />
 
                     <include
                         android:id="@+id/item_happy_pro_two"
                         layout="@layout/item_icon_title_with_singer"
-                        android:layout_width="0dp"
+                        android:layout_width="@dimen/margin_zero"
                         android:layout_height="wrap_content"
                         android:layout_weight="1" />
                 </LinearLayout>
@@ -535,21 +535,21 @@
                     <include
                         android:id="@+id/item_happy_pro_three"
                         layout="@layout/item_icon_title_with_singer"
-                        android:layout_width="0dp"
+                        android:layout_width="@dimen/margin_zero"
                         android:layout_height="wrap_content"
                         android:layout_weight="1" />
 
                     <include
                         android:id="@+id/item_happy_pro_four"
                         layout="@layout/item_icon_title_with_singer"
-                        android:layout_width="0dp"
+                        android:layout_width="@dimen/margin_zero"
                         android:layout_height="wrap_content"
                         android:layout_weight="1" />
 
                     <include
                         android:id="@+id/item_happy_pro_five"
                         layout="@layout/item_icon_title_with_singer"
-                        android:layout_width="0dp"
+                        android:layout_width="@dimen/margin_zero"
                         android:layout_height="wrap_content"
                         android:layout_weight="1" />
                 </LinearLayout>
@@ -559,9 +559,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/control_margin_pbone_boeder"
                 android:divider="@drawable/divider_linearlayout_rect"
                 android:orientation="vertical"
-                android:layout_marginTop="@dimen/small_dimen"
                 android:showDividers="end">
 
                 <LinearLayout

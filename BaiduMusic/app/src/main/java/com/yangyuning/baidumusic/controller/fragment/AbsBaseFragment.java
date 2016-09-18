@@ -37,15 +37,13 @@ public abstract class AbsBaseFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        //初始化组件
-        initView();
+        initView();//初始化组件
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        //初始化数据
-        initDatas();
+        initDatas();//初始化数据
     }
 
     /**

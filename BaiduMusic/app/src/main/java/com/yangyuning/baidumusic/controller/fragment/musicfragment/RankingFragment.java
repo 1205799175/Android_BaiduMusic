@@ -44,8 +44,15 @@ public class RankingFragment extends AbsBaseFragment {
 
     @Override
     protected void initDatas() {
+        //初始化适配器, 绑定适配器
         musicRankingLvAdapter = new MusicRankingLvAdapter(context);
         rangkingLv.setAdapter(musicRankingLvAdapter);
+        //获得并解析网络数据
+        getNetDatas();
+    }
+
+    //获得并解析网络数据
+    private void getNetDatas() {
         VolleyInstance.getInstance().startResult(BaiduMusicValues.MUSIC_RANKING, new VolleyResult() {
             @Override
             public void success(String resultStr) {
@@ -59,6 +66,5 @@ public class RankingFragment extends AbsBaseFragment {
             public void failure() {
             }
         });
-
     }
 }

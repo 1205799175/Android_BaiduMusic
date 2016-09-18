@@ -48,7 +48,7 @@ public class LocalMusicDetailsFragment extends AbsBaseFragment {
     protected void initView() {
         vp = byView(R.id.own_local_music_vp);
         tb = byView(R.id.own_local_music_tb);
-        localMusicBack = byView(R.id.own_local_music_title);
+        localMusicBack = byView(R.id.detail_title_back);
     }
 
     @Override
@@ -70,7 +70,7 @@ public class LocalMusicDetailsFragment extends AbsBaseFragment {
             public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.setAction(BaiduMusicValues.THE_ACTION_OWN_LOCAL);
-                intent.putExtra(BaiduMusicValues.THE_ACTION_KEY_POAITION, -1);
+                intent.putExtra(BaiduMusicValues.THE_ACTION_KEY_POAITION, BaiduMusicValues.MAIN_RECEIVER_POSITION_MINUS_ONE);
                 context.sendBroadcast(intent);
             }
         });

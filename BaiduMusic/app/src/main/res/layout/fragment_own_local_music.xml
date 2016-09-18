@@ -5,32 +5,18 @@
     android:orientation="vertical">
 
     <!--我的Fragment本地歌曲详情页-->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/main_title_layout"
-        android:padding="@dimen/small_dimen"
-        android:orientation="horizontal">
-        <TextView
-            android:id="@+id/own_local_music_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@mipmap/bt_return_nor"
-            android:textColor="@color/colorLocalMusic"
-            android:drawablePadding="@dimen/small_dimen"
-            android:text="@string/own_local_two"/>
 
-    </LinearLayout>
+    <include layout="@layout/item_detail_title_back"/>
 
     <android.support.design.widget.TabLayout
         android:id="@+id/own_local_music_tb"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
 
-   <android.support.v4.view.ViewPager
-       android:id="@+id/own_local_music_vp"
-       android:layout_width="match_parent"
-       android:layout_height="@dimen/margin_zero"
-       android:layout_weight="1"/>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/own_local_music_vp"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin_zero"
+        android:layout_weight="1" />
 
 </LinearLayout>

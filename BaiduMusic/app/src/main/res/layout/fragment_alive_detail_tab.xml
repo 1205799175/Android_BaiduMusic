@@ -4,11 +4,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <!--乐库 MV 最新最热占位布局 Recyclerview-->
+    <!--直播 上部 Recyclerview 二级页面 TabLayout中的Fragment-->
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/music_mv_frame_rv"
+        android:id="@+id/alive_detail_ta_rv"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent"/>
 
 </LinearLayout>

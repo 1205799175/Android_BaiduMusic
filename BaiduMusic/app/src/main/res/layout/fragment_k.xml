@@ -14,13 +14,13 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/small_dimen"
-            android:drawableLeft="@mipmap/ic_k_k"
-            android:padding="@dimen/little_dimen"
+            android:layout_margin="@dimen/search_margin_phone_boeder"
+            android:background="@drawable/bg_shape_radio_tv"
             android:cursorVisible="false"
-            android:textSize="@dimen/small_size"
+            android:drawableLeft="@mipmap/ic_k_k"
             android:hint="@string/k_search_hint"
-            android:background="@drawable/bg_shape_radio_tv"/>
+            android:padding="@dimen/title_margin_phone_border"
+            android:textSize="@dimen/k_search_text_size" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -30,7 +30,7 @@
             <!--轮播图-->
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="80dp">
+                android:layout_height="@dimen/k_rotate_height">
 
                 <android.support.v4.view.ViewPager
                     android:id="@+id/k_rotate_vp"
@@ -40,9 +40,9 @@
                 <LinearLayout
                     android:id="@+id/k_rotate_point_container"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/middle_dimen"
+                    android:layout_height="@dimen/k_rotate_point_container_height"
                     android:layout_gravity="center|bottom"
-                    android:layout_marginBottom="@dimen/small_dimen"
+                    android:layout_marginBottom="@dimen/k_rotate_point_container_bottom"
                     android:orientation="horizontal" />
             </FrameLayout>
 
@@ -50,52 +50,61 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/small_dimen"
+                android:layout_margin="@dimen/k_ll_margin"
                 android:orientation="horizontal">
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
                     android:layout_weight="1"
+                    android:gravity="center"
                     android:orientation="vertical">
+
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@mipmap/img_k_ktv"/>
+                        android:src="@mipmap/img_k_ktv" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/k_hot_song"/>
+                        android:text="@string/k_hot_song" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
                     android:layout_weight="1"
+                    android:gravity="center"
                     android:orientation="vertical">
+
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@mipmap/img_k_chinese"/>
+                        android:src="@mipmap/img_k_chinese" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/k_china_song"/>
+                        android:text="@string/k_china_song" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
                     android:layout_weight="1"
+                    android:gravity="center"
                     android:orientation="vertical">
+
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@mipmap/img_k_occident"/>
+                        android:src="@mipmap/img_k_occident" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/k_classifty"/>
+                        android:text="@string/k_classifty" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -103,52 +112,61 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/small_dimen"
+                android:layout_margin="@dimen/k_ll_margin"
                 android:orientation="horizontal">
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
                     android:layout_weight="1"
+                    android:gravity="center"
                     android:orientation="vertical">
+
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@mipmap/img_k_man"/>
+                        android:src="@mipmap/img_k_man" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/k_man"/>
+                        android:text="@string/k_man" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
                     android:layout_weight="1"
+                    android:gravity="center"
                     android:orientation="vertical">
+
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@mipmap/img_k_woman"/>
+                        android:src="@mipmap/img_k_woman" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/k_woman"/>
+                        android:text="@string/k_woman" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
                     android:layout_weight="1"
+                    android:gravity="center"
                     android:orientation="vertical">
+
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@mipmap/img_k_band"/>
+                        android:src="@mipmap/img_k_band" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/K_team"/>
+                        android:text="@string/K_team" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
@@ -156,36 +174,39 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/the_height_of_line"
-            android:background="@color/split_line_color"/>
+            android:background="@color/split_line_color" />
 
         <!--大家都在唱-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/small_dimen"
+            android:layout_margin="@dimen/k_ll_margin"
             android:orientation="vertical">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@mipmap/bule_lines"/>
+                    android:src="@mipmap/bule_lines" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/little_dimen"
-                    android:textColor="@color/text_color_black"
-                    android:text="@string/k_all_song"/>
+                    android:layout_marginLeft="@dimen/title_margin_phone_border"
+                    android:text="@string/k_all_song"
+                    android:textColor="@color/text_color_black" />
             </LinearLayout>
 
             <com.yangyuning.baidumusic.view.MyListView
                 android:id="@+id/k_lv"
-                android:layout_marginTop="@dimen/small_dimen"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/k_list_margin_top" />
 
         </LinearLayout>
 

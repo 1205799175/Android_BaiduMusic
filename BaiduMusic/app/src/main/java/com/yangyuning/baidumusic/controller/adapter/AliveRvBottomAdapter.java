@@ -34,7 +34,6 @@ public class AliveRvBottomAdapter extends RecyclerView.Adapter<AliveRvBottomAdap
     @Override
     public AliveBottomRvViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.item_music_song_rv, parent, false);
-
         AliveBottomRvViewHolder aliveBottomRvViewHolder = new AliveBottomRvViewHolder(view);
         return aliveBottomRvViewHolder;
     }

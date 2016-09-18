@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:layout_margin="@dimen/small_dimen">
+    android:layout_margin="@dimen/mv_ll_margin"
+    android:orientation="vertical">
 
     <!--乐库 MV-->
 
@@ -16,59 +16,63 @@
         <LinearLayout
             android:layout_width="@dimen/margin_zero"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:layout_weight="1"
             android:gravity="left"
-            android:layout_weight="1">
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/little_dimen"
-                android:text="@string/music_mv_all_song"
+                android:layout_marginLeft="@dimen/title_margin_phone_border"
                 android:drawableLeft="@mipmap/bule_lines"
-                android:drawablePadding="@dimen/small_dimen"
+                android:drawablePadding="@dimen/mv_ll_margin"
+                android:text="@string/music_mv_all_song"
                 android:textColor="@color/text_color_black"
-                android:textSize="@dimen/middle_size" />
+                android:textSize="@dimen/title_text_size" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/little_dimen"
+                android:layout_marginLeft="@dimen/mv_pop_margin_title"
                 android:src="@mipmap/bt_mv_pull_down_normal" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="@dimen/margin_zero"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginRight="@dimen/small_dimen"
-            android:gravity="right">
+            android:layout_marginRight="@dimen/mv_ll_margin"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:orientation="horizontal">
+
             <RadioGroup
                 android:id="@+id/music_mv_rg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
+
                 <RadioButton
                     android:id="@+id/music_mv_new_rb"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/mv_margin_view_right_left"
                     android:button="@null"
-                    android:textColor="@drawable/bg_text_mv_hot_new"
-                    android:layout_marginRight="@dimen/little_dimen"
-                    android:text="@string/music_mv_new"/>
+                    android:text="@string/music_mv_new"
+                    android:textColor="@drawable/bg_text_mv_hot_new" />
+
                 <View
                     android:layout_width="@dimen/the_height_of_line"
-                    android:layout_height="@dimen/small_middle_dimen"
-                    android:background="@color/text_color_black"/>
+                    android:layout_height="@dimen/mv_view_height"
+                    android:background="@color/text_color_black" />
+
                 <RadioButton
                     android:id="@+id/music_mv_hot_rb"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/mv_margin_view_right_left"
                     android:button="@null"
-                    android:textColor="@drawable/bg_text_mv_hot_new"
-                    android:layout_marginLeft="@dimen/small_dimen"
-                    android:text="@string/music_mv_hot"/>
+                    android:text="@string/music_mv_hot"
+                    android:textColor="@drawable/bg_text_mv_hot_new" />
             </RadioGroup>
 
         </LinearLayout>
@@ -79,5 +83,5 @@
         android:id="@+id/music_mv_frame_layout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/margin_zero"
-        android:layout_weight="1"/>
+        android:layout_weight="1" />
 </LinearLayout>

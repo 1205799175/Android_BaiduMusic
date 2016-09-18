@@ -2,7 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="@dimen/little_dimen"
+    android:layout_margin="@dimen/title_margin_phone_border"
     android:orientation="vertical">
     <!--直播-->
     <LinearLayout
@@ -13,7 +13,7 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/alive_top_rv"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
 
         <!--热门直播-->
 
@@ -25,21 +25,23 @@
 
             <LinearLayout
                 android:layout_width="@dimen/margin_zero"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
+
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/little_dimen"
-                    android:src="@mipmap/bule_lines"/>
+                    android:layout_marginLeft="@dimen/title_margin_phone_border"
+                    android:src="@mipmap/bule_lines" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/little_dimen"
-                    android:textColor="@color/text_color_black"
-                    android:text="@string/hot_live"/>
+                    android:layout_marginLeft="@dimen/title_margin_phone_border"
+                    android:text="@string/hot_live"
+                    android:textColor="@color/text_color_black" />
 
             </LinearLayout>
 
@@ -48,23 +50,24 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/more"/>
+                    android:text="@string/more" />
+
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@mipmap/ic_songlist_detail_nor"/>
+                    android:src="@mipmap/ic_songlist_detail_nor" />
             </LinearLayout>
         </LinearLayout>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/alive_bottom_rv"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
     </LinearLayout>
-
 
 
 </ScrollView>

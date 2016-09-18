@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.yangyuning.baidumusic.R;
@@ -18,7 +19,7 @@ import java.util.List;
  * Created by dllo on 16/9/12.
  * 乐库 歌单 RecyclerView适配器
  */
-public class MusicSongRvAdapter extends RecyclerView.Adapter<MusicSongRvAdapter.SongViewHolder>{
+public class MusicSongRvAdapter extends RecyclerView.Adapter<MusicSongRvAdapter.SongViewHolder> {
     private Context context;
     private List<MusicSongBean.ContentBean> datas;
 
@@ -44,7 +45,11 @@ public class MusicSongRvAdapter extends RecyclerView.Adapter<MusicSongRvAdapter.
         holder.titleTv.setText(datas.get(position).getTitle());
         holder.styleTv.setText(datas.get(position).getTag());
         holder.listenum.setText(datas.get(position).getListenum());
-        Picasso.with(context).load(datas.get(position).getPic_300()).resize(380, 350).into(holder.imgId);
+        if (position == 0) {
+            Toast.makeText(context, "第一张图片接口中没啦", Toast.LENGTH_SHORT).show();
+        }else{
+            Picasso.with(context).load(datas.get(position).getPic_300()).resize(380, 350).into(holder.imgId);
+        }
 
     }
 
@@ -53,7 +58,7 @@ public class MusicSongRvAdapter extends RecyclerView.Adapter<MusicSongRvAdapter.
         return datas != null && datas.size() > 0 ? datas.size() : 0;
     }
 
-    class SongViewHolder extends RecyclerView.ViewHolder{
+    class SongViewHolder extends RecyclerView.ViewHolder {
         private TextView titleTv, styleTv, listenum;
         private ImageView imgId;
 

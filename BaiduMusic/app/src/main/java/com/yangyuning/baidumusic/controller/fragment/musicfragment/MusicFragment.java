@@ -24,9 +24,9 @@ public class MusicFragment extends AbsBaseFragment {
     private VpAdapter vpAdapter;
 
     public static MusicFragment newInstance() {
-        
+
         Bundle args = new Bundle();
-        
+
         MusicFragment fragment = new MusicFragment();
         fragment.setArguments(args);
         return fragment;

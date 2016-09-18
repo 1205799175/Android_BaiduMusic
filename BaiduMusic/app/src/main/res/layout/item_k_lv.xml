@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/small_dimen"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:padding="@dimen/control_margin_pbone_boeder">
 
     <!--K歌 ListView行布局-->
     <LinearLayout
@@ -11,25 +11,25 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:orientation="vertical">
+
         <TextView
             android:id="@+id/item_k_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/text_color_black"
-            android:textSize="@dimen/small_size"
-            android:text="歌手 - 歌曲名"/>
+            android:textSize="@dimen/k_search_text_size" />
+
         <TextView
             android:id="@+id/item_k_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/min_size"
-            android:text="多少人唱过"/>
+            android:textSize="@dimen/k_text_size" />
     </LinearLayout>
 
     <ImageView
         android:id="@+id/item_k_mike"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@mipmap/ic_mike_normal"/>
+        android:src="@mipmap/ic_mike_normal" />
 
 </LinearLayout>

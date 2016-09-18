@@ -5,8 +5,7 @@
     android:gravity="center"
     android:orientation="horizontal">
 
-
-
+    <!--推荐 专栏-->
     <LinearLayout
         android:id="@+id/item_mine_song_sheet_ll"
         android:layout_width="@dimen/margin_zero"
@@ -19,8 +18,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:paddingBottom="@dimen/little_dimen"
-            android:paddingTop="@dimen/little_dimen"
+            android:paddingBottom="@dimen/title_margin_phone_border"
+            android:paddingTop="@dimen/title_margin_phone_border"
             android:src="@mipmap/ic_launcher" />
     </LinearLayout>
 
@@ -36,32 +35,30 @@
             android:layout_weight="9"
             android:gravity="center|left"
             android:orientation="vertical"
-            android:paddingLeft="@dimen/small_dimen"
-            android:paddingRight="@dimen/small_dimen"
-            android:paddingTop="@dimen/min_dimen"
-            android:paddingBottom="@dimen/min_dimen">
+            android:paddingBottom="@dimen/recommend_own_title_margin_top_bottom"
+            android:paddingLeft="@dimen/recommend_own_title_margin_left_right"
+            android:paddingRight="@dimen/recommend_own_title_margin_left_right"
+            android:paddingTop="@dimen/recommend_own_title_margin_top_bottom">
 
             <TextView
                 android:id="@+id/mine_song_sheet_name_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="11111"
-                android:maxLines="1"
-                android:ellipsize="end"/>
+                android:ellipsize="end"
+                android:maxLines="1" />
 
             <TextView
                 android:id="@+id/mine_song_sheet_piece_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:maxLines="1"
                 android:ellipsize="end"
-                android:text="11111" />
+                android:maxLines="1" />
 
         </LinearLayout>
 
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="@dimen/margin_zero"
             android:layout_height="wrap_content"
             android:layout_weight="4"
             android:gravity="center|right"
@@ -71,8 +68,8 @@
                 android:id="@+id/mine_song_sheet_goto_img"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:paddingBottom="@dimen/little_dimen"
-                android:paddingTop="@dimen/little_dimen"
+                android:paddingBottom="@dimen/recommend_own_arrow_margin"
+                android:paddingTop="@dimen/recommend_own_arrow_margin"
                 android:src="@mipmap/ic_songlist_detail_nor" />
         </LinearLayout>
     </LinearLayout>

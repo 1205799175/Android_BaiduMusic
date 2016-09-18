@@ -2,65 +2,64 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="@dimen/little_dimen"
-    android:layout_marginTop="@dimen/small_dimen"
-    android:layout_marginRight="@dimen/little_dimen"
+    android:layout_marginLeft="@dimen/song_rv_margin_right_left_right_top"
+    android:layout_marginRight="@dimen/song_rv_margin_right_left_right_top"
+    android:layout_marginTop="@dimen/song_rv_margin_top"
     android:orientation="vertical">
 
     <!--歌单-->
-        <RelativeLayout
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/item_music_song_img"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:src="@mipmap/new_songss" />
 
-            <ImageView
-                android:id="@+id/item_music_song_img"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/new_songss"/>
+        <ImageView
+            android:id="@+id/item_music_song_ear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/item_music_song_img"
+            android:layout_marginBottom="@dimen/song_rv_margin_right_left_right_top"
+            android:layout_marginLeft="@dimen/song_rv_margin_right_left_right_top"
+            android:src="@mipmap/ic_listen_count" />
 
-            <ImageView
-                android:id="@+id/item_music_song_ear"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/item_music_song_img"
-                android:layout_marginBottom="@dimen/little_dimen"
-                android:layout_marginLeft="@dimen/little_dimen"
-                android:src="@mipmap/ic_listen_count" />
+        <TextView
+            android:id="@+id/item_music_song_listenum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/item_music_song_img"
+            android:layout_marginBottom="@dimen/song_rv_margin_right_left_right_top"
+            android:layout_marginLeft="@dimen/song_rv_margin_right_left_right_top"
+            android:layout_toRightOf="@+id/item_music_song_ear"
+            android:textColor="@color/colorLocalMusic"
+            android:textSize="@dimen/recommend_listen_count" />
 
-            <TextView
-                android:id="@+id/item_music_song_listenum"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/item_music_song_img"
-                android:layout_toRightOf="@+id/item_music_song_ear"
-                android:textColor="@color/colorLocalMusic"
-                android:layout_marginBottom="@dimen/little_dimen"
-                android:layout_marginLeft="@dimen/little_dimen"
-                android:text="11111"
-                android:textSize="@dimen/min_size" />
-
-            <ImageView
-                android:id="@+id/item_music_song_play"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/rank_item_margin"
-                android:layout_marginRight="@dimen/rank_item_margin"
-                android:layout_alignBottom="@+id/item_music_song_img"
-                android:layout_alignRight="@+id/item_music_song_img"
-                android:src="@mipmap/bt_play_nor" />
-        </RelativeLayout>
+        <ImageView
+            android:id="@+id/item_music_song_play"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/item_music_song_img"
+            android:layout_alignRight="@+id/item_music_song_img"
+            android:layout_marginBottom="@dimen/song_rv_margin_right_left_right_top"
+            android:layout_marginRight="@dimen/song_rv_margin_right_left_right_top"
+            android:src="@mipmap/bt_play_nor" />
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/item_music_song_title_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/text_color_black"
-        android:text="TextView"/>
+        android:textColor="@color/text_color_black" />
+
     <TextView
         android:id="@+id/item_music_song_style_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/small_size" />
+        android:textSize="@dimen/song_rv_text_size" />
 
 
 </LinearLayout>

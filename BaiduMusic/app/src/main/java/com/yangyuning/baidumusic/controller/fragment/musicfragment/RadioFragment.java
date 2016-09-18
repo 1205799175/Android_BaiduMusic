@@ -45,8 +45,17 @@ public class RadioFragment extends AbsBaseFragment {
 
     @Override
     protected void initDatas() {
+        //初始化适配器, 绑定适配器
         musicRadioRvAdapter = new MusicRadioRvAdapter(context);
         rv.setAdapter(musicRadioRvAdapter);
+        //获取网络数据, 解析
+        getNetDatas();
+        //设置布局管理器
+        rv.setLayoutManager(new GridLayoutManager(context, 4));
+    }
+
+    //获取网络数据, 解析
+    private void getNetDatas() {
         VolleyInstance.getInstance().startResult(BaiduMusicValues.MUSIC_RADIO, new VolleyResult() {
             @Override
             public void success(String resultStr) {
@@ -61,6 +70,5 @@ public class RadioFragment extends AbsBaseFragment {
 
             }
         });
-        rv.setLayoutManager(new GridLayoutManager(context, 4));
     }
 }

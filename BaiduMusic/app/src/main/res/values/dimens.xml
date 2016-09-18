@@ -3,46 +3,127 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
+    <!--<<<<<<<<<<<<<<<<<<<<<<<<<距离dp>>>>>>>>>>>>>>>>>>>>>>>-->
     <!--权重使用-->
     <dimen name="margin_zero">0dp</dimen>
-    <!--最小边距-->
-    <dimen name="min_dimen">3dp</dimen>
-    <!--极小边距-->
-    <dimen name="little_dimen">6dp</dimen>
-    <!--小边距-->
-    <dimen name="small_dimen">12dp</dimen>
-    <!--中小边距-->
-    <dimen name="small_middle_dimen">16dp</dimen>
-    <!--中边距-->
-    <dimen name="middle_dimen">20dp</dimen>
-    <!--中大边距-->
-    <dimen name="middle_large_dimen">24dp</dimen>
-    <!--大边距-->
-    <dimen name="large_dimen">28dp</dimen>
-    <!--TabLayout高度-->
-    <dimen name="the_height_of_tab">40dp</dimen>
-    <!--TabLayout滑线的高度-->
-    <dimen name="the_height_of_Indicator">1dp</dimen>
+    
+    <!--主界面的TabLayout高度-->
+    <dimen name="main_tab_height">40dp</dimen>
+    <!--主界面TabLayout三个点距右和距上的长度-->
+    <dimen name="main_tab_point_top_right">6dp</dimen>
+    <!--主界面TabLayout登录框距左的长度-->
+    <dimen name="main_tab_login_left">6dp</dimen>
+    <!--主界面TabLayout搜索框距右的长度-->
+    <dimen name="main_tab_search_right">20dp</dimen>
+
     <!--播放栏高度-->
     <dimen name="the_height_of_play">50dp</dimen>
+    <!--播放栏里面空间之间的距离-->
+    <dimen name="the_play_right">12dp</dimen>
+
+    <!--我的界面上部背景高度-->
     <dimen name="margin_bg_height">150dp</dimen>
+    
+    <!--K歌搜索框距手机边框距离-->
+    <dimen name="search_margin_phone_boeder">12dp</dimen>
+    <!--K歌搜索框内文字和搜索框边框的距离-->
+    <dimen name="search_padding_border">6dp</dimen>
+    <!--K歌轮播图高度-->
+    <dimen name="k_rotate_height">80dp</dimen>
+    <!--K歌轮播图小圆点容器的高度-->
+    <dimen name="k_rotate_point_container_height">20dp</dimen>
+    <!--K歌轮播图小圆点容器的位置-->
+    <dimen name="k_rotate_point_container_bottom">12dp</dimen>
+    <!--K歌歌曲分类距离-->
+    <dimen name="k_ll_margin">12dp</dimen>
+    <!--K歌ListView距上部距离-->
+    <dimen name="k_list_margin_top">12dp</dimen>
+    
+    <!--MV距手机边框的距离-->
+    <dimen name="mv_ll_margin">12dp</dimen>
+    <!--MV弹出PopWindow的按钮距标题的距离-->
+    <dimen name="mv_pop_margin_title">6dp</dimen>
+    <!--MV最新最热中间竖线-->
+    <dimen name="mv_view_height">16dp</dimen>
+    <!--MV最距离-->
+    <dimen name="mv_margin_view_right_left">6dp</dimen>
 
-    <!--最小字体-->
-    <dimen name="min_size">8sp</dimen>
-    <!--小字体-->
-    <dimen name="small_size">12sp</dimen>
-    <!--中字体-->
-    <dimen name="middle_size">16sp</dimen>
-    <!--大字体-->
-    <dimen name="large_size">20sp</dimen>
-    <!--超大字体-->
-    <dimen name="huge_size">24sp</dimen>
+    <!--乐库 radio button距上方的距离-->
+    <dimen name="radio_button_margin_top">20dp</dimen>
+    <!--乐库 歌单 弹出PopWindow的按钮距标题的距离-->
+    <dimen name="pop_margin_title">6dp</dimen>
 
-    <!--排行边距-->
-    <dimen name="rank_item_margin">3dp</dimen>
+    <!--直播 上部 RecyclerView行布局 距左右的距离-->
+    <dimen name="alive_rv_margin_right_left">6dp</dimen>
+    <!--直播 上部 RecyclerView行布局 文字距上部的距离-->
+    <dimen name="alive_rv_margin_top">20dp</dimen>
 
+    <!--乐库 推荐 标题文字距图标的距离-->
+    <dimen name="recommend_margin_icon_left">3dp</dimen>
+
+    <!--MV RecyclerView行布局 距左右的距离-->
+    <dimen name="mv_rv_margin_right_left">6dp</dimen>
+
+    <!--排行 ListView 行布局-->
+    <dimen name="ranking_lv_margin_right_bottom_top">6dp</dimen>
+    <dimen name="ranking_lv_margin_left">12dp</dimen>
+
+    <!--歌单 RecyclerView行布局 行布局-->
+    <dimen name="song_rv_margin_right_left_right_top">6dp</dimen>
+    <dimen name="song_rv_margin_top">12dp</dimen>
+
+    <!--推荐 轮播图高度-->
+    <dimen name="recommend_rotate_height">120dp</dimen>
+    <!--推荐轮播图小圆点容器的高度-->
+    <dimen name="recommend_rotate_point_container_height">20dp</dimen>
+    <!--推荐轮播图小圆点容器的位置-->
+    <dimen name="recommend_rotate_point_container_bottom">12dp</dimen>
+    <!--推荐 专栏-->
+    <dimen name="recommend_own_title_margin_top_bottom">3dp</dimen>
+    <dimen name="recommend_own_title_margin_left_right">12dp</dimen>
+    <dimen name="recommend_own_arrow_margin">6dp</dimen>
+    <!--推荐 今日推荐-->
+    <dimen name="recommend_today_text_padding">3dp</dimen>
+    <dimen name="recommend_today_setting_margin_top_bottom">6dp</dimen>
+
+    <!--乐库 歌单 PopWindow-->
+    <!--shape button 用, 边框高度-->
+    <dimen name="the_height_of_button_song_pw">1dp</dimen>
+    <dimen name="music_song_pw_seleter_padding">12dp</dimen>
+
+    <!--标题距手机边框的距离-->
+    <dimen name="title_margin_phone_border">6dp</dimen>
+    <!--控件距边框的距离-->
+    <dimen name="control_margin_phone_border">6dp</dimen>
+    <dimen name="control_margin_pbone_boeder">12dp</dimen>
+
+    <!--TabLayout滑线的高度-->
+    <dimen name="the_height_of_Indicator">1dp</dimen>
+    
     <!--view 横线的高度-->
     <dimen name="the_height_of_line">0.1dp</dimen>
+
+    <!--<<<<<<<<<<<<<<<<<<<<<<<<<字体大小>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>-->
+    <!--K歌搜索框字体大小-->
+    <dimen name="k_search_text_size">12sp</dimen>
+    <dimen name="k_text_size">10sp</dimen>
+    <dimen name="own_text_size">12sp</dimen>
+    <!--推荐页面 标题带歌手名 文字大小-->
+    <dimen name="recommend_text_size">12sp</dimen>
+    <!--推荐 听歌次数-->
+    <dimen name="recommend_listen_count">8sp</dimen>
+    <!--mv  RecyclerView布局字体大小-->
+    <dimen name="mv_rv_text_size">12sp</dimen>
+    <!--排行 ListView字体大小-->
+    <dimen name="ranking_lv_text_size">12sp</dimen>
+    <!--歌单  RecyclerView布局字体大小-->
+    <dimen name="song_rv_text_size">12sp</dimen>
+    
+    <!--标题字体大小-->
+    <dimen name="title_text_size">16sp</dimen>
+    
+
+
 
 
 </resources>
