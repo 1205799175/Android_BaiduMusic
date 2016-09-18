@@ -20,10 +20,12 @@ public class MainActivity extends AbsBaseActivity {
 
     private FrameReceiver frameReceiver;
     private AliveTopRvReceiver aliveTopRvReceiver;
+
     @Override
     protected int setLayout() {
         return R.layout.activity_main;
     }
+
     @Override
     protected void initView() {
         frameLayout = byView(R.id.main_frame_layout);
@@ -51,13 +53,12 @@ public class MainActivity extends AbsBaseActivity {
 
     //广播接收者  从OwnFragment发送
     class FrameReceiver extends BroadcastReceiver {
-
         @Override
         public void onReceive(Context context, Intent intent) {
             int i = intent.getIntExtra(BaiduMusicValues.THE_ACTION_KEY_POAITION, BaiduMusicValues.MAIN_RECEIVER_POSITION_ZREO);
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            switch (i){
+            switch (i) {
                 case BaiduMusicValues.MAIN_RECEIVER_POSITION_MINUS_ONE:
                     fragmentManager.popBackStack();
                     break;
@@ -91,9 +92,16 @@ public class MainActivity extends AbsBaseActivity {
             int aliveTopRvSize = intent.getIntExtra(BaiduMusicValues.THE_ACTION_KEY_POAITION, BaiduMusicValues.MAIN_RECEIVER_POSITION_EIGHT);
             FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction ft = fm.beginTransaction();
+            switch (pos) {
+                case BaiduMusicValues.MAIN_RECEIVER_POSITION_MINUS_ONE:
+                    fm.popBackStack();
+                    break;
+                default:
                     ft.addToBackStack(null);
                     ft.replace(R.id.main_frame_layout, AliveRvDetailFragment.newInstance());
-                    ft.commit();
+                    break;
+            }
+            ft.commit();
         }
     }
 

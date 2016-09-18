@@ -1,9 +1,11 @@
 package com.yangyuning.baidumusic.controller.fragment.alivefragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.view.View;
 import android.widget.TextView;
 
 import com.yangyuning.baidumusic.R;
@@ -62,6 +64,9 @@ public class AliveRvDetailFragment extends AbsBaseFragment {
         vp.setAdapter(vpAdapter);
         tb.setupWithViewPager(vp);
 
+        //点击事件 点击标题返回
+        addBackListener();
+
         //设置标题
         tb.getTabAt(0).setText(R.string.alive_top_rv_tab_title_all);
         tb.getTabAt(1).setText(R.string.alive_top_rv_tab_title_woman);
@@ -72,5 +77,18 @@ public class AliveRvDetailFragment extends AbsBaseFragment {
         tb.getTabAt(6).setText(R.string.alive_top_rv_tab_title_sister);
         tb.getTabAt(7).setText(R.string.alive_top_rv_tab_title_recommend);
         tb.setTabMode(TabLayout.MODE_SCROLLABLE);
+    }
+
+    //点击事件 点击标题返回
+    private void addBackListener() {
+        titleBackTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setAction(BaiduMusicValues.THE_ACTION_ALIVE_RV);
+                intent.putExtra(BaiduMusicValues.THE_ACTION_KEY_POAITION, BaiduMusicValues.MAIN_RECEIVER_POSITION_MINUS_ONE);
+                context.sendBroadcast(intent);
+            }
+        });
     }
 }

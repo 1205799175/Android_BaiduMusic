@@ -64,7 +64,19 @@ public class LocalMusicDetailsFragment extends AbsBaseFragment {
         vp.setAdapter(vpAdapter);
         tb.setupWithViewPager(vp);
 
+        //点击事件 点击标题返回
+        addBackListener();
         //点击返回
+
+        tb.getTabAt(0).setText(getString(R.string.local_tab_song));
+        tb.getTabAt(1).setText(getString(R.string.local_tab_file));
+        tb.getTabAt(2).setText(getString(R.string.local_tab_songer));
+        tb.getTabAt(3).setText(getString(R.string.local_tab_album));
+
+    }
+
+    //点击事件 点击标题返回
+    private void addBackListener() {
         localMusicBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,12 +86,6 @@ public class LocalMusicDetailsFragment extends AbsBaseFragment {
                 context.sendBroadcast(intent);
             }
         });
-
-        tb.getTabAt(0).setText(getString(R.string.local_tab_song));
-        tb.getTabAt(1).setText(getString(R.string.local_tab_file));
-        tb.getTabAt(2).setText(getString(R.string.local_tab_songer));
-        tb.getTabAt(3).setText(getString(R.string.local_tab_album));
-
     }
 
 }
