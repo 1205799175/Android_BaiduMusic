@@ -72,7 +72,6 @@ public class LocalMusicDetailsFragment extends AbsBaseFragment {
         tb.getTabAt(1).setText(getString(R.string.local_tab_file));
         tb.getTabAt(2).setText(getString(R.string.local_tab_songer));
         tb.getTabAt(3).setText(getString(R.string.local_tab_album));
-
     }
 
     //点击事件 点击标题返回

@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <!--直播 上部 Recyclerview 二级页面 TabLayout中的Fragment-->
+    <!--直播 上部 Recyclerview 二级页面 子Fragment的布局-->
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/alive_detail_ta_rv"

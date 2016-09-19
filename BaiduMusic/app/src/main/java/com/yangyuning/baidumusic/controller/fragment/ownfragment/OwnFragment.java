@@ -56,7 +56,6 @@ public class OwnFragment extends AbsBaseFragment {
 
     @Override
     protected void initDatas() {
-
         //我的Fragment上面的ListView
         topDatas = new ArrayList<>();
         topDatas.add(new OwnLvBean(R.mipmap.ic_mymusic_local_normal, getString(R.string.own_lv_local_music), getString(R.string.own_lv_song_number), R.mipmap.bt_artist_item_play_nor));

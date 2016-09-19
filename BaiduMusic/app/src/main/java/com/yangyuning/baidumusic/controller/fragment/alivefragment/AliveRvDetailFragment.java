@@ -6,6 +6,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.yangyuning.baidumusic.R;
@@ -18,9 +19,11 @@ import java.util.List;
 
 /**
  * Created by dllo on 16/9/18.
+ * 直播上部Rv二级界面
  */
 public class AliveRvDetailFragment extends AbsBaseFragment {
     private TextView titleBackTv;   //标题
+    private ImageView searchImg, scanImg, sortImg;    //搜索图标, 扫描, 排序图标
     private VpAdapter vpAdapter;
     private List<Fragment> fragments;   //存Fragment的集合
     private TabLayout tb;
@@ -41,6 +44,9 @@ public class AliveRvDetailFragment extends AbsBaseFragment {
 
     @Override
     protected void initView() {
+        searchImg = byView(R.id.local_music_search_img);
+        sortImg = byView(R.id.local_music_sort_img);
+        scanImg = byView(R.id.local_music_scan_img);
         titleBackTv = byView(R.id.detail_title_back);
         tb = byView(R.id.alive_rv_detail_tb);
         vp = byView(R.id.alive_rv_detail_vp);
@@ -50,6 +56,11 @@ public class AliveRvDetailFragment extends AbsBaseFragment {
     protected void initDatas() {
         //设置标题
         titleBackTv.setText(R.string.tab_title_alive);
+        //撤销不需要的图标
+        searchImg.setVisibility(View.GONE);
+        scanImg.setVisibility(View.GONE);
+        sortImg.setVisibility(View.GONE);
+
         fragments = new ArrayList<>();
         fragments.add(AliveDetailTabFragment.newInstance(BaiduMusicValues.ALIVE_TOP_RV_DETAIL_ALL));
         fragments.add(AliveDetailTabFragment.newInstance(BaiduMusicValues.ALIVE_TOP_RV_DETAIL_WOMAN));

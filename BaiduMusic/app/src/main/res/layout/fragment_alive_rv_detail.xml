@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
-    <!--直播 上部 Rv 详情页-->
+    <!--直播 上部 Rv 二级页面-->
 
     <include layout="@layout/item_detail_title_back"/>
 

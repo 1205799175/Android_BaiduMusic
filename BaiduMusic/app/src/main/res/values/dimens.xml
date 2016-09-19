@@ -119,6 +119,11 @@
     <!--歌单  RecyclerView布局字体大小-->
     <dimen name="song_rv_text_size">12sp</dimen>
     
+    <!--我的Fragment 本地音乐 二级界面 ListView 行布局 字母大小, 歌名大小-->
+    <dimen name="local_music_letter_song_size">16sp</dimen>
+    <!--我的Fragment 本地音乐 二级 ListView行布局 歌名距字母距离-->
+    <dimen name="local_music_margin_top_letter">10dp</dimen>
+    
     <!--标题字体大小-->
     <dimen name="title_text_size">16sp</dimen>
     

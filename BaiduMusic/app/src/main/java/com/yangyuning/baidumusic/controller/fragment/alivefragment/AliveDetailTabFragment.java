@@ -18,6 +18,7 @@ import java.util.List;
 
 /**
  * Created by dllo on 16/9/18.
+ * 直播 上部Rv 二级界面子Fragment  复用
  */
 public class AliveDetailTabFragment extends AbsBaseFragment {
 

@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <!--我的Fragment本地歌曲详情页-->
@@ -11,7 +12,10 @@
     <android.support.design.widget.TabLayout
         android:id="@+id/own_local_music_tb"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        app:tabTextColor="@color/text_color_black"
+        app:tabIndicatorColor="@color/main_title_layout"
+        app:tabSelectedTextColor="@color/main_title_layout"/>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/own_local_music_vp"

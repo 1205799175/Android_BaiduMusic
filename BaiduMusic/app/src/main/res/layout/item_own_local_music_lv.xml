@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/control_margin_pbone_boeder"
+    android:orientation="horizontal">
+
+    <!--我的Fragment 本地音乐 二级界面 ListView 行布局-->
+    <LinearLayout
+        android:layout_width="@dimen/margin_zero"
+        android:layout_weight="5"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/local_music_lv_letter_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="A"
+            android:textColor="@color/main_title_layout"
+            android:textSize="@dimen/local_music_letter_song_size" />
+
+        <TextView
+            android:id="@+id/local_music_lv_song"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/local_music_margin_top_letter"
+            android:text="爱情转移"
+            android:textColor="@color/text_color_black"
+            android:textSize="@dimen/local_music_letter_song_size" />
+
+        <TextView
+            android:id="@+id/local_music_lv_singer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="陈奕迅 - 国语精选" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="@dimen/margin_zero"
+        android:layout_weight="2"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="bottom"
+        android:gravity="bottom">
+
+        <ImageView
+            android:id="@+id/local_music_lv_mike_img"
+            android:layout_width="@dimen/margin_zero"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_mike_normal" />
+
+        <ImageView
+            android:id="@+id/local_music_lv_more"
+            android:layout_width="@dimen/margin_zero"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_list_more_normal" />
+    </LinearLayout>
+
+
+</LinearLayout>
