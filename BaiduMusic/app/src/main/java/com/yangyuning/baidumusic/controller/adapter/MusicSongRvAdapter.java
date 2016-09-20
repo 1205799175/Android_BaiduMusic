@@ -6,12 +6,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.yangyuning.baidumusic.R;
 import com.yangyuning.baidumusic.model.bean.MusicSongBean;
+import com.yangyuning.baidumusic.utils.ScreenSizeUtil;
 
 import java.util.List;
 
@@ -22,6 +25,9 @@ import java.util.List;
 public class MusicSongRvAdapter extends RecyclerView.Adapter<MusicSongRvAdapter.SongViewHolder> {
     private Context context;
     private List<MusicSongBean.ContentBean> datas;
+
+    private int height = ScreenSizeUtil.getScreenSize(ScreenSizeUtil.ScreenState.WIDTH) / 2;
+    private int width = ScreenSizeUtil.getScreenSize(ScreenSizeUtil.ScreenState.WIDTH) / 2;
 
     public MusicSongRvAdapter(Context context) {
         this.context = context;
@@ -35,7 +41,6 @@ public class MusicSongRvAdapter extends RecyclerView.Adapter<MusicSongRvAdapter.
     @Override
     public SongViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.item_music_song_rv, parent, false);
-
         SongViewHolder songViewHolder = new SongViewHolder(view);
         return songViewHolder;
     }
@@ -45,12 +50,10 @@ public class MusicSongRvAdapter extends RecyclerView.Adapter<MusicSongRvAdapter.
         holder.titleTv.setText(datas.get(position).getTitle());
         holder.styleTv.setText(datas.get(position).getTag());
         holder.listenum.setText(datas.get(position).getListenum());
-        if (position == 0) {
-            Toast.makeText(context, "第一张图片接口中没啦", Toast.LENGTH_SHORT).show();
-        }else{
-            Picasso.with(context).load(datas.get(position).getPic_300()).resize(380, 350).into(holder.imgId);
-        }
+        Picasso.with(context).load(datas.get(position).getPic_300()).into(holder.imgId);
 
+        RelativeLayout.LayoutParams params=new RelativeLayout.LayoutParams(height,width);
+        holder.imgId.setLayoutParams(params);
     }
 
     @Override

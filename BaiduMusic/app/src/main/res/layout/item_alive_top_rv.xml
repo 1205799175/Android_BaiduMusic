@@ -13,7 +13,7 @@
         android:id="@+id/item_alive_top_img"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@mipmap/ic_launcher" />
+        android:src="@mipmap/img_recommend_lebo_blue" />
 
     <TextView
         android:id="@+id/item_alive_top_title_tv"

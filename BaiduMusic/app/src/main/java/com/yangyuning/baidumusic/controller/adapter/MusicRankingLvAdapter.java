@@ -8,11 +8,13 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.yangyuning.baidumusic.R;
 import com.yangyuning.baidumusic.model.bean.MusicRankingBean;
+import com.yangyuning.baidumusic.utils.ScreenSizeUtil;
 
 import java.util.List;
 
@@ -23,6 +25,9 @@ import java.util.List;
 public class MusicRankingLvAdapter extends BaseAdapter {
     private Context context;
     private List<MusicRankingBean.ContentBean> datas;
+
+    private int height = ScreenSizeUtil.getScreenSize(ScreenSizeUtil.ScreenState.WIDTH) / 3 - 40;
+    private int width = ScreenSizeUtil.getScreenSize(ScreenSizeUtil.ScreenState.WIDTH) / 3 - 40;
 
     public MusicRankingLvAdapter(Context context) {
         this.context = context;
@@ -59,10 +64,12 @@ public class MusicRankingLvAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         viewHolder.titleTv.setText(datas.get(position).getName());
-        Picasso.with(context).load(datas.get(position).getPic_s210()).resize(220, 220).into(viewHolder.titleImg);
+        Picasso.with(context).load(datas.get(position).getPic_s210()).resize(width, height).into(viewHolder.titleImg);
         viewHolder.songOneTv.setText(datas.get(position).getmContent().get(0).getTitle() + " - " + datas.get(position).getmContent().get(0).getAuthor());
         viewHolder.songTwoTv.setText(datas.get(position).getmContent().get(1).getTitle() + " - " + datas.get(position).getmContent().get(1).getAuthor());
         viewHolder.songThreeTv.setText(datas.get(position).getmContent().get(2).getTitle() + " - " + datas.get(position).getmContent().get(2).getAuthor());
+//        RelativeLayout.LayoutParams params=new RelativeLayout.LayoutParams(height,width);
+//        viewHolder.titleImg.setLayoutParams(params);
         return convertView;
     }
 

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
     android:orientation="horizontal">
 
     <!--推荐 今日推荐-->
@@ -19,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:src="@mipmap/ic_launcher" />
+            android:src="@mipmap/img_recommend_lebo_blue" />
 
         <ImageView
             android:layout_width="wrap_content"
@@ -71,7 +71,6 @@
                 android:paddingTop="@dimen/recommend_today_setting_margin_top_bottom"
                 android:src="@mipmap/bt_recsong_more" />
         </LinearLayout>
-
 
     </LinearLayout>
 

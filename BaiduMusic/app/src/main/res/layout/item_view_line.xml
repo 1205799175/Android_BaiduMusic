@@ -3,13 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-
-    <!--我的 本地 二级页面 子Fragment-->
-
-    <ListView
-        android:id="@+id/local_music_lv"
+    <!--横线-->
+    <View
         android:layout_width="match_parent"
-        android:layout_margin="@dimen/control_margin_pbone_boeder"
-        android:layout_height="match_parent"/>
+        android:layout_height="@dimen/the_height_of_Indicator"
+        android:background="@color/split_line_color"/>
 
 </LinearLayout>

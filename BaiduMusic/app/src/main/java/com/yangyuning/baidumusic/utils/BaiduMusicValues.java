@@ -15,6 +15,13 @@ public class BaiduMusicValues {
      * 直播FragmentRv到二级页面 广播
      */
     public static final String THE_ACTION_ALIVE_RV = "com.yangyuning.baidumusic.controller.fragment.alivefragment.AliveFragment";
+    public static final String PLAY_MUSIC_SONG = "title";
+    public static final String PLAY_MUSIC_SINGER = "singer";
+
+    /**
+     * 我的Fragment本地歌曲二级页面 到Activity 广播
+     */
+    public static final String THE_ACTION_PLAY_MUSIC = "com.yangyuning.baidumusic.controller.fragment.ownfragment.LocalMusicTabFragment";
 
     public static final String THE_ACTION_KEY_POAITION = "position";
 

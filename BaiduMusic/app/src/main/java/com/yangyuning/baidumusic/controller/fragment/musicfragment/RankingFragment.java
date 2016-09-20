@@ -24,9 +24,7 @@ public class RankingFragment extends AbsBaseFragment {
     private ListView rangkingLv;
 
     public static RankingFragment newInstance() {
-        
         Bundle args = new Bundle();
-        
         RankingFragment fragment = new RankingFragment();
         fragment.setArguments(args);
         return fragment;

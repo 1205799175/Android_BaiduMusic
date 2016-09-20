@@ -14,6 +14,7 @@ import java.util.List;
 
 /**
  * Created by dllo on 16/9/19.
+ * 我的Fragment 本地音乐 二级页面 ListView适配器
  */
 public class OwnLocalMusicLvAdapter extends BaseAdapter {
     private List<OwnLocalMusicLvBean> datas;

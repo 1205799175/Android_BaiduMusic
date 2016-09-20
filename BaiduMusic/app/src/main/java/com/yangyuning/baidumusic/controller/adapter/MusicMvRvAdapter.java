@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import com.yangyuning.baidumusic.R;
 import com.yangyuning.baidumusic.model.bean.MusicMvBean;
+import com.yangyuning.baidumusic.utils.ScreenSizeUtil;
 
 import java.util.List;
 
@@ -21,6 +22,9 @@ import java.util.List;
 public class MusicMvRvAdapter extends RecyclerView.Adapter<MusicMvRvAdapter.MvViewHodler>{
     private Context context;
     private List<MusicMvBean.ResultBean.MvListBean> datas;
+
+    private int height = ScreenSizeUtil.getScreenSize(ScreenSizeUtil.ScreenState.WIDTH) / 3;
+    private int width = ScreenSizeUtil.getScreenSize(ScreenSizeUtil.ScreenState.WIDTH) / 2;
 
     public MusicMvRvAdapter(Context context) {
         this.context = context;
@@ -40,7 +44,7 @@ public class MusicMvRvAdapter extends RecyclerView.Adapter<MusicMvRvAdapter.MvVi
 
     @Override
     public void onBindViewHolder(MvViewHodler holder, int position) {
-        Picasso.with(context).load(datas.get(position).getThumbnail2()).resize(360, 200).into(holder.imgId);
+        Picasso.with(context).load(datas.get(position).getThumbnail2()).resize(width, height).into(holder.imgId);
         holder.titleTv.setText(datas.get(position).getTitle());
         holder.artistTv.setText(datas.get(position).getArtist());
     }

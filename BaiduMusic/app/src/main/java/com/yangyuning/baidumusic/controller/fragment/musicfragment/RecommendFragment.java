@@ -3,9 +3,14 @@ package com.yangyuning.baidumusic.controller.fragment.musicfragment;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -14,13 +19,24 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 import com.yangyuning.baidumusic.R;
+import com.yangyuning.baidumusic.controller.adapter.RecommendDiyRvAdapter;
+import com.yangyuning.baidumusic.controller.adapter.RecommendEntryRvAdapter;
+import com.yangyuning.baidumusic.controller.adapter.RecommendMix1RvAdapter;
+import com.yangyuning.baidumusic.controller.adapter.RecommendMix22RvAdapter;
+import com.yangyuning.baidumusic.controller.adapter.RecommendMix5RvAdapter;
+import com.yangyuning.baidumusic.controller.adapter.RecommendMix9RvAdapter;
+import com.yangyuning.baidumusic.controller.adapter.RecommendMod7RvAdapter;
+import com.yangyuning.baidumusic.controller.adapter.RecommendRadioRvAdapter;
+import com.yangyuning.baidumusic.controller.adapter.RecommendRecsongRvAdapter;
 import com.yangyuning.baidumusic.controller.adapter.RecommendRotateVpAdater;
+import com.yangyuning.baidumusic.controller.adapter.RecommendScenRcAdapter;
 import com.yangyuning.baidumusic.controller.fragment.AbsBaseFragment;
 import com.yangyuning.baidumusic.model.bean.MusicRecommendBean;
 import com.yangyuning.baidumusic.model.bean.MusicRecommendRotateBean;
 import com.yangyuning.baidumusic.model.net.VolleyInstance;
 import com.yangyuning.baidumusic.model.net.VolleyResult;
 import com.yangyuning.baidumusic.utils.BaiduMusicValues;
+import com.yangyuning.baidumusic.utils.ScreenSizeUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +50,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class RecommendFragment extends AbsBaseFragment {
     //轮播图
     private static final int TIME = 3000;
-
     private ViewPager viewPager;
     private List<MusicRecommendRotateBean.PicBean> datas;
     private LinearLayout pointLl;// 轮播状态改变的小圆点容器
@@ -43,15 +58,41 @@ public class RecommendFragment extends AbsBaseFragment {
     private boolean isRotate = false;
     private Runnable rotateRunnable;
 
-    //轮播图下方数据
-    private MusicRecommendBean bean;
-    private MusicRecommendBean.ResultBean resultBean;
+    private FrameLayout frameLayout;
+    //图标
+    private ImageView diyIcon, mix1Icon, mix22Icon, scenIcon, recsongIcon, mix9Icon, mix5Icon, radioIcon, mod7Icon;
 
+    //数据
+    List<MusicRecommendBean.ResultBean.EntryBean.entryResultBean> entryResultBeen;//轮播图下三个图标
+    List<MusicRecommendBean.ResultBean.DiyBean.diyResultBean> diyResultBeen;//歌单推荐
+    List<MusicRecommendBean.ResultBean.hanHongMix1Bean.mResultBean> mix1Been;//新碟上架
+    List<MusicRecommendBean.ResultBean.Mix22Bean.mix22ResultBean> mix22ResultBeen; //热销专辑
+    List<MusicRecommendBean.ResultBean.SceneBean.ScenResultBean.ActionBean> scenBeen; //场景电台
+    List<MusicRecommendBean.ResultBean.RecsongBean.recsongResultBean> recsongResultBeen; //今日推荐歌曲
+    List<MusicRecommendBean.ResultBean.Mix9Bean.mix9ResultBean> mix9ResultBeen; //原创音乐
+    List<MusicRecommendBean.ResultBean.Mix5Bean.mix5ResultBean> mix5ResultBeen; //最热MV推荐
+    List<MusicRecommendBean.ResultBean.RadioBean.radioResultBean> radioResultBeen; //乐播节目
+    List<MusicRecommendBean.ResultBean.Mod7Bean.mod7ResultBean> mod7ResultBeen; //专栏
+
+    //定义RV
+    private RecyclerView recommendEntryRv, recommendDiyRv, recommendMix1Rv, recommendMix22Rv,
+            recommendScenRv, recommendRecsongRv, recommendmix9Rv,
+            recommendMix5Rv, recommendRadioRv, recommendMod7Rv;
+
+    //适配器
+    private RecommendEntryRvAdapter entryAdapter;
+    private RecommendDiyRvAdapter diyRvAdapter;
+    private RecommendMix1RvAdapter mix1RvAdapter;
+    private RecommendMix22RvAdapter mix22RvAdapter;
+    private RecommendScenRcAdapter scenRcAdapter;
+    private RecommendRecsongRvAdapter recsongRvAdapter;
+    private RecommendMix9RvAdapter mix9RvAdapter;
+    private RecommendMix5RvAdapter mix5RvAdapter;
+    private RecommendRadioRvAdapter radioRvAdapter;
+    private RecommendMod7RvAdapter mod7RvAdapter;
 
     public static RecommendFragment newInstance() {
-
         Bundle args = new Bundle();
-
         RecommendFragment fragment = new RecommendFragment();
         fragment.setArguments(args);
         return fragment;
@@ -66,10 +107,36 @@ public class RecommendFragment extends AbsBaseFragment {
     protected void initView() {
         viewPager = byView(R.id.recommend_rotate_vp);
         pointLl = byView(R.id.recommend_rotate_point_container);
+        recommendEntryRv = byView(R.id.recommend_entry_recyclerView);
+        recommendDiyRv = byView(R.id.recommend_diy_recyclerview);
+        recommendMix1Rv = byView(R.id.recommend_mix1_recyclerview);
+        recommendMix22Rv = byView(R.id.recommend_mix22_recyclerview);
+        recommendScenRv = byView(R.id.recommend_scene_recyclerview);
+        recommendRecsongRv = byView(R.id.recommend_recsong_recyclerview);
+        recommendmix9Rv = byView(R.id.recommend_mix9_recyclerview);
+        recommendMix5Rv = byView(R.id.recommend_mix5_recyclerview);
+        recommendRadioRv = byView(R.id.recommend_radio_recyclerview);
+        recommendMod7Rv = byView(R.id.recommend_mod7_recyclerview);
+
+        frameLayout = byView(R.id.recommend_frame_rotate);
+
+        diyIcon = byView(R.id.recommend_diy_icon);
+        mix1Icon = byView(R.id.recommend_mix1_icon);
+        mix22Icon = byView(R.id.recommend_mix22_icon);
+        scenIcon = byView(R.id.recommend_scene_icon);
+        recsongIcon = byView(R.id.recommend_recsong_icon);
+        mix9Icon = byView(R.id.recommend_mix9_icon);
+        mix5Icon = byView(R.id.recommend_mix5_icon);
+        radioIcon = byView(R.id.recommend_radio_icon);
+        mod7Icon = byView(R.id.recommend_mod7_icon);
     }
 
     @Override
     protected void initDatas() {
+        // 重新设置轮播图的高度
+        ViewGroup.LayoutParams params = frameLayout.getLayoutParams();
+        params.height = ScreenSizeUtil.getScreenSize(ScreenSizeUtil.ScreenState.HEIGHT) / 4;
+        frameLayout.setLayoutParams(params);
         //初始化适配器
         recommendRotateVpAdater = new RecommendRotateVpAdater(context);
         //获取轮播图数据
@@ -82,19 +149,78 @@ public class RecommendFragment extends AbsBaseFragment {
         handler = new Handler();
         startRotate();
 
-        //获取推荐Fragment网络数据
-        getRecommendDatas();
+        //获取网络数据, 适配器操作
+        getNetDatas();
     }
 
-    //获取推荐Fragment网络数据
-    private void getRecommendDatas() {
+    //获取网络数据.适配器操作, 设置布局管理器
+    private void getNetDatas() {
         VolleyInstance.getInstance().startResult(BaiduMusicValues.MUSIC_RECOMMEND, new VolleyResult() {
             @Override
             public void success(String resultStr) {
                 Gson gson = new Gson();
-                bean = gson.fromJson(resultStr, MusicRecommendBean.class);
-                //给组件设置数据
-                setDatas();
+                MusicRecommendBean bean = gson.fromJson(resultStr, MusicRecommendBean.class);
+                //轮播图下三个图标
+                entryResultBeen = bean.getResult().getEntry().getResult();
+                entryAdapter = new RecommendEntryRvAdapter(context, entryResultBeen);
+                recommendEntryRv.setAdapter(entryAdapter);
+                recommendEntryRv.setLayoutManager(new GridLayoutManager(context, 3));
+                //歌单推荐
+                diyResultBeen = bean.getResult().getDiy().getResult();
+                diyRvAdapter = new RecommendDiyRvAdapter(context, diyResultBeen);
+                recommendDiyRv.setAdapter(diyRvAdapter);
+                recommendDiyRv.setLayoutManager(new GridLayoutManager(context, 3));
+                //新碟上架
+                mix1Been = bean.getResult().getMix_1().getResult();
+                mix1RvAdapter = new RecommendMix1RvAdapter(context, mix1Been);
+                recommendMix1Rv.setAdapter(mix1RvAdapter);
+                recommendMix1Rv.setLayoutManager(new GridLayoutManager(context, 3));
+                //热销专辑
+                mix22ResultBeen = bean.getResult().getMix_22().getResult();
+                mix22RvAdapter = new RecommendMix22RvAdapter(context, mix22ResultBeen);
+                recommendMix22Rv.setAdapter(mix22RvAdapter);
+                recommendMix22Rv.setLayoutManager(new GridLayoutManager(context, 3));
+                //场景电台
+                scenBeen = bean.getResult().getScene().getResult().getAction();
+                scenRcAdapter = new RecommendScenRcAdapter(context, scenBeen);
+                recommendScenRv.setAdapter(scenRcAdapter);
+                recommendScenRv.setLayoutManager(new GridLayoutManager(context, 4));
+                //今日推荐歌曲
+                recsongResultBeen = bean.getResult().getRecsong().getResult();
+                recsongRvAdapter = new RecommendRecsongRvAdapter(context, recsongResultBeen);
+                recommendRecsongRv.setAdapter(recsongRvAdapter);
+                recommendRecsongRv.setLayoutManager(new LinearLayoutManager(context,LinearLayoutManager.VERTICAL, false));
+                //原创音乐
+                mix9ResultBeen = bean.getResult().getMix_9().getResult();
+                mix9RvAdapter = new RecommendMix9RvAdapter(context, mix9ResultBeen);
+                recommendmix9Rv.setAdapter(mix9RvAdapter);
+                recommendmix9Rv.setLayoutManager(new GridLayoutManager(context, 3));
+                //最热MV推荐
+                mix5ResultBeen = bean.getResult().getMix_5().getResult();
+                mix5RvAdapter = new RecommendMix5RvAdapter(context, mix5ResultBeen);
+                recommendMix5Rv.setAdapter(mix5RvAdapter);
+                recommendMix5Rv.setLayoutManager(new GridLayoutManager(context, 3));
+                //乐播节目
+                radioResultBeen = bean.getResult().getRadio().getResult();
+                radioRvAdapter = new RecommendRadioRvAdapter(context, radioResultBeen);
+                recommendRadioRv.setAdapter(radioRvAdapter);
+                recommendRadioRv.setLayoutManager(new GridLayoutManager(context, 3));
+                //专栏
+                mod7ResultBeen = bean.getResult().getMod_7().getResult();
+                mod7RvAdapter = new RecommendMod7RvAdapter(mod7ResultBeen, context);
+                recommendMod7Rv.setAdapter(mod7RvAdapter);
+                recommendMod7Rv.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
+                //标题图标
+                List<MusicRecommendBean.ModuleBean> Iconbean = bean.getModule();
+                Picasso.with(context).load(Iconbean.get(3).getPicurl()).resize(30,30).into(diyIcon);
+                Picasso.with(context).load(Iconbean.get(5).getPicurl()).resize(30,30).into(mix1Icon);
+                Picasso.with(context).load(Iconbean.get(6).getPicurl()).resize(30,30).into(mix22Icon);
+                Picasso.with(context).load(Iconbean.get(7).getPicurl()).resize(30,30).into(scenIcon);
+                Picasso.with(context).load(Iconbean.get(8).getPicurl()).resize(30,30).into(recsongIcon);
+                Picasso.with(context).load(Iconbean.get(9).getPicurl()).resize(30,30).into(mix9Icon);
+                Picasso.with(context).load(Iconbean.get(10).getPicurl()).resize(30,30).into(mix5Icon);
+                Picasso.with(context).load(Iconbean.get(11).getPicurl()).resize(30,30).into(radioIcon);
+                Picasso.with(context).load(Iconbean.get(12).getPicurl()).resize(30,30).into(mod7Icon);
             }
 
             @Override
@@ -103,304 +229,6 @@ public class RecommendFragment extends AbsBaseFragment {
             }
         });
     }
-
-    //给组件设置数据
-    private void setDatas() {
-        resultBean = bean.getResult();
-        //设置轮播图下方的分类按钮
-        initKindIcon();
-        //设置推荐Fragment所有的标题
-        initTitles();
-        //设置歌单推荐
-        initSheetRecommend();
-        //设置新碟上架
-        initNewDisk();
-        //设置热销专辑
-        initHotSold();
-        //设置场景电台
-        initRadio();
-        //设置推荐歌曲
-        initRecommendSong();
-        //设置原创音乐
-        initOwnMusic();
-        //设置最热MV推荐
-        initHotMVRecommend();
-        //设置乐播节目
-        initHappyPro();
-        //设置专栏
-        initOwnColumn();
-    }
-
-    //设置专栏
-    private void initOwnColumn() {
-        MusicRecommendBean.ResultBean.Mod7Bean mod7Bean = bean.getResult().getMod_7();
-        List<View> views = new ArrayList<>();
-        views.add(byView(R.id.item_page_title_zero));
-        views.add(byView(R.id.item_page_title_one));
-        views.add(byView(R.id.item_page_title_two));
-        views.add(byView(R.id.item_page_title_three));
-
-        for (int i = 0; i < views.size(); i++) {
-            ImageView iconImg = (ImageView) views.get(i).findViewById(R.id.mine_song_sheet_icon_img);
-            TextView titleTv = (TextView) views.get(i).findViewById(R.id.mine_song_sheet_name_tv);
-            TextView descTv = (TextView) views.get(i).findViewById(R.id.mine_song_sheet_piece_tv);
-            LinearLayout ll = (LinearLayout) views.get(i).findViewById(R.id.item_mine_song_sheet_ll);
-            int width = ll.getMeasuredWidth();
-            Picasso.with(context).load(mod7Bean.getResult().get(i).getPic()).resize(width, width).into(iconImg);
-            titleTv.setText(mod7Bean.getResult().get(i).getTitle());
-            descTv.setText(mod7Bean.getResult().get(i).getDesc());
-        }
-    }
-
-    //设置乐播节目
-    private void initHappyPro() {
-        MusicRecommendBean.ResultBean.RadioBean radioBean = bean.getResult().getRadio();
-        List<View> views = new ArrayList<>();
-        views.add(byView(R.id.item_happy_pro_zero));
-        views.add(byView(R.id.item_happy_pro_one));
-        views.add(byView(R.id.item_happy_pro_two));
-        views.add(byView(R.id.item_happy_pro_three));
-        views.add(byView(R.id.item_happy_pro_four));
-        views.add(byView(R.id.item_happy_pro_five));
-
-        for (int i = 0; i < views.size(); i++) {
-            LinearLayout ll = (LinearLayout) views.get(i).findViewById(R.id.item_song_with_singer_bg_ll);
-            ImageView img = (ImageView) views.get(i).findViewById(R.id.item_song_layout_with_singer_img);
-            TextView titleTv = (TextView) views.get(i).findViewById(R.id.item_song_with_singer_title_tv);
-            TextView singerTv = (TextView) views.get(i).findViewById(R.id.item_song_with_singer_singer_tv);
-            //设置数据
-            titleTv.setText(radioBean.getResult().get(i).getTitle());
-            singerTv.setText("");
-            // 调整大小
-            int width = ll.getMeasuredWidth();
-            Picasso.with(context).load(radioBean.getResult().get(i).getPic()).resize(width, width).into(img);
-        }
-    }
-
-    //设置最热MV推荐
-    private void initHotMVRecommend() {
-        MusicRecommendBean.ResultBean.Mix5Bean mix5Bean = bean.getResult().getMix_5();
-        List<View> views = new ArrayList<>();
-        views.add(byView(R.id.item_original_zero));
-        views.add(byView(R.id.item_original_one));
-        views.add(byView(R.id.item_original_two));
-        views.add(byView(R.id.item_original_three));
-        views.add(byView(R.id.item_original_four));
-        views.add(byView(R.id.item_original_five));
-
-        for (int i = 0; i < views.size(); i++) {
-            LinearLayout ll = (LinearLayout) views.get(i).findViewById(R.id.item_song_with_singer_bg_ll);
-            ImageView img = (ImageView) views.get(i).findViewById(R.id.item_song_layout_with_singer_img);
-            TextView titleTv = (TextView) views.get(i).findViewById(R.id.item_song_with_singer_title_tv);
-            TextView singerTv = (TextView) views.get(i).findViewById(R.id.item_song_with_singer_singer_tv);
-            //数据
-            titleTv.setText(mix5Bean.getResult().get(i).getTitle());
-//            Log.d("www","------" + mix5Bean.getResult().get(i).getTitle());
-            singerTv.setText(mix5Bean.getResult().get(i).getAuthor());
-            // 调整大小
-            int width = ll.getMeasuredWidth();
-            Picasso.with(context).load(mix5Bean.getResult().get(i).getPic()).resize(width, width).into(img);
-        }
-    }
-
-    //设置原创音乐
-    private void initOwnMusic() {
-        // 删除多余的控件
-        MusicRecommendBean.ResultBean.Mix9Bean mix9bean = bean.getResult().getMix_9();
-        List<View> views = new ArrayList<>();
-        views.add(byView(R.id.item_original_zero));
-        views.add(byView(R.id.item_original_one));
-        views.add(byView(R.id.item_original_two));
-
-        for (int i = 0; i < views.size(); i++) {
-            LinearLayout ll = (LinearLayout) views.get(i).findViewById(R.id.item_song_with_singer_bg_ll);
-            ImageView img = (ImageView) views.get(i).findViewById(R.id.item_song_layout_with_singer_img);
-            TextView titleTv = (TextView) views.get(i).findViewById(R.id.item_song_with_singer_title_tv);
-            TextView singerTv = (TextView) views.get(i).findViewById(R.id.item_song_with_singer_singer_tv);
-            // 设置新碟上架文本数据
-            titleTv.setText(mix9bean.getResult().get(i).getTitle());
-            singerTv.setText("");
-            // 调整大小
-
-            int width = ll.getMeasuredWidth();
-            // 设置"新碟上架-图片背景"
-            Picasso.with(context).load(mix9bean.getResult().get(i).getPic()).resize(width, width).into(img);
-
-        }
-
-    }
-
-    //设置推荐歌曲
-    private void initRecommendSong() {
-        MusicRecommendBean.ResultBean.RecsongBean recsongBean = bean.getResult().getRecsong();
-        List<View> views = new ArrayList<>();
-        views.add(byView(R.id.item_today_recommend_song0));
-        views.add(byView(R.id.item_today_recommend_song1));
-        views.add(byView(R.id.item_today_recommend_song2));
-        RelativeLayout rl = byView(R.id.today_recommend_rl);
-        for (int i = 0; i < views.size(); i++) {
-            TextView titleTv = (TextView) views.get(i).findViewById(R.id.today_recommend_title_tv);
-            TextView singerTv = (TextView) views.get(i).findViewById(R.id.today_recommend_singer_tv);
-            CircleImageView cirImg = (CircleImageView) views.get(i).findViewById(R.id.today_recommend_cirimg);
-            titleTv.setText(recsongBean.getResult().get(i).getTitle());
-            singerTv.setText(recsongBean.getResult().get(i).getAuthor());
-            int width = rl.getMeasuredWidth();
-            Picasso.with(context).load(recsongBean.getResult().get(i).getPic_premium()).resize(width, width).into(cirImg);
-        }
-    }
-
-    //设置场景电台
-    private void initRadio() {
-        List<MusicRecommendBean.ResultBean.SceneBean.ScenResultBean.ActionBean> actionBean = bean.getResult().getScene().getResult().getAction();
-        int[] imgs = new int[]{R.mipmap.img_recommend_lebo_blue, R.mipmap.img_recommend_lebo_cyan, R.mipmap.img_recommend_lebo_green, R.mipmap.img_recommend_lebo_orange};
-        List<View> views = new ArrayList<>();
-        views.add(byView(R.id.item_scene_zero));
-        views.add(byView(R.id.item_scene_one));
-        views.add(byView(R.id.item_scene_two));
-        views.add(byView(R.id.item_scene_three));
-        for (int i = 0; i < views.size(); i++) {
-            ImageView img = (ImageView) views.get(i).findViewById(R.id.item_song_center);
-            TextView tvBottom = (TextView) views.get(i).findViewById(R.id.item_song_center_bottom);
-            ImageView imgListent = (ImageView) views.get(i).findViewById(R.id.item_song_listen_img);
-            ImageView imgBack = (ImageView) views.get(i).findViewById(R.id.item_song_bg_img);
-            imgListent.setVisibility(View.GONE);
-            imgBack.setImageResource(imgs[i]);
-            Picasso.with(context).load(actionBean.get(i).getIcon_android()).into(img);
-            tvBottom.setText(actionBean.get(i).getScene_name());
-
-        }
-
-    }
-
-    //设置热销专辑
-    private void initHotSold() {
-        MusicRecommendBean.ResultBean.Mix22Bean mix22Bean = bean.getResult().getMix_22();
-
-        List<View> views = new ArrayList<>();
-        views.add(byView(R.id.item_hot_zero));
-        views.add(byView(R.id.item_hot_one));
-        views.add(byView(R.id.item_hot_two));
-        for (int i = 0; i < views.size(); i++) {
-            LinearLayout ll = (LinearLayout) views.get(i).findViewById(R.id.item_song_with_singer_bg_ll);
-            ImageView img = (ImageView) views.get(i).findViewById(R.id.item_song_layout_with_singer_img);
-            TextView titleTv = (TextView) views.get(i).findViewById(R.id.item_song_with_singer_title_tv);
-            TextView singerTv = (TextView) views.get(i).findViewById(R.id.item_song_with_singer_singer_tv);
-            // 设置数据
-            titleTv.setText(mix22Bean.getResult().get(i).getTitle());
-            singerTv.setText(mix22Bean.getResult().get(i).getAuthor());
-            // 调整大小
-            int width = ll.getMeasuredWidth();
-            // 设置图片背景"
-            Picasso.with(context).load(mix22Bean.getResult().get(i).getPic()).resize(width, width).into(img);
-        }
-
-    }
-
-    //设置新碟上架
-    private void initNewDisk() {
-        MusicRecommendBean.ResultBean.hanHongMix1Bean mix1Bean = resultBean.getMix_1();
-
-        List<View> views = new ArrayList<>();
-        views.add(byView(R.id.item_new_disk_zero));
-        views.add(byView(R.id.item_new_disk_one));
-        views.add(byView(R.id.item_new_disk_two));
-        views.add(byView(R.id.item_new_disk_three));
-        views.add(byView(R.id.item_new_disk_four));
-        views.add(byView(R.id.item_new_disk_five));
-
-        for (int i = 0; i < views.size(); i++) {
-            LinearLayout ll = (LinearLayout) views.get(i).findViewById(R.id.item_song_with_singer_bg_ll);
-            ImageView img = (ImageView) views.get(i).findViewById(R.id.item_song_layout_with_singer_img);
-            TextView titleTv = (TextView) views.get(i).findViewById(R.id.item_song_with_singer_title_tv);
-            TextView singerTv = (TextView) views.get(i).findViewById(R.id.item_song_with_singer_singer_tv);
-            // 设置数据
-            titleTv.setText(mix1Bean.getResult().get(i).getTitle());
-            singerTv.setText(mix1Bean.getResult().get(i).getAuthor());
-            // 调整大小
-            int width = ll.getMeasuredWidth();
-            // 设置图片背景"
-            Picasso.with(context).load(mix1Bean.getResult().get(i).getPic()).resize(width, width).into(img);
-        }
-    }
-
-    //设置歌单推荐
-    private void initSheetRecommend() {
-        //获得歌单数据
-        MusicRecommendBean.ResultBean.DiyBean diyBean = resultBean.getDiy();
-        List<View> views = new ArrayList<>();
-        views.add(byView(R.id.item_sheet_recommend_zero));
-        views.add(byView(R.id.item_sheet_recommend_one));
-        views.add(byView(R.id.item_sheet_recommend_two));
-        views.add(byView(R.id.item_sheet_recommend_three));
-        views.add(byView(R.id.item_sheet_recommend_four));
-        views.add(byView(R.id.item_sheet_recommend_five));
-
-        for (int i = 0; i < views.size(); i++) {
-            ImageView img = (ImageView) views.get(i).findViewById(R.id.item_song_bg_img);
-            TextView countTv = (TextView) views.get(i).findViewById(R.id.item_song_count_tv);
-            TextView titleTv = (TextView) views.get(i).findViewById(R.id.item_song_disc_tv);
-            // 设置标题
-            String title = diyBean.getResult().get(i).getTitle();
-            titleTv.setText(title);
-            // 设置收听数
-            int count = diyBean.getResult().get(i).getListenum();
-            countTv.setText(String.valueOf(count));
-            // 调整大小
-            int width = img.getMeasuredWidth();
-            // 设置图片背景"
-            Picasso.with(context).load(diyBean.getResult().get(i).getPic()).resize(width, width).into(img);
-        }
-    }
-
-    //设置推荐Fragment所有的标题
-    private void initTitles() {
-        List<View> list = new ArrayList<>();
-        list.add(byView(R.id.sheet_recommend_title_layout));
-        list.add(byView(R.id.new_disk_title_layout));
-        list.add(byView(R.id.hot_sale_title_layout));
-        list.add(byView(R.id.sence_radio_title_layout));
-        list.add(byView(R.id.today_recommend_title_layout));
-        list.add(byView(R.id.original_title_layout));
-        list.add(byView(R.id.hot_mv_title_layout));
-        list.add(byView(R.id.happy_play_title_layout));
-        list.add(byView(R.id.page_title_layout));
-        List<MusicRecommendBean.ModuleBean> moduleList = bean.getModule();
-        // 删除多余的标题和图片
-        for (int i = 0; i < moduleList.size(); i++) {
-            if (moduleList.get(i).getPicurl().equals("") || moduleList.get(i).getTitle().equals("音乐导航")) {
-                moduleList.remove(i);
-                i = -1;
-                continue;
-            }
-        }
-        bean.setModule(moduleList);
-        for (int i = 0; i < list.size(); i++) {
-            ImageView iconImg = (ImageView) list.get(i).findViewById(R.id.item_icon_title_img);
-            TextView titleTv = (TextView) list.get(i).findViewById(R.id.item_icon_title_title_tv);
-            String path = bean.getModule().get(i).getPicurl();
-            Picasso.with(context).load(path).resize(20, 20).into(iconImg);
-            String title = bean.getModule().get(i).getTitle();
-            titleTv.setText(title);
-        }
-
-    }
-
-    //设置轮播图下方的分类按钮
-    private void initKindIcon() {
-        MusicRecommendBean.ResultBean.EntryBean entryBean = resultBean.getEntry();
-        List<View> views = new ArrayList<>();
-        views.add(byView(R.id.item_song_kinds));
-        views.add(byView(R.id.item_all_kinds));
-        views.add(byView(R.id.item_recommend_today));
-        for (int i = 0; i < views.size(); i++) {
-            ImageView img = (ImageView) views.get(i).findViewById(R.id.item_img);
-            TextView tv = (TextView) views.get(i).findViewById(R.id.item_tv);
-            tv.setText(entryBean.getResult().get(i).getTitle());
-            int width = img.getMeasuredWidth();
-            Picasso.with(context).load(entryBean.getResult().get(i).getIcon()).resize(width, width).into(img);
-        }
-    }
-
 
     //随着轮播改变小点
     private void changePoints() {

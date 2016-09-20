@@ -29,10 +29,12 @@ public class AliveRvDetailFragment extends AbsBaseFragment {
     private TabLayout tb;
     private ViewPager vp;
 
+    public ViewPager getVp() {
+        return vp;
+    }
+
     public static AliveRvDetailFragment newInstance() {
-        
         Bundle args = new Bundle();
-        
         AliveRvDetailFragment fragment = new AliveRvDetailFragment();
         fragment.setArguments(args);
         return fragment;

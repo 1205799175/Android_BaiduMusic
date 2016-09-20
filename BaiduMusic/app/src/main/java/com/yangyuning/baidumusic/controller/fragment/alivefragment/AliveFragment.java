@@ -35,9 +35,7 @@ public class AliveFragment extends AbsBaseFragment {
     private int topRvSize = 0, bottomRvSize = 0;
 
     public static AliveFragment newInstance() {
-        
         Bundle args = new Bundle();
-        
         AliveFragment fragment = new AliveFragment();
         fragment.setArguments(args);
         return fragment;

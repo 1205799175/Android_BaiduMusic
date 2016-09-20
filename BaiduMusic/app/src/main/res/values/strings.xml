@@ -63,6 +63,16 @@
     <string name="music_radio_recommend">推荐电台</string>
     <string name="music_radio_more_kinds">更多电台分类</string>
 
+    <!--乐库 推荐-->
+    <string name="music_recommend_songList">歌单推荐</string>    
+    <string name="music_recommend_new_disk">新碟上架</string>
+    <string name="music_recommend_hot_sold">热销专辑</string>
+    <string name="music_recommend_scence_radio">场景电台</string>
+    <string name="music_recommend_today_song">今日推荐歌曲</string>
+    <string name="music_recommend_mine_do">原创音乐</string>
+    <string name="music_recommend_mv_hot">最热MV推荐</string>
+    <string name="music_recommend_happy_play">乐播节目</string>
+    <string name="music_recommend_mine_cloumn">专栏</string>
     <!--标题-->
     <string name="more">更多</string>
     <!--K歌搜索框提示-->
@@ -75,7 +85,6 @@
     <string name="k_woman">女歌手</string>
     <string name="K_team">乐队组合</string>
     <string name="k_all_song">大家都在唱</string>
-
 
     <!--直播-->
     <string name="hot_live">热门直播</string>

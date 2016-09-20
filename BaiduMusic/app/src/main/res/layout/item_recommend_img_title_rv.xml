@@ -5,31 +5,19 @@
     android:orientation="vertical"
     android:padding="@dimen/title_margin_phone_border">
 
-    <!--推荐 歌单推荐 复用-->
+    <!--推荐 歌单推荐 行布局-->
     <RelativeLayout
         android:id="@+id/item_count_icon_rl"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
         <ImageView
             android:id="@+id/item_song_bg_img"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="fitCenter"
-            android:src="@mipmap/ic_launcher" />
-
-        <ImageView
-            android:id="@+id/item_song_center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true" />
-
-        <TextView
-            android:id="@+id/item_song_center_bottom"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/item_song_center"
-            android:layout_centerHorizontal="true" />
+            android:background="@android:color/holo_orange_light"
+            android:scaleType="fitXY" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -50,15 +38,9 @@
                 android:id="@+id/item_song_count_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/colorLocalMusic"
                 android:textSize="@dimen/recommend_listen_count" />
 
-            <TextView
-                android:id="@+id/item_song_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:textSize="@dimen/recommend_listen_count" />
         </LinearLayout>
 
     </RelativeLayout>
@@ -66,7 +48,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
         android:orientation="vertical">
 
         <TextView

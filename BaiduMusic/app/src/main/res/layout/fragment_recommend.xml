@@ -17,6 +17,7 @@
             android:orientation="vertical">
 
             <FrameLayout
+                android:id="@+id/recommend_frame_rotate"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/recommend_rotate_height">
 
@@ -36,566 +37,376 @@
         </LinearLayout>
 
         <!--分类-->
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recommend_entry_recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/rv_margin" />
+
+        <!--歌单推荐-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/control_margin_pbone_boeder"
-            android:orientation="vertical"
-            android:paddingLeft="@dimen/control_margin_pbone_boeder"
-            android:paddingRight="@dimen/control_margin_pbone_boeder">
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <ImageView
+                android:id="@+id/recommend_diy_icon"
+                android:layout_marginLeft="@dimen/recommend_Img_Left"
+                android:layout_marginRight="@dimen/recommend_Img_Left"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:divider="@drawable/divider_linearlayout_rect"
-                android:orientation="vertical"
-                android:showDividers="end">
+                android:src="@mipmap/bule_lines" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <include
-                        android:id="@+id/item_song_kinds"
-                        layout="@layout/item_kinds_title" />
-
-                    <include
-                        android:id="@+id/item_all_kinds"
-                        layout="@layout/item_kinds_title" />
-
-                    <include
-                        android:id="@+id/item_recommend_today"
-                        layout="@layout/item_kinds_title" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <!--歌单推荐-->
-            <LinearLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:layout_width="@dimen/margin_zero"
                 android:layout_height="wrap_content"
-                android:divider="@drawable/divider_linearlayout_rect"
-                android:orientation="vertical"
-                android:paddingBottom="@dimen/control_margin_pbone_boeder"
-                android:paddingTop="@dimen/control_margin_pbone_boeder"
-                android:showDividers="end">
+                android:layout_weight="1"
+                android:text="@string/music_recommend_songList" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <include
-                        android:id="@+id/sheet_recommend_title_layout"
-                        layout="@layout/item_icon_title" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <include
-                        android:id="@+id/item_sheet_recommend_zero"
-                        layout="@layout/item_img_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
-
-                    <include
-                        android:id="@+id/item_sheet_recommend_one"
-                        layout="@layout/item_img_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
-
-                    <include
-                        android:id="@+id/item_sheet_recommend_two"
-                        layout="@layout/item_img_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <include
-                        android:id="@+id/item_sheet_recommend_three"
-                        layout="@layout/item_img_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
-
-                    <include
-                        android:id="@+id/item_sheet_recommend_four"
-                        layout="@layout/item_img_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
-
-                    <include
-                        android:id="@+id/item_sheet_recommend_five"
-                        layout="@layout/item_img_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <!--新碟上架-->
-            <LinearLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:divider="@drawable/divider_linearlayout_rect"
-                android:orientation="vertical"
-                android:paddingBottom="@dimen/control_margin_pbone_boeder"
-                android:paddingTop="@dimen/control_margin_pbone_boeder"
-                android:showDividers="end">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <include
-                        android:id="@+id/new_disk_title_layout"
-                        layout="@layout/item_icon_title" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <include
-                        android:id="@+id/item_new_disk_zero"
-                        layout="@layout/item_icon_title_with_singer"
-                        android:layout_width="@dimen/margin_zero"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
-
-                    <include
-                        android:id="@+id/item_new_disk_one"
-                        layout="@layout/item_icon_title_with_singer"
-                        android:layout_width="@dimen/margin_zero"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
-
-                    <include
-                        android:id="@+id/item_new_disk_two"
-                        layout="@layout/item_icon_title_with_singer"
-                        android:layout_width="@dimen/margin_zero"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <include
-                        android:id="@+id/item_new_disk_three"
-                        layout="@layout/item_icon_title_with_singer"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
-
-                    <include
-                        android:id="@+id/item_new_disk_four"
-                        layout="@layout/item_icon_title_with_singer"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
-
-                    <include
-                        android:id="@+id/item_new_disk_five"
-                        layout="@layout/item_icon_title_with_singer"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <!--热销专辑-->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:divider="@drawable/divider_linearlayout_rect"
-                android:orientation="vertical"
-                android:paddingBottom="@dimen/control_margin_pbone_boeder"
-                android:paddingTop="@dimen/control_margin_pbone_boeder"
-                android:showDividers="end">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <include
-                        android:id="@+id/hot_sale_title_layout"
-                        layout="@layout/item_icon_title" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <include
-                        android:id="@+id/item_hot_zero"
-                        layout="@layout/item_icon_title_with_singer"
-                        android:layout_width="@dimen/margin_zero"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
-
-                    <include
-                        android:id="@+id/item_hot_one"
-                        layout="@layout/item_icon_title_with_singer"
-                        android:layout_width="@dimen/margin_zero"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
-
-                    <include
-                        android:id="@+id/item_hot_two"
-                        layout="@layout/item_icon_title_with_singer"
-                        android:layout_width="@dimen/margin_zero"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <!--场景电台-->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:divider="@drawable/divider_linearlayout_rect"
-                android:orientation="vertical"
-                android:showDividers="end">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <include
-                        android:id="@+id/sence_radio_title_layout"
-                        layout="@layout/item_icon_title" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <include
-                        android:id="@+id/item_scene_zero"
-                        layout="@layout/item_img_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
-
-                    <include
-                        android:id="@+id/item_scene_one"
-                        layout="@layout/item_img_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
-
-                    <include
-                        android:id="@+id/item_scene_two"
-                        layout="@layout/item_img_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
-
-                    <include
-                        android:id="@+id/item_scene_three"
-                        layout="@layout/item_img_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <!--今日推荐歌曲-->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/control_margin_pbone_boeder"
-                android:divider="@drawable/divider_linearlayout_rect"
-                android:orientation="vertical"
-                android:showDividers="end">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <include
-                        android:id="@+id/today_recommend_title_layout"
-                        layout="@layout/item_icon_title" />
-
-                </LinearLayout>
-
-                <include
-                    android:id="@+id/item_today_recommend_song0"
-                    layout="@layout/item_recommend_today" />
-
-                <include
-                    android:id="@+id/item_today_recommend_song1"
-                    layout="@layout/item_recommend_today" />
-
-                <include
-                    android:id="@+id/item_today_recommend_song2"
-                    layout="@layout/item_recommend_today" />
-            </LinearLayout>
-
-            <!--原创音乐-->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/control_margin_pbone_boeder"
-                android:divider="@drawable/divider_linearlayout_rect"
-                android:orientation="vertical"
-                android:showDividers="end">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <include
-                        android:id="@+id/original_title_layout"
-                        layout="@layout/item_icon_title" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <include
-                        android:id="@+id/item_original_zero"
-                        layout="@layout/item_icon_title_with_singer"
-                        android:layout_width="@dimen/margin_zero"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
-
-                    <include
-                        android:id="@+id/item_original_one"
-                        layout="@layout/item_icon_title_with_singer"
-                        android:layout_width="@dimen/margin_zero"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
-
-                    <include
-                        android:id="@+id/item_original_two"
-                        layout="@layout/item_icon_title_with_singer"
-                        android:layout_width="@dimen/margin_zero"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <!--最热MV-->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/control_margin_pbone_boeder"
-                android:divider="@drawable/divider_linearlayout_rect"
-                android:orientation="vertical"
-                android:showDividers="end">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <include
-                        android:id="@+id/hot_mv_title_layout"
-                        layout="@layout/item_icon_title" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <include
-                        android:id="@+id/item_original_zero"
-                        layout="@layout/item_icon_title_with_singer"
-                        android:layout_width="@dimen/margin_zero"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
-
-                    <include
-                        android:id="@+id/item_original_one"
-                        layout="@layout/item_icon_title_with_singer"
-                        android:layout_width="@dimen/margin_zero"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
-
-                    <include
-                        android:id="@+id/item_original_two"
-                        layout="@layout/item_icon_title_with_singer"
-                        android:layout_width="@dimen/margin_zero"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <include
-                        android:id="@+id/item_original_three"
-                        layout="@layout/item_icon_title_with_singer"
-                        android:layout_width="@dimen/margin_zero"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
-
-                    <include
-                        android:id="@+id/item_original_four"
-                        layout="@layout/item_icon_title_with_singer"
-                        android:layout_width="@dimen/margin_zero"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
-
-                    <include
-                        android:id="@+id/item_original_five"
-                        layout="@layout/item_icon_title_with_singer"
-                        android:layout_width="@dimen/margin_zero"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <!--乐播节目-->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/control_margin_pbone_boeder"
-                android:divider="@drawable/divider_linearlayout_rect"
-                android:orientation="vertical"
-                android:showDividers="end">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <include
-                        android:id="@+id/happy_play_title_layout"
-                        layout="@layout/item_icon_title" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <include
-                        android:id="@+id/item_happy_pro_zero"
-                        layout="@layout/item_icon_title_with_singer"
-                        android:layout_width="@dimen/margin_zero"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
-
-                    <include
-                        android:id="@+id/item_happy_pro_one"
-                        layout="@layout/item_icon_title_with_singer"
-                        android:layout_width="@dimen/margin_zero"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
-
-                    <include
-                        android:id="@+id/item_happy_pro_two"
-                        layout="@layout/item_icon_title_with_singer"
-                        android:layout_width="@dimen/margin_zero"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <include
-                        android:id="@+id/item_happy_pro_three"
-                        layout="@layout/item_icon_title_with_singer"
-                        android:layout_width="@dimen/margin_zero"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
-
-                    <include
-                        android:id="@+id/item_happy_pro_four"
-                        layout="@layout/item_icon_title_with_singer"
-                        android:layout_width="@dimen/margin_zero"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
-
-                    <include
-                        android:id="@+id/item_happy_pro_five"
-                        layout="@layout/item_icon_title_with_singer"
-                        android:layout_width="@dimen/margin_zero"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <!--专栏-->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/control_margin_pbone_boeder"
-                android:divider="@drawable/divider_linearlayout_rect"
-                android:orientation="vertical"
-                android:showDividers="end">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <include
-                        android:id="@+id/page_title_layout"
-                        layout="@layout/item_icon_title" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <include
-                        android:id="@+id/item_page_title_zero"
-                        layout="@layout/item_own_column" />
-
-                    <include
-                        android:id="@+id/item_page_title_one"
-                        layout="@layout/item_own_column" />
-
-                    <include
-                        android:id="@+id/item_page_title_two"
-                        layout="@layout/item_own_column" />
-
-                    <include
-                        android:id="@+id/item_page_title_three"
-                        layout="@layout/item_own_column" />
-                </LinearLayout>
-            </LinearLayout>
+                android:text="@string/more" />
+
+            <ImageView
+                android:layout_marginRight="@dimen/fragment_recommend_margin"
+                android:src="@mipmap/ic_songlist_detail_nor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
         </LinearLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recommend_diy_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/rv_margin" />
+
+        <include layout="@layout/item_view_line"/>
+
+        <!--新碟推荐-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/recommend_mix1_icon"
+                android:layout_marginLeft="@dimen/recommend_Img_Left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/recommend_Img_Left"
+                android:src="@mipmap/bule_lines" />
+
+            <TextView
+                android:layout_width="@dimen/margin_zero"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/music_recommend_new_disk" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/more" />
+
+            <ImageView
+                android:layout_marginRight="@dimen/fragment_recommend_margin"
+                android:src="@mipmap/ic_songlist_detail_nor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recommend_mix1_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/rv_margin" />
+
+        <include layout="@layout/item_view_line"/>
+
+        <!--热销专辑-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/recommend_mix22_icon"
+                android:layout_marginLeft="@dimen/recommend_Img_Left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/recommend_Img_Left"
+                android:src="@mipmap/bule_lines" />
+
+            <TextView
+                android:layout_width="@dimen/margin_zero"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/music_recommend_hot_sold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/more" />
+
+            <ImageView
+                android:layout_marginRight="@dimen/fragment_recommend_margin"
+                android:src="@mipmap/ic_songlist_detail_nor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recommend_mix22_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/rv_margin" />
+
+        <include layout="@layout/item_view_line"/>
+
+        <!--场景电台-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/recommend_scene_icon"
+                android:layout_marginLeft="@dimen/recommend_Img_Left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/recommend_Img_Left"
+                android:src="@mipmap/bule_lines" />
+
+            <TextView
+                android:layout_width="@dimen/margin_zero"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/music_recommend_scence_radio" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/more" />
+
+            <ImageView
+                android:layout_marginRight="@dimen/fragment_recommend_margin"
+                android:src="@mipmap/ic_songlist_detail_nor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recommend_scene_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/rv_margin" />
+
+        <include layout="@layout/item_view_line"/>
+
+        <!--今日推荐歌曲-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/recommend_recsong_icon"
+                android:layout_marginLeft="@dimen/recommend_Img_Left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/recommend_Img_Left"
+                android:src="@mipmap/bule_lines" />
+
+            <TextView
+                android:layout_width="@dimen/margin_zero"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/music_recommend_today_song" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/more" />
+
+            <ImageView
+                android:layout_marginRight="@dimen/fragment_recommend_margin"
+                android:src="@mipmap/ic_songlist_detail_nor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recommend_recsong_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/rv_margin" />
+
+        <include layout="@layout/item_view_line"/>
+
+        <!--原创音乐-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/recommend_mix9_icon"
+                android:layout_marginLeft="@dimen/recommend_Img_Left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/recommend_Img_Left"
+                android:src="@mipmap/bule_lines" />
+
+            <TextView
+                android:layout_width="@dimen/margin_zero"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/music_recommend_mine_do" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/more" />
+
+            <ImageView
+                android:layout_marginRight="@dimen/fragment_recommend_margin"
+                android:src="@mipmap/ic_songlist_detail_nor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recommend_mix9_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/rv_margin" />
+
+        <include layout="@layout/item_view_line"/>
+
+        <!--最热MV推荐-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/recommend_mix5_icon"
+                android:layout_marginLeft="@dimen/recommend_Img_Left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/recommend_Img_Left"
+                android:src="@mipmap/bule_lines" />
+
+            <TextView
+                android:layout_width="@dimen/margin_zero"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/music_recommend_mv_hot" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/more" />
+
+            <ImageView
+                android:layout_marginRight="@dimen/fragment_recommend_margin"
+                android:src="@mipmap/ic_songlist_detail_nor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recommend_mix5_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <include layout="@layout/item_view_line"/>
+
+        <!--乐播节目-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/recommend_radio_icon"
+                android:layout_marginLeft="@dimen/recommend_Img_Left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/recommend_Img_Left"
+                android:src="@mipmap/bule_lines" />
+
+            <TextView
+                android:layout_width="@dimen/margin_zero"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/music_recommend_happy_play" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/more" />
+
+            <ImageView
+                android:layout_marginRight="@dimen/fragment_recommend_margin"
+                android:src="@mipmap/ic_songlist_detail_nor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recommend_radio_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <include layout="@layout/item_view_line"/>
+
+        <!--专栏-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/recommend_mod7_icon"
+                android:layout_marginLeft="@dimen/recommend_Img_Left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/recommend_Img_Left"
+                android:src="@mipmap/bule_lines" />
+
+            <TextView
+                android:layout_width="@dimen/margin_zero"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/music_recommend_mine_cloumn" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/more" />
+
+            <ImageView
+                android:layout_marginRight="@dimen/fragment_recommend_margin"
+                android:src="@mipmap/ic_songlist_detail_nor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recommend_mod7_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
     </LinearLayout>
+
 </ScrollView>

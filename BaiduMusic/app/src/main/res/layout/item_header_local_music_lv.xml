@@ -5,7 +5,9 @@
     android:orientation="horizontal">
 
     <!--我的Fragment 本地音乐 ListView 头布局-->
-
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
 
 </LinearLayout>

@@ -16,6 +16,9 @@
     <!--乐库 歌单 PopWindow 颜色-->
     <color name="music_song_pw">#eae4e4</color>
 
+    <!--乐库 推荐 轮播图下三个图标字体颜色-->
+    <color name="recommend_entry_text">#07ccef</color>
+
     <!--乐库 电台 图标颜色-->
     <color name="colorMLRadioOne">#ea8c12</color>
     <color name="colorMLRadioTwo">#36ea12</color>
