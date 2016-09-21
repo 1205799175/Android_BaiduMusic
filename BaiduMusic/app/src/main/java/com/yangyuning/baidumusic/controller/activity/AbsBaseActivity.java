@@ -32,6 +32,7 @@ public abstract class AbsBaseActivity extends AppCompatActivity {
         //Color.parseColor 将不是int类型的颜色转换为int类型
         //为状态栏添加新的颜色
         window.setStatusBarColor(Color.parseColor(BaiduMusicValues.STATUSBARCOLOR));
+//        window.setStatusBarColor(Color.parseColor(BaiduMusicValues.TRANSPORT));
 
         //设置布局
         setContentView(setLayout());

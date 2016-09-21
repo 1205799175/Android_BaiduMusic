@@ -22,8 +22,14 @@ public class BaiduMusicValues {
      * 我的Fragment本地歌曲二级页面 到Activity 广播
      */
     public static final String THE_ACTION_PLAY_MUSIC = "com.yangyuning.baidumusic.controller.fragment.ownfragment.LocalMusicTabFragment";
-
     public static final String THE_ACTION_KEY_POAITION = "position";
+
+    /**
+     * 播放界面点击播放 在歌词Fragment上方显示歌名歌歌手 广播
+     */
+    public static final String THE_ACTION_PLAY_PAGE_PLAY = "com.yangyuning.baidumusic.controller.activity.PlayMusicPageActivity";
+    public static final String THE_ACTION_PLAY_PAGE_SONG = "song";
+    public static final String THE_ACTION_PLAY_PAGE_SINGER = "singer";
 
     /**
      * Fragment复用传网址的key
@@ -53,6 +59,7 @@ public class BaiduMusicValues {
      * 沉浸式状态栏的颜色
      */
     public static final String STATUSBARCOLOR = "#00B4FF";
+    public static final String TRANSPORT = "#00000000";
 
     /********************************接口相关**************************************/
     /**

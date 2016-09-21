@@ -251,7 +251,6 @@ public class RecommendFragment extends AbsBaseFragment {
                     iv.setImageResource(R.mipmap.ic_dot_selected);
                 }
             }
-
             @Override
             public void onPageScrollStateChanged(int state) {
 

@@ -100,6 +100,9 @@
     <dimen name="the_height_of_button_song_pw">1dp</dimen>
     <dimen name="music_song_pw_seleter_padding">12dp</dimen>
 
+    <!--本地音乐二级界面 ListView头布局-->
+    <dimen name="img_padding_text">8dp</dimen>
+
     <!--标题距手机边框的距离-->
     <dimen name="title_margin_phone_border">6dp</dimen>
     <!--控件距边框的距离-->
@@ -135,5 +138,8 @@
 
     <!--标题字体大小-->
     <dimen name="title_text_size">16sp</dimen>
+
+    <!--播放界面-->
+    <dimen name="play_page_song_size">18sp</dimen>
 
 </resources>

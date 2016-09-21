@@ -6,9 +6,12 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.yangyuning.baidumusic.R;
 import com.yangyuning.baidumusic.controller.fragment.alivefragment.AliveFragment;
@@ -18,10 +21,11 @@ import com.yangyuning.baidumusic.controller.fragment.MainFragment;
 import com.yangyuning.baidumusic.controller.fragment.ownfragment.OwnFragment;
 import com.yangyuning.baidumusic.utils.BaiduMusicValues;
 
-public class MainActivity extends AbsBaseActivity {
+public class MainActivity extends AbsBaseActivity implements View.OnClickListener {
     private FrameLayout frameLayout;
     private TextView songTv, singerTv;
     private ImageView iconImg, nextImg, playImg, listImg;
+    private LinearLayout linearLayout;
 
     private FrameReceiver frameReceiver;
     private AliveTopRvReceiver aliveTopRvReceiver;
@@ -41,8 +45,13 @@ public class MainActivity extends AbsBaseActivity {
         nextImg = byView(R.id.main_next);
         playImg = byView(R.id.main_play);
         listImg = byView(R.id.main_playinglist);
-    }
+        linearLayout = byView(R.id.main_play_layout);
 
+        nextImg.setOnClickListener(this);
+        playImg.setOnClickListener(this);
+        listImg.setOnClickListener(this);
+        linearLayout.setOnClickListener(this);
+    }
     @Override
     protected void initDatas() {
         //我的Fragment广播接收者注册
@@ -131,6 +140,26 @@ public class MainActivity extends AbsBaseActivity {
             singerTv.setText(singer);
         }
     }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.main_play:
+                Toast.makeText(this, "a", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.main_next:
+                Toast.makeText(this, "b", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.main_playinglist:
+                Toast.makeText(this, "c", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.main_play_layout:
+                Intent intent = new Intent(MainActivity.this, PlayMusicPageActivity.class);
+                startActivity(intent);
+                break;
+        }
+    }
+
 
     //广播接收者取消注册
     @Override

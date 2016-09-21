@@ -1,9 +1,13 @@
 package com.yangyuning.baidumusic.controller.fragment.ownfragment;
 
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.database.Cursor;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.provider.MediaStore;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ListFragment;
@@ -18,6 +22,7 @@ import com.yangyuning.baidumusic.R;
 import com.yangyuning.baidumusic.controller.adapter.OwnLocalMusicLvAdapter;
 import com.yangyuning.baidumusic.controller.adapter.OwnLvBottomAdapter;
 import com.yangyuning.baidumusic.controller.fragment.AbsBaseFragment;
+import com.yangyuning.baidumusic.controller.services.MusicService;
 import com.yangyuning.baidumusic.model.bean.OwnLocalMusicLvBean;
 import com.yangyuning.baidumusic.utils.BaiduMusicValues;
 
@@ -35,8 +40,7 @@ public class LocalMusicTabFragment extends AbsBaseFragment {
     private OwnLocalMusicLvAdapter ownLocalMusicLvAdapter;
     private List<OwnLocalMusicLvBean> datas;
     //定义音乐播放器
-    private MediaPlayer player;
-
+    private MediaPlayer mediaPlayer;
 
     public static LocalMusicTabFragment newInstance() {
         Bundle args = new Bundle();
@@ -53,20 +57,21 @@ public class LocalMusicTabFragment extends AbsBaseFragment {
     @Override
     protected void initView() {
         listView = byView(R.id.local_music_lv);
-
-        //初始化音乐播放器
-        player = new MediaPlayer();
     }
 
     @Override
     protected void initDatas() {
+        //初始化播放器
+        mediaPlayer = new MediaPlayer();
         //添加头布局
-//        View view = LayoutInflater.from(context).inflate(R.layout.item_header_local_music_lv, null);
-//        listView.addHeaderView(view);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_header_local_music_lv, null);
+        listView.setHeaderDividersEnabled(false);
+        listView.addHeaderView(view);
 
-        //获取本机g歌曲信息
-        getMusicDatas();
-        //初始化适配器
+        //获取歌曲
+        getLocalMusicInfo();
+
+        //初始化适配器, 设置数据
         ownLocalMusicLvAdapter = new OwnLocalMusicLvAdapter(datas, context);
         listView.setAdapter(ownLocalMusicLvAdapter);
 
@@ -74,8 +79,8 @@ public class LocalMusicTabFragment extends AbsBaseFragment {
         playMusic();
     }
 
-    //获取本机歌曲信息
-    private void getMusicDatas() {
+    //获取歌曲
+    private void getLocalMusicInfo() {
         datas = new ArrayList<>();
         Cursor cursor = context.getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, null, null, null, null);
         while (cursor.moveToNext()){
@@ -84,11 +89,6 @@ public class LocalMusicTabFragment extends AbsBaseFragment {
             long duration = cursor.getLong(cursor.getColumnIndex(MediaStore.Audio.Media.DURATION)); //歌曲时长
             String url = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DATA));      //歌曲地址
             int isMusic = cursor.getInt(cursor.getColumnIndex(MediaStore.Audio.Media.IS_MUSIC));    //是否是音乐
-//            Log.d("rrr", "-----" + title);
-//            Log.d("rrr", "-----" + singer);
-//            Log.d("rrr", "duration:" + duration);
-//            Log.d("rrr", "-----" + url);
-//            Log.d("rrr", "isMusic:" + isMusic);
             if (isMusic != 0){
                 OwnLocalMusicLvBean musicBean = new OwnLocalMusicLvBean(title, singer, duration, url);
                 datas.add(musicBean);
@@ -102,35 +102,29 @@ public class LocalMusicTabFragment extends AbsBaseFragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //获取当前行的歌曲
-                OwnLocalMusicLvBean currentMusic = datas.get(position);
-                //获取当前歌曲的路径
-                String path = currentMusic.getUrl();
-                //重置
-                player.reset();
-                try {
-                    //路径设置给音乐播放器
-                    player.setDataSource(path);
-                    //准备
-                    player.prepare();
-                    //开始
-                    player.start();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                Log.d("aaa", "position:" + position);
+                if (position == 0){
 
-                //发送广播
-                Intent intent = new Intent();
-                intent.setAction(BaiduMusicValues.THE_ACTION_PLAY_MUSIC);
-                intent.putExtra(BaiduMusicValues.PLAY_MUSIC_SONG, currentMusic.getSong());
-                intent.putExtra(BaiduMusicValues.PLAY_MUSIC_SINGER, currentMusic.getSinger());
-                context.sendBroadcast(intent);
+                } else {
+                    try {
+                        //因为头布局, pos减1
+                        OwnLocalMusicLvBean currentMusic = datas.get(position - 1);
+                        String path = currentMusic.getUrl();
+                        mediaPlayer.reset();
+                        mediaPlayer.setDataSource(path);
+                        mediaPlayer.prepare();
+                        mediaPlayer.start();
+                        //发送广播
+                        Intent intent = new Intent();
+                        intent.setAction(BaiduMusicValues.THE_ACTION_PLAY_MUSIC);
+                        intent.putExtra(BaiduMusicValues.PLAY_MUSIC_SONG, datas.get(position - 1).getSong());
+                        intent.putExtra(BaiduMusicValues.PLAY_MUSIC_SINGER, datas.get(position - 1).getSinger());
+                        context.sendBroadcast(intent);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         });
-
-
-
-
     }
-
 }

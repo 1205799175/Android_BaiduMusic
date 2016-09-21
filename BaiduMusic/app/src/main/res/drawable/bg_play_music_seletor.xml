@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--播放界面 播放按钮-->
+    <item android:drawable="@mipmap/bt_playpage_button_pause_normal" android:state_selected="true" />
+
+    <item android:drawable="@mipmap/bt_playpage_button_play_normal" android:state_selected="false" />
+
+</selector>

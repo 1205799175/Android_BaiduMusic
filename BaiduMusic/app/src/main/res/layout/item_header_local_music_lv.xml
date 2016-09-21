@@ -2,12 +2,31 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="@dimen/control_margin_pbone_boeder"
     android:orientation="horizontal">
 
     <!--我的Fragment 本地音乐 ListView 头布局-->
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@mipmap/bt_localmusic_play_nor"
+            android:drawablePadding="@dimen/img_padding_text"
+            android:text="@string/local_random_play_music"/>
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:gravity="right"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/bt_localmusic_edit_nor"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_marginLeft="@dimen/img_padding_text"
+            android:layout_height="wrap_content"
+            android:text="@string/local_batch_manage"/>
+    </LinearLayout>
 
 </LinearLayout>
