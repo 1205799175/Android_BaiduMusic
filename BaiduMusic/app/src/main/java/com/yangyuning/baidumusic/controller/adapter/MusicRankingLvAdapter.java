@@ -68,8 +68,6 @@ public class MusicRankingLvAdapter extends BaseAdapter {
         viewHolder.songOneTv.setText(datas.get(position).getmContent().get(0).getTitle() + " - " + datas.get(position).getmContent().get(0).getAuthor());
         viewHolder.songTwoTv.setText(datas.get(position).getmContent().get(1).getTitle() + " - " + datas.get(position).getmContent().get(1).getAuthor());
         viewHolder.songThreeTv.setText(datas.get(position).getmContent().get(2).getTitle() + " - " + datas.get(position).getmContent().get(2).getAuthor());
-//        RelativeLayout.LayoutParams params=new RelativeLayout.LayoutParams(height,width);
-//        viewHolder.titleImg.setLayoutParams(params);
         return convertView;
     }
 

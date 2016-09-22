@@ -29,6 +29,11 @@ public class MusicService extends Service {
     //播放器
     private MediaPlayer mediaPlayer;
 
+    //播放模式
+    private int currentPlayMode = 0;
+    //定义播放模式的数组
+    private PLAY_MODE [] playMode = {PLAY_MODE.LOOP, PLAY_MODE.ORDER, PLAY_MODE.RANDOM, PLAY_MODE.ROUNDSINGLE};
+
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -45,16 +50,14 @@ public class MusicService extends Service {
             }
         }
 
-        //播放音乐
+        /**
+         * 播放音乐
+         */
         public void playMusic() {
-            OwnLocalMusicLvBean currentMusic = datas.get(currentIndex);
-            //获得当前歌曲路径
-            String path = currentMusic.getUrl();
-            //重置
-            mediaPlayer.reset();
             try {
+                mediaPlayer.reset();
                 //设置路径给音乐播放器
-                mediaPlayer.setDataSource(path);
+                mediaPlayer.setDataSource(datas.get(currentIndex).getUrl());
                 mediaPlayer.prepare();
                 mediaPlayer.start();
             } catch (IOException e) {
@@ -62,76 +65,115 @@ public class MusicService extends Service {
             }
         }
 
-        //暂停音乐
-        public void pauseMusic(){
-            if (mediaPlayer.isPlaying()){
+        /**
+         * 暂停音乐
+         */
+        public void pauseMusic() {
+            if (mediaPlayer.isPlaying()) {
                 mediaPlayer.pause();
             } else {
                 mediaPlayer.start();
             }
         }
 
-        //获取当前音乐实体类
+        /**
+         * 下一曲
+         */
+        public void nextMusic() {
+            currentIndex++;
+            if (currentIndex == datas.size()) {
+                currentIndex = 0;
+            }
+            try {
+                mediaPlayer.reset();
+                mediaPlayer.setDataSource(datas.get(currentIndex).getUrl());
+                mediaPlayer.prepare();
+                mediaPlayer.start();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        /**
+         * 上一曲
+         */
+        public void pastMusic() {
+            currentIndex--;
+            if (currentIndex < 0) {
+                currentIndex = datas.size() - 1;
+            }
+            try {
+                mediaPlayer.reset();
+                mediaPlayer.setDataSource(datas.get(currentIndex).getUrl());
+                mediaPlayer.prepare();
+                mediaPlayer.start();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        /**
+         * 根据播放模式播放
+         */
+        public void playMusicByMode(int position) {
+            try {
+                mediaPlayer.reset();
+                mediaPlayer.setDataSource(datas.get(position).getUrl());
+                mediaPlayer.prepare();
+                mediaPlayer.start();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        /**
+         * 改变播放模式
+         */
+        public void changePlayMode(int position){
+            currentPlayMode = position;
+        }
+
+
+        /**
+         * 获取当前音乐时长
+         */
+        public int getCurrentDruation() {
+            return mediaPlayer.getDuration();
+        }
+
+        /**
+         * 获取当前音乐播放进度
+         */
+        public int getCurrentMusicPosition() {
+            return mediaPlayer.getCurrentPosition();
+        }
+
+        /**
+         * 获取当前音乐实体类
+         */
         public OwnLocalMusicLvBean getCurrentMusicBean() {
             return datas.get(currentIndex);
         }
 
-        //下一曲
-        public void nextMusic(){
-            currentIndex++;
-            if (currentIndex == datas.size()){
-                currentIndex = 0;
-            }
-            mediaPlayer.reset();
-            String path = datas.get(currentIndex).getUrl();
-            try {
-                mediaPlayer.setDataSource(path);
-                mediaPlayer.prepare();
-                mediaPlayer.start();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        //上一曲
-        public void pastMusic(){
-            currentIndex--;
-            if (currentIndex < 0){
-                currentIndex = datas.size() - 1;
-            }
-            mediaPlayer.reset();
-            String path = datas.get(currentIndex).getUrl();
-            try {
-                mediaPlayer.setDataSource(path);
-                mediaPlayer.prepare();
-                mediaPlayer.start();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        //获取当前音乐播放状态
-        public boolean getMusicIsPlaying(){
-            return mediaPlayer.isPlaying();
-        }
-
-        //获取当前音乐时长
-        public int getCurrentDruation(){
-            return mediaPlayer.getDuration();
-        }
-
-        //获取当前音乐播放进度
-        public int getCurrentMusicPosition(){
-            return mediaPlayer.getCurrentPosition();
-        }
-
-        //快进快退
-        public void musicForwardAndBack(int process){
+        /**
+         * 快进快退
+         */
+        public void musicForwardAndBack(int process) {
             mediaPlayer.seekTo(process);
         }
 
-        //退出应用, 停止音乐播放
-        public void stopMusic(){
+        /**
+         * 获取当前音乐播放状态
+         */
+        public boolean getMusicIsPlaying() {
+            return mediaPlayer.isPlaying();
+        }
+
+
+        /**
+         * 退出应用, 停止音乐播放
+         */
+        public void stopMusic() {
             mediaPlayer.stop();
             mediaPlayer.release();
         }
@@ -162,21 +204,35 @@ public class MusicService extends Service {
     }
 
     //获取歌曲
-    private void getLocalMusicInfo() {
+    private List<OwnLocalMusicLvBean> getLocalMusicInfo() {
         datas = new ArrayList<>();
         Cursor cursor = getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, null, null, null, null);
-        while (cursor.moveToNext()){
+        while (cursor.moveToNext()) {
             String title = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.TITLE));   //歌曲名
             String singer = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ARTIST)); //歌手
             long duration = cursor.getLong(cursor.getColumnIndex(MediaStore.Audio.Media.DURATION)); //歌曲时长
             String url = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DATA));      //歌曲地址
             int isMusic = cursor.getInt(cursor.getColumnIndex(MediaStore.Audio.Media.IS_MUSIC));    //是否是音乐
-            if (isMusic != 0){
+            if (isMusic != 0) {
                 OwnLocalMusicLvBean musicBean = new OwnLocalMusicLvBean(title, singer, duration, url);
                 datas.add(musicBean);
             }
         }
         cursor.close();
+        return datas;
     }
 
+    /**
+     * 四种播放模式
+     */
+    public enum PLAY_MODE {
+        LOOP, ORDER, RANDOM, ROUNDSINGLE;   //循环播放, 顺序播放, 随机播放, 单曲循环
+    }
+
+//    @Override
+//    public void onDestroy() {
+//        super.onDestroy();
+//        musicBinder.stopMusic();
+//        musicBinder = null;
+//    }
 }

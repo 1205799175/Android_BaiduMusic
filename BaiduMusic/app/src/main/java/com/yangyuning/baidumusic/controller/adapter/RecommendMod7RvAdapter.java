@@ -29,9 +29,13 @@ public class RecommendMod7RvAdapter extends RecyclerView.Adapter<RecommendMod7Rv
     private int height = ScreenSizeUtil.getScreenSize(ScreenSizeUtil.ScreenState.WIDTH) / 7 ;
     private int width = ScreenSizeUtil.getScreenSize(ScreenSizeUtil.ScreenState.WIDTH) / 7;
 
-    public RecommendMod7RvAdapter(List<MusicRecommendBean.ResultBean.Mod7Bean.mod7ResultBean> datas, Context context) {
-        this.datas = datas;
+    public RecommendMod7RvAdapter(Context context) {
         this.context = context;
+    }
+
+    public void setDatas(List<MusicRecommendBean.ResultBean.Mod7Bean.mod7ResultBean> datas) {
+        this.datas = datas;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -46,7 +50,6 @@ public class RecommendMod7RvAdapter extends RecyclerView.Adapter<RecommendMod7Rv
         holder.titleTv.setText(datas.get(position).getTitle());
         holder.stateTv.setText(datas.get(position).getDesc());
         Picasso.with(context).load(datas.get(position).getPic()).into(holder.imgId);
-
         LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(height,width);
         holder.imgId.setLayoutParams(params);
     }

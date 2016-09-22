@@ -50,10 +50,7 @@ public class MusicSongRvAdapter extends RecyclerView.Adapter<MusicSongRvAdapter.
         holder.titleTv.setText(datas.get(position).getTitle());
         holder.styleTv.setText(datas.get(position).getTag());
         holder.listenum.setText(datas.get(position).getListenum());
-        Picasso.with(context).load(datas.get(position).getPic_300()).into(holder.imgId);
-
-        RelativeLayout.LayoutParams params=new RelativeLayout.LayoutParams(height,width);
-        holder.imgId.setLayoutParams(params);
+        Picasso.with(context).load(datas.get(position).getPic_300()).resize(width, height).into(holder.imgId);
     }
 
     @Override

@@ -29,9 +29,13 @@ public class RecommendDiyRvAdapter extends RecyclerView.Adapter<RecommendDiyRvAd
     private int height = ScreenSizeUtil.getScreenSize(ScreenSizeUtil.ScreenState.WIDTH) / 3 - 40;
     private int width = ScreenSizeUtil.getScreenSize(ScreenSizeUtil.ScreenState.WIDTH) / 3 - 40;
 
-    public RecommendDiyRvAdapter(Context context, List<MusicRecommendBean.ResultBean.DiyBean.diyResultBean> datas) {
+    public RecommendDiyRvAdapter(Context context) {
         this.context = context;
+    }
+
+    public void setDatas(List<MusicRecommendBean.ResultBean.DiyBean.diyResultBean> datas) {
         this.datas = datas;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -46,7 +50,6 @@ public class RecommendDiyRvAdapter extends RecyclerView.Adapter<RecommendDiyRvAd
         Picasso.with(context).load(datas.get(position).getPic()).into(holder.imagView);
         holder.countTv.setText(datas.get(position).getListenum() + "");
         holder.songTv.setText(datas.get(position).getTitle());
-
         LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(height,width);
         holder.rl.setLayoutParams(params);
     }

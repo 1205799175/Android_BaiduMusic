@@ -28,9 +28,13 @@ public class RecommendRecsongRvAdapter extends RecyclerView.Adapter<RecommendRec
     private int height = ScreenSizeUtil.getScreenSize(ScreenSizeUtil.ScreenState.WIDTH) / 7 ;
     private int width = ScreenSizeUtil.getScreenSize(ScreenSizeUtil.ScreenState.WIDTH) / 7;
 
-    public RecommendRecsongRvAdapter(Context context, List<MusicRecommendBean.ResultBean.RecsongBean.recsongResultBean> datas) {
+    public RecommendRecsongRvAdapter(Context context) {
         this.context = context;
+    }
+
+    public void setDatas(List<MusicRecommendBean.ResultBean.RecsongBean.recsongResultBean> datas) {
         this.datas = datas;
+        notifyDataSetChanged();
     }
 
     @Override

@@ -96,6 +96,13 @@
 
     <!--退出程序-->
     <string name="exit_app">再按一次退出程序</string>
+    <!--播放界面的播放模式图标-->
+    <string-array name="play_page_mode">
+        <item>@mipmap/bt_playpage_random_normal</item>
+        <item>@mipmap/bt_playpage_order_normal</item>
+        <item>@mipmap/bt_playpage_roundsingle_normal</item>
+        <item>@mipmap/bt_playpage_loop_normal</item>
+    </string-array>
 
 
 </resources>

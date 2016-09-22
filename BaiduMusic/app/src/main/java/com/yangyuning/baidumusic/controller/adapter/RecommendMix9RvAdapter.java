@@ -28,9 +28,13 @@ public class RecommendMix9RvAdapter extends RecyclerView.Adapter<RecommendMix9Rv
     private int height = ScreenSizeUtil.getScreenSize(ScreenSizeUtil.ScreenState.WIDTH) / 3 - 40;
     private int width = ScreenSizeUtil.getScreenSize(ScreenSizeUtil.ScreenState.WIDTH) / 3 - 40;
 
-    public RecommendMix9RvAdapter(Context context, List<MusicRecommendBean.ResultBean.Mix9Bean.mix9ResultBean> datas) {
+    public RecommendMix9RvAdapter(Context context) {
         this.context = context;
+    }
+
+    public void setDatas(List<MusicRecommendBean.ResultBean.Mix9Bean.mix9ResultBean> datas) {
         this.datas = datas;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -42,11 +46,8 @@ public class RecommendMix9RvAdapter extends RecyclerView.Adapter<RecommendMix9Rv
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Picasso.with(context).load(datas.get(position).getPic()).into(holder.imgId);
+        Picasso.with(context).load(datas.get(position).getPic()).resize(width, height).into(holder.imgId);
         holder.titleTv.setText(datas.get(position).getTitle());
-
-        LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(height,width);
-        holder.imgId.setLayoutParams(params);
     }
 
     @Override

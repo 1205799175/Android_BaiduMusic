@@ -23,9 +23,13 @@ public class RecommendEntryRvAdapter extends RecyclerView.Adapter<RecommendEntry
     private Context context;
     private List<MusicRecommendBean.ResultBean.EntryBean.entryResultBean> datas;
 
-    public RecommendEntryRvAdapter(Context context, List<MusicRecommendBean.ResultBean.EntryBean.entryResultBean> datas) {
+    public RecommendEntryRvAdapter(Context context) {
         this.context = context;
+    }
+
+    public void setDatas(List<MusicRecommendBean.ResultBean.EntryBean.entryResultBean> datas) {
         this.datas = datas;
+        notifyDataSetChanged();
     }
 
     @Override

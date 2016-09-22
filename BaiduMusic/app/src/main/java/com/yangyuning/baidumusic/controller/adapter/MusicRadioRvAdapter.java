@@ -63,9 +63,7 @@ public class MusicRadioRvAdapter extends RecyclerView.Adapter<MusicRadioRvAdapte
                 holder.imgId.setImageTintList(context.getResources().getColorStateList(R.color.split_line_color));
         }
         holder.titleTv.setText(datas.get(position).getScene_name());
-        Picasso.with(context).load(datas.get(position).getIcon_android()).into(holder.imgId);
-//        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(width,height);
-//        holder.imgId.setLayoutParams(params);
+        Picasso.with(context).load(datas.get(position).getIcon_android()).resize(width, height).into(holder.imgId);
     }
 
     @Override

@@ -24,9 +24,13 @@ public class RecommendScenRcAdapter extends RecyclerView.Adapter<RecommendScenRc
     private Context context;
     private List<MusicRecommendBean.ResultBean.SceneBean.ScenResultBean.ActionBean> datas;
 
-    public RecommendScenRcAdapter(Context context, List<MusicRecommendBean.ResultBean.SceneBean.ScenResultBean.ActionBean> datas) {
+    public RecommendScenRcAdapter(Context context) {
         this.context = context;
+    }
+
+    public void setDatas(List<MusicRecommendBean.ResultBean.SceneBean.ScenResultBean.ActionBean> datas) {
         this.datas = datas;
+        notifyDataSetChanged();
     }
 
     @Override

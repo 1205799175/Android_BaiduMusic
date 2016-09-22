@@ -12,6 +12,7 @@ import com.squareup.picasso.Picasso;
 import com.yangyuning.baidumusic.R;
 import com.yangyuning.baidumusic.model.bean.AliveRvTopBean;
 import com.yangyuning.baidumusic.model.bean.MusicRadioBean;
+import com.yangyuning.baidumusic.utils.ScreenSizeUtil;
 import com.yangyuning.baidumusic.utils.interfaces.OnRvItemClick;
 
 import java.util.List;
@@ -23,6 +24,9 @@ import java.util.List;
 public class AliveRvTopAdpter extends RecyclerView.Adapter<AliveRvTopAdpter.AliveTopRvViewHolder> {
     private Context context;
     private List<AliveRvTopBean.DataBean> datas;
+
+    private int width = ScreenSizeUtil.getScreenSize(ScreenSizeUtil.ScreenState.WIDTH) / 6;
+
     //定义点击事件
     private OnRvItemClick<AliveRvTopBean.DataBean> onRvItemClick;
 
@@ -50,7 +54,7 @@ public class AliveRvTopAdpter extends RecyclerView.Adapter<AliveRvTopAdpter.Aliv
     @Override
     public void onBindViewHolder(final AliveTopRvViewHolder holder, int position) {
         holder.titleTv.setText(datas.get(position).getCategory_name());
-        Picasso.with(context).load(datas.get(position).getImg_url()).resize(120, 120).into(holder.imgId);
+        Picasso.with(context).load(datas.get(position).getImg_url()).resize(width, width).into(holder.imgId);
         //点击事件
         holder.imgId.setOnClickListener(new View.OnClickListener() {
             @Override

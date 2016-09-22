@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.content.res.TypedArray;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Handler;
@@ -47,16 +48,15 @@ public class PlayMusicPageActivity extends AbsBaseActivity implements View.OnCli
 
     private boolean flag = false;   //切换歌/词 状态记录
 
-//    private int [] modeImg = {R.mipmap.bt_playpage_loop_normal,
-//            R.mipmap.bt_playpage_random_normal,
-//            R.mipmap.bt_playpage_order_normal,
-//            R.mipmap.bt_playpage_roundsingle_normal};
-    
+    //播放模式图标
+    private int[] modeIcon;
+    private int currentMode = 0;
+
     //广播相关
     private PlayPageReceiver playPageReceiver;
 
     //播放按钮相关
-    private ImageView formImg, pastImg, playImg, nextImg, listImg;
+    private ImageView modeImg, pastImg, playImg, nextImg, listImg;
     private SeekBar seekBar;
     private TextView currentTimeTv, durationTv;
     //服务相关
@@ -67,7 +67,6 @@ public class PlayMusicPageActivity extends AbsBaseActivity implements View.OnCli
         public void onServiceConnected(ComponentName name, IBinder service) {
             musicBinder = (MusicService.MusicBinder) service;
             new Thread(new SeekBarRunnable()).start();
-//            initSeekBar();
             musicBinder.playMusic();
             musicBinder.pauseMusic();
             setMusicTimeInfo();
@@ -87,7 +86,7 @@ public class PlayMusicPageActivity extends AbsBaseActivity implements View.OnCli
     @Override
     protected void initView() {
         vp = byView(R.id.play_page_vp);
-        formImg = byView(R.id.play_music_form_img); //播放模式
+        modeImg = byView(R.id.play_music_form_img); //播放模式
         pastImg = byView(R.id.play_music_past_img); //上一曲
         playImg = byView(R.id.play_music_play_img); //播放
         nextImg = byView(R.id.play_music_next_img); //下一曲
@@ -101,7 +100,7 @@ public class PlayMusicPageActivity extends AbsBaseActivity implements View.OnCli
         currentTimeTv = byView(R.id.play_music_current_time_tv);
         durationTv = byView(R.id.play_music_duration_tv);
 
-        formImg.setOnClickListener(this);
+        modeImg.setOnClickListener(this);
         pastImg.setOnClickListener(this);
         playImg.setOnClickListener(this);
         nextImg.setOnClickListener(this);
@@ -116,19 +115,16 @@ public class PlayMusicPageActivity extends AbsBaseActivity implements View.OnCli
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                if (fromUser){
-                    if (musicBinder != null){
+                if (fromUser) {
+                    if (musicBinder != null) {
                         musicBinder.musicForwardAndBack(progress);
                         seekBar.setProgress(progress);
                     }
                 }
             }
-
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-
             }
-
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
             }
@@ -139,7 +135,7 @@ public class PlayMusicPageActivity extends AbsBaseActivity implements View.OnCli
     private Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
-            if (msg.what == 101){
+            if (msg.what == 101) {
                 int index = (int) msg.obj;
                 seekBar.setProgress(index);
 
@@ -148,10 +144,10 @@ public class PlayMusicPageActivity extends AbsBaseActivity implements View.OnCli
                 long second = (currentTime % (1000 * 60)) / 1000;
                 String minuteStr = String.valueOf(minute);
                 String secondStr = String.valueOf(second);
-                if (minuteStr.length() == 1){
+                if (minuteStr.length() == 1) {
                     minuteStr = "0" + minuteStr;
                 }
-                if (secondStr.length() == 1){
+                if (secondStr.length() == 1) {
                     secondStr = "0" + secondStr;
                 }
                 currentTimeTv.setText(minuteStr + ":" + secondStr);
@@ -176,22 +172,38 @@ public class PlayMusicPageActivity extends AbsBaseActivity implements View.OnCli
         filter.addAction(BaiduMusicValues.THE_ACTION_PLAY_PAGE_PLAY);
         registerReceiver(playPageReceiver, filter);
 
+        //设置毛玻璃效果
         BitmapDrawable bg = new BitmapDrawable(getResources(),
                 AeroGlassUtil.doBlur(BitmapFactory.decodeResource(getResources(), R.mipmap.play_page_bg), 50, false));
         playMusicBg.setBackground(bg);
+        //设置初始播放模式
+        initPlayMode();
 
         //绑定服务
         intent = new Intent(PlayMusicPageActivity.this, MusicService.class);
         bindService(intent, serviceConnection, BIND_AUTO_CREATE);
     }
 
+    //获取播放界面播放模式图片
+    private void initPlayMode() {
+        TypedArray playAR;
+        playAR = getResources().obtainTypedArray(R.array.play_page_mode);
+        int len = playAR.length();
+        modeIcon = new int[len];
+        for (int i = 0; i < len; i++)
+            modeIcon[i] = playAR.getResourceId(i, 0);
+        playAR.recycle();
+        modeImg.setImageResource(modeIcon[0]);
+    }
+
+
     //进度条线程
-    private class SeekBarRunnable implements Runnable{
+    private class SeekBarRunnable implements Runnable {
         @Override
         public void run() {
-            while (true){
-                if (musicBinder != null){
-                    if (musicBinder.getMusicIsPlaying()){
+            while (true) {
+                if (musicBinder != null) {
+                    if (musicBinder.getMusicIsPlaying()) {
                         try {
                             Thread.sleep(1000);
                         } catch (InterruptedException e) {
@@ -211,15 +223,14 @@ public class PlayMusicPageActivity extends AbsBaseActivity implements View.OnCli
     //点击事件
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.play_music_form_img:  //播放模式:循环, 随机, 单曲等等
-//                for (int i = 0; i < 4; i++) {
-//                    formImg.setImageResource(modeImg[i]);
-//                    i++;
-//                }
+                currentMode++;
+                currentMode = currentMode % modeIcon.length;
+                modeImg.setImageResource(modeIcon[currentMode]);
                 break;
             case R.id.play_music_past_img:  //上一曲
-                if (musicBinder != null){
+                if (musicBinder != null) {
                     musicBinder.pastMusic();
                     //设置进度条的最大值
                     seekBar.setMax(musicBinder.getCurrentDruation());
@@ -228,9 +239,9 @@ public class PlayMusicPageActivity extends AbsBaseActivity implements View.OnCli
                 }
                 break;
             case R.id.play_music_play_img:  //开始/暂停
-                if (musicBinder != null){
+                if (musicBinder != null) {
                     musicBinder.pauseMusic();
-                    if (!musicBinder.getMusicIsPlaying()){
+                    if (!musicBinder.getMusicIsPlaying()) {
                         playImg.setSelected(false);
                     } else {
 //                        musicBinder.pauseMusic();
@@ -239,7 +250,7 @@ public class PlayMusicPageActivity extends AbsBaseActivity implements View.OnCli
                 }
                 break;
             case R.id.play_music_next_img:  //下一曲
-                if (musicBinder != null){
+                if (musicBinder != null) {
                     musicBinder.nextMusic();
                     //设置进度条的最大值
                     seekBar.setMax(musicBinder.getCurrentDruation());
@@ -253,11 +264,11 @@ public class PlayMusicPageActivity extends AbsBaseActivity implements View.OnCli
                 finish();
                 break;
             case R.id.play_music_lyric_img:  // 切换歌/词
-                if (flag == false){
+                if (flag == false) {
                     lyricImg.setImageResource(R.mipmap.bt_playpage_button_pic_normal);
                     vp.setCurrentItem(2);
                     flag = true;
-                } else if (flag == true){
+                } else if (flag == true) {
                     lyricImg.setImageResource(R.mipmap.bt_playpage_button_lyric_normal);
                     vp.setCurrentItem(1);
                     flag = false;
@@ -268,7 +279,7 @@ public class PlayMusicPageActivity extends AbsBaseActivity implements View.OnCli
     }
 
     //设置最大时长和歌曲信息
-    private void setMusicTimeInfo(){
+    private void setMusicTimeInfo() {
         OwnLocalMusicLvBean bean = musicBinder.getCurrentMusicBean();
         //时间需要改成 00:00  分秒形式
         long duration = bean.getDuration();
@@ -277,10 +288,10 @@ public class PlayMusicPageActivity extends AbsBaseActivity implements View.OnCli
         //把long类型的秒-->String
         String minuteStr = String.valueOf(minute);
         String secondStr = String.valueOf(second);
-        if (minuteStr.length() == 1){
+        if (minuteStr.length() == 1) {
             minuteStr = "0" + minuteStr;
         }
-        if (secondStr.length() == 1){
+        if (secondStr.length() == 1) {
             secondStr = "0" + secondStr;
         }
         durationTv.setText(minuteStr + ":" + secondStr);
@@ -292,7 +303,7 @@ public class PlayMusicPageActivity extends AbsBaseActivity implements View.OnCli
     }
 
     //广播接收者 改变歌手, 歌曲, 时长
-    private class PlayPageReceiver extends BroadcastReceiver{
+    private class PlayPageReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
             setMusicTimeInfo();
@@ -303,7 +314,9 @@ public class PlayMusicPageActivity extends AbsBaseActivity implements View.OnCli
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        unbindService(serviceConnection);
         unregisterReceiver(playPageReceiver);
+//        if (musicBinder != null)
+//            musicBinder.stopMusic();
+        unbindService(serviceConnection);
     }
 }

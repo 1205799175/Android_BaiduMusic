@@ -28,9 +28,13 @@ public class RecommendMix5RvAdapter extends RecyclerView.Adapter<RecommendMix5Rv
     private int height = ScreenSizeUtil.getScreenSize(ScreenSizeUtil.ScreenState.WIDTH) / 3 - 40;
     private int width = ScreenSizeUtil.getScreenSize(ScreenSizeUtil.ScreenState.WIDTH) / 3 - 40;
 
-    public RecommendMix5RvAdapter(Context context, List<MusicRecommendBean.ResultBean.Mix5Bean.mix5ResultBean> datas) {
+    public RecommendMix5RvAdapter(Context context) {
         this.context = context;
+    }
+
+    public void setDatas(List<MusicRecommendBean.ResultBean.Mix5Bean.mix5ResultBean> datas) {
         this.datas = datas;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -42,11 +46,9 @@ public class RecommendMix5RvAdapter extends RecyclerView.Adapter<RecommendMix5Rv
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Picasso.with(context).load(datas.get(position).getPic()).into(holder.imgId);
+        Picasso.with(context).load(datas.get(position).getPic()).resize(width, height).into(holder.imgId);
         holder.titleTv.setText(datas.get(position).getTitle());
         holder.singetTv.setText(datas.get(position).getAuthor());
-        LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(height,width);
-        holder.imgId.setLayoutParams(params);
     }
 
     @Override

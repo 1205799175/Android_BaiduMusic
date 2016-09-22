@@ -150,8 +150,23 @@ public class RecommendFragment extends AbsBaseFragment {
         startRotate();
 
         //获取网络数据, 适配器操作
+        //初始化适配器
+        initAdapter();
         getNetDatas();
         doAdapter();
+    }
+
+    private void initAdapter() {
+        entryAdapter = new RecommendEntryRvAdapter(context);
+        diyRvAdapter = new RecommendDiyRvAdapter(context);
+        mix1RvAdapter = new RecommendMix1RvAdapter(context);
+        mix22RvAdapter = new RecommendMix22RvAdapter(context);
+        scenRcAdapter = new RecommendScenRcAdapter(context);
+        recsongRvAdapter = new RecommendRecsongRvAdapter(context);
+        mix9RvAdapter = new RecommendMix9RvAdapter(context);
+        mix5RvAdapter = new RecommendMix5RvAdapter(context);
+        radioRvAdapter = new RecommendRadioRvAdapter(context);
+        mod7RvAdapter = new RecommendMod7RvAdapter(context);
     }
 
     private void doAdapter() {
@@ -195,43 +210,43 @@ public class RecommendFragment extends AbsBaseFragment {
                 MusicRecommendBean bean = gson.fromJson(resultStr, MusicRecommendBean.class);
                 //轮播图下三个图标
                 entryResultBeen = bean.getResult().getEntry().getResult();
-                entryAdapter = new RecommendEntryRvAdapter(context, entryResultBeen);
+                entryAdapter.setDatas(entryResultBeen);
 
                 //歌单推荐
                 diyResultBeen = bean.getResult().getDiy().getResult();
-                diyRvAdapter = new RecommendDiyRvAdapter(context, diyResultBeen);
+                diyRvAdapter.setDatas(diyResultBeen);
 
                 //新碟上架
                 mix1Been = bean.getResult().getMix_1().getResult();
-                mix1RvAdapter = new RecommendMix1RvAdapter(context, mix1Been);
+                mix1RvAdapter.setDatas(mix1Been);
 
                 //热销专辑
                 mix22ResultBeen = bean.getResult().getMix_22().getResult();
-                mix22RvAdapter = new RecommendMix22RvAdapter(context, mix22ResultBeen);
+                mix22RvAdapter.setDatas(mix22ResultBeen);
 
                 //场景电台
                 scenBeen = bean.getResult().getScene().getResult().getAction();
-                scenRcAdapter = new RecommendScenRcAdapter(context, scenBeen);
+                scenRcAdapter.setDatas(scenBeen);
 
                 //今日推荐歌曲
                 recsongResultBeen = bean.getResult().getRecsong().getResult();
-                recsongRvAdapter = new RecommendRecsongRvAdapter(context, recsongResultBeen);
+                recsongRvAdapter.setDatas(recsongResultBeen);
 
                 //原创音乐
                 mix9ResultBeen = bean.getResult().getMix_9().getResult();
-                mix9RvAdapter = new RecommendMix9RvAdapter(context, mix9ResultBeen);
+                mix9RvAdapter.setDatas(mix9ResultBeen);
 
                 //最热MV推荐
                 mix5ResultBeen = bean.getResult().getMix_5().getResult();
-                mix5RvAdapter = new RecommendMix5RvAdapter(context, mix5ResultBeen);
+                mix5RvAdapter.setDatas(mix5ResultBeen);
 
                 //乐播节目
                 radioResultBeen = bean.getResult().getRadio().getResult();
-                radioRvAdapter = new RecommendRadioRvAdapter(context, radioResultBeen);
+                radioRvAdapter.setDatas(radioResultBeen);
 
                 //专栏
                 mod7ResultBeen = bean.getResult().getMod_7().getResult();
-                mod7RvAdapter = new RecommendMod7RvAdapter(mod7ResultBeen, context);
+                mod7RvAdapter.setDatas(mod7ResultBeen);
 
                 //标题图标
                 List<MusicRecommendBean.ModuleBean> Iconbean = bean.getModule();
