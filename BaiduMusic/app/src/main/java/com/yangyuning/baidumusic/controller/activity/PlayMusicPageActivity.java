@@ -1,16 +1,23 @@
 package com.yangyuning.baidumusic.controller.activity;
 
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
+import android.os.Vibrator;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -19,9 +26,8 @@ import com.yangyuning.baidumusic.controller.adapter.VpAdapter;
 import com.yangyuning.baidumusic.controller.fragment.playpagefragment.PlayPageLyricFragment;
 import com.yangyuning.baidumusic.controller.services.MusicService;
 import com.yangyuning.baidumusic.model.bean.OwnLocalMusicLvBean;
+import com.yangyuning.baidumusic.utils.AeroGlassUtil;
 import com.yangyuning.baidumusic.utils.BaiduMusicValues;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +41,20 @@ public class PlayMusicPageActivity extends AbsBaseActivity implements View.OnCli
     private ViewPager vp;
     private VpAdapter vpAdapter;
 
+    private TextView songTv, singerTv;
+    private ImageView backImg, lyricImg;
+    private LinearLayout playMusicBg;
+
+    private boolean flag = false;   //切换歌/词 状态记录
+
+//    private int [] modeImg = {R.mipmap.bt_playpage_loop_normal,
+//            R.mipmap.bt_playpage_random_normal,
+//            R.mipmap.bt_playpage_order_normal,
+//            R.mipmap.bt_playpage_roundsingle_normal};
+    
+    //广播相关
+    private PlayPageReceiver playPageReceiver;
+
     //播放按钮相关
     private ImageView formImg, pastImg, playImg, nextImg, listImg;
     private SeekBar seekBar;
@@ -47,6 +67,10 @@ public class PlayMusicPageActivity extends AbsBaseActivity implements View.OnCli
         public void onServiceConnected(ComponentName name, IBinder service) {
             musicBinder = (MusicService.MusicBinder) service;
             new Thread(new SeekBarRunnable()).start();
+//            initSeekBar();
+            musicBinder.playMusic();
+            musicBinder.pauseMusic();
+            setMusicTimeInfo();
         }
 
         @Override
@@ -63,12 +87,17 @@ public class PlayMusicPageActivity extends AbsBaseActivity implements View.OnCli
     @Override
     protected void initView() {
         vp = byView(R.id.play_page_vp);
-        formImg = byView(R.id.play_music_form_img);
-        pastImg = byView(R.id.play_music_past_img);
-        playImg = byView(R.id.play_music_play_img);
-        nextImg = byView(R.id.play_music_next_img);
-        listImg = byView(R.id.play_music_list_img);
-        seekBar = byView(R.id.play_music_seekbar);
+        formImg = byView(R.id.play_music_form_img); //播放模式
+        pastImg = byView(R.id.play_music_past_img); //上一曲
+        playImg = byView(R.id.play_music_play_img); //播放
+        nextImg = byView(R.id.play_music_next_img); //下一曲
+        listImg = byView(R.id.play_music_list_img); //播放列表
+        seekBar = byView(R.id.play_music_seekbar);  //进度条
+        songTv = byView(R.id.play_music_song_tv);   //显示歌名
+        singerTv = byView(R.id.play_music_singer_tv);   //显示歌手
+        backImg = byView(R.id.play_music_back_img); //退出
+        lyricImg = byView(R.id.play_music_lyric_img);   //词
+        playMusicBg = byView(R.id.play_music_ll); //背景
         currentTimeTv = byView(R.id.play_music_current_time_tv);
         durationTv = byView(R.id.play_music_duration_tv);
 
@@ -77,7 +106,13 @@ public class PlayMusicPageActivity extends AbsBaseActivity implements View.OnCli
         playImg.setOnClickListener(this);
         nextImg.setOnClickListener(this);
         listImg.setOnClickListener(this);
+        backImg.setOnClickListener(this);
+        lyricImg.setOnClickListener(this);
         //实现快进快退, 给进度条状态改变设置监听事件
+        initSeekBar();
+    }
+
+    private void initSeekBar() {
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -96,7 +131,6 @@ public class PlayMusicPageActivity extends AbsBaseActivity implements View.OnCli
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-
             }
         });
     }
@@ -109,8 +143,9 @@ public class PlayMusicPageActivity extends AbsBaseActivity implements View.OnCli
                 int index = (int) msg.obj;
                 seekBar.setProgress(index);
 
-                long minute = index / (1000 * 60);
-                long second = (index % (1000 * 60)) / 1000;
+                long currentTime = musicBinder.getCurrentMusicPosition();
+                long minute = currentTime / (1000 * 60);
+                long second = (currentTime % (1000 * 60)) / 1000;
                 String minuteStr = String.valueOf(minute);
                 String secondStr = String.valueOf(second);
                 if (minuteStr.length() == 1){
@@ -135,6 +170,16 @@ public class PlayMusicPageActivity extends AbsBaseActivity implements View.OnCli
         vp.setAdapter(vpAdapter);
         vp.setCurrentItem(1);
 
+        //注册广播
+        playPageReceiver = new PlayPageReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(BaiduMusicValues.THE_ACTION_PLAY_PAGE_PLAY);
+        registerReceiver(playPageReceiver, filter);
+
+        BitmapDrawable bg = new BitmapDrawable(getResources(),
+                AeroGlassUtil.doBlur(BitmapFactory.decodeResource(getResources(), R.mipmap.play_page_bg), 50, false));
+        playMusicBg.setBackground(bg);
+
         //绑定服务
         intent = new Intent(PlayMusicPageActivity.this, MusicService.class);
         bindService(intent, serviceConnection, BIND_AUTO_CREATE);
@@ -147,16 +192,16 @@ public class PlayMusicPageActivity extends AbsBaseActivity implements View.OnCli
             while (true){
                 if (musicBinder != null){
                     if (musicBinder.getMusicIsPlaying()){
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                         int currentPosition = musicBinder.getCurrentMusicPosition();
                         Message message = new Message();
                         message.what = 101;
                         message.obj = currentPosition;
                         handler.sendMessage(message);
-                        try {
-                            Thread.sleep(0);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
                     }
                 }
             }
@@ -168,66 +213,65 @@ public class PlayMusicPageActivity extends AbsBaseActivity implements View.OnCli
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.play_music_form_img:  //播放模式:循环, 随机, 单曲等等
+//                for (int i = 0; i < 4; i++) {
+//                    formImg.setImageResource(modeImg[i]);
+//                    i++;
+//                }
                 break;
             case R.id.play_music_past_img:  //上一曲
                 if (musicBinder != null){
                     musicBinder.pastMusic();
-                    OwnLocalMusicLvBean bean = musicBinder.getCurrentMusicBean();
+                    //设置进度条的最大值
+                    seekBar.setMax(musicBinder.getCurrentDruation());
                     //设置歌曲时间
-                    setMusicTimeInfo(bean);
-                    //发送广播
-                    Intent intent = new Intent();
-                    intent.setAction(BaiduMusicValues.THE_ACTION_PLAY_PAGE_PLAY);
-                    intent.putExtra(BaiduMusicValues.THE_ACTION_PLAY_PAGE_SONG, bean.getSong());
-                    intent.putExtra(BaiduMusicValues.THE_ACTION_PLAY_PAGE_SINGER, bean.getSinger());
-                    sendBroadcast(intent);
+                    setMusicTimeInfo();
                 }
                 break;
-            case R.id.play_music_play_img:  //开始暂停
+            case R.id.play_music_play_img:  //开始/暂停
                 if (musicBinder != null){
+                    musicBinder.pauseMusic();
                     if (!musicBinder.getMusicIsPlaying()){
-                        playImg.setSelected(true);
-                        musicBinder.playMusic();
-                        //获得当前歌曲的信息
-                        OwnLocalMusicLvBean bean = musicBinder.getCurrentMusicBean();
-                        //设置进度条的最大值
-                        seekBar.setMax(musicBinder.getCurrentDruation());
-                        //设置歌曲时间
-                        setMusicTimeInfo(bean);
-                        //发送广播
-                        Intent intent = new Intent();
-                        intent.setAction(BaiduMusicValues.THE_ACTION_PLAY_PAGE_PLAY);
-                        intent.putExtra(BaiduMusicValues.THE_ACTION_PLAY_PAGE_SONG, bean.getSong());
-                        intent.putExtra(BaiduMusicValues.THE_ACTION_PLAY_PAGE_SINGER, bean.getSinger());
-                        sendBroadcast(intent);
-                    } else {
-                        musicBinder.pauseMusic();
                         playImg.setSelected(false);
+                    } else {
+//                        musicBinder.pauseMusic();
+                        playImg.setSelected(true);
                     }
                 }
                 break;
             case R.id.play_music_next_img:  //下一曲
                 if (musicBinder != null){
                     musicBinder.nextMusic();
-                    OwnLocalMusicLvBean bean = musicBinder.getCurrentMusicBean();
+                    //设置进度条的最大值
+                    seekBar.setMax(musicBinder.getCurrentDruation());
                     //设置歌曲时间
-                    setMusicTimeInfo(bean);
-                    //发送广播
-                    Intent intent = new Intent();
-                    intent.setAction(BaiduMusicValues.THE_ACTION_PLAY_PAGE_PLAY);
-                    intent.putExtra(BaiduMusicValues.THE_ACTION_PLAY_PAGE_SONG, bean.getSong());
-                    intent.putExtra(BaiduMusicValues.THE_ACTION_PLAY_PAGE_SINGER, bean.getSinger());
-                    sendBroadcast(intent);
+                    setMusicTimeInfo();
                 }
                 break;
             case R.id.play_music_list_img:  //播放列表
                 break;
+            case R.id.play_music_back_img:
+                finish();
+                break;
+            case R.id.play_music_lyric_img:  // 切换歌/词
+                if (flag == false){
+                    lyricImg.setImageResource(R.mipmap.bt_playpage_button_pic_normal);
+                    vp.setCurrentItem(2);
+                    flag = true;
+                } else if (flag == true){
+                    lyricImg.setImageResource(R.mipmap.bt_playpage_button_lyric_normal);
+                    vp.setCurrentItem(1);
+                    flag = false;
+                }
+
+                break;
         }
     }
 
-    private void setMusicTimeInfo(OwnLocalMusicLvBean ownLocalMusicLvBean){
+    //设置最大时长和歌曲信息
+    private void setMusicTimeInfo(){
+        OwnLocalMusicLvBean bean = musicBinder.getCurrentMusicBean();
         //时间需要改成 00:00  分秒形式
-        long duration = ownLocalMusicLvBean.getDuration();
+        long duration = bean.getDuration();
         long minute = duration / (1000 * 60);
         long second = (duration % (1000 * 60)) / 1000;
         //把long类型的秒-->String
@@ -240,6 +284,19 @@ public class PlayMusicPageActivity extends AbsBaseActivity implements View.OnCli
             secondStr = "0" + secondStr;
         }
         durationTv.setText(minuteStr + ":" + secondStr);
+        String song = bean.getSong();
+        String singer = bean.getSinger();
+        songTv.setText(song);
+        singerTv.setText(singer);
+        seekBar.setMax((int) bean.getDuration());
+    }
+
+    //广播接收者 改变歌手, 歌曲, 时长
+    private class PlayPageReceiver extends BroadcastReceiver{
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            setMusicTimeInfo();
+        }
     }
 
     //接触绑定
@@ -247,6 +304,6 @@ public class PlayMusicPageActivity extends AbsBaseActivity implements View.OnCli
     protected void onDestroy() {
         super.onDestroy();
         unbindService(serviceConnection);
+        unregisterReceiver(playPageReceiver);
     }
-
 }

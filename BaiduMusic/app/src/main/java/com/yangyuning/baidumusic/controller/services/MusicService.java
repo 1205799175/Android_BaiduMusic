@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.yangyuning.baidumusic.model.bean.OwnLocalMusicLvBean;
+import com.yangyuning.baidumusic.utils.BaiduMusicValues;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -146,6 +147,18 @@ public class MusicService extends Service {
 
         //初始化播放器
         mediaPlayer = new MediaPlayer();
+
+        //完成监听 自动播放下一首
+        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                // 处理下一首
+                musicBinder.nextMusic();
+                Intent intent = new Intent();
+                intent.setAction(BaiduMusicValues.THE_ACTION_PLAY_PAGE_PLAY);
+                sendBroadcast(intent);
+            }
+        });
     }
 
     //获取歌曲
@@ -165,4 +178,5 @@ public class MusicService extends Service {
         }
         cursor.close();
     }
+
 }

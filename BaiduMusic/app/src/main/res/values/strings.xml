@@ -94,5 +94,8 @@
     <string name="local_random_play_music">随机播放全部</string>
     <string name="local_batch_manage">批量管理</string>
 
+    <!--退出程序-->
+    <string name="exit_app">再按一次退出程序</string>
+
 
 </resources>

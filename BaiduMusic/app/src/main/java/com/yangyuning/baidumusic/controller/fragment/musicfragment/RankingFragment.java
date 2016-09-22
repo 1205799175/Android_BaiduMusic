@@ -44,9 +44,9 @@ public class RankingFragment extends AbsBaseFragment {
     protected void initDatas() {
         //初始化适配器, 绑定适配器
         musicRankingLvAdapter = new MusicRankingLvAdapter(context);
-        rangkingLv.setAdapter(musicRankingLvAdapter);
         //获得并解析网络数据
         getNetDatas();
+        rangkingLv.setAdapter(musicRankingLvAdapter);
     }
 
     //获得并解析网络数据

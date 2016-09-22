@@ -56,9 +56,9 @@ public class AliveFragment extends AbsBaseFragment {
     protected void initDatas() {
         //直播上部RecyClerView操作
         aliveRvTopAdpter = new AliveRvTopAdpter(context);
-        topRv.setAdapter(aliveRvTopAdpter);
         //获取,解析数据
         getTopNetDatas();
+        topRv.setAdapter(aliveRvTopAdpter);
         //设置布局管理器
         topRv.setLayoutManager(new GridLayoutManager(context, 4));
         //点击事件, 进入二级页面
@@ -66,9 +66,9 @@ public class AliveFragment extends AbsBaseFragment {
 
         //直播下部RecyClerView操作
         aliveRvBottomAdapter = new AliveRvBottomAdapter(context);
-        bottomRv.setAdapter(aliveRvBottomAdapter);
         //获取,解析上部数据
         getBottomNetDatas();
+        bottomRv.setAdapter(aliveRvBottomAdapter);
         //设置布局管理器
         bottomRv.setLayoutManager(new GridLayoutManager(context, 2));
 

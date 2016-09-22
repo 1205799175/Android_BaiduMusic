@@ -46,7 +46,6 @@ public class AliveDetailTabFragment extends AbsBaseFragment {
     @Override
     protected void initDatas() {
         //直播下部RecyClerView操作
-        aliveRvBottomAdapter = new AliveRvBottomAdapter(context);
         rv.setAdapter(aliveRvBottomAdapter);
         //获取,解析上部数据
         getBottomNetDatas();
@@ -64,6 +63,7 @@ public class AliveDetailTabFragment extends AbsBaseFragment {
                 Gson gson = new Gson();
                 AliveRvBottomBean aliveRvBottomBean = gson.fromJson(resultStr, AliveRvBottomBean.class);
                 List<AliveRvBottomBean.DataBean.mDataBean> bottomDatas =  aliveRvBottomBean.getData().getmData();
+                aliveRvBottomAdapter = new AliveRvBottomAdapter(context);
                 aliveRvBottomAdapter.setDatas(bottomDatas);
             }
 

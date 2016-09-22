@@ -29,8 +29,9 @@
                 <LinearLayout
                     android:id="@+id/recommend_rotate_point_container"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/recommend_rotate_point_container_height"
                     android:layout_gravity="center|bottom"
+                    android:gravity="center"
+                    android:layout_height="@dimen/recommend_rotate_point_container_height"
                     android:layout_marginBottom="@dimen/recommend_rotate_point_container_bottom"
                     android:orientation="horizontal" />
             </FrameLayout>

@@ -60,10 +60,10 @@ public class SongFragment extends AbsBaseFragment {
     protected void initDatas() {
         //初始化适配器
         musicSongRvAdapter = new MusicSongRvAdapter(context);
-        //绑定适配器
-        rv.setAdapter(musicSongRvAdapter);
         //获得并解析网络数据
         getNetDatas();
+        //绑定适配器
+        rv.setAdapter(musicSongRvAdapter);
         //设置布局管理器
         rv.setLayoutManager(new GridLayoutManager(context, BaiduMusicValues.MV_RECYCLERVIEW_ROW_NUM));
         //弹出PopWindow

@@ -42,6 +42,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/k_rotate_point_container_height"
                     android:layout_gravity="center|bottom"
+                    android:gravity="center|bottom"
                     android:layout_marginBottom="@dimen/k_rotate_point_container_bottom"
                     android:orientation="horizontal" />
             </FrameLayout>

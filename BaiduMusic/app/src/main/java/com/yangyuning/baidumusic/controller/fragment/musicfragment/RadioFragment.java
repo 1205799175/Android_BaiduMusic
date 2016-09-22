@@ -47,9 +47,9 @@ public class RadioFragment extends AbsBaseFragment {
     protected void initDatas() {
         //初始化适配器, 绑定适配器
         musicRadioRvAdapter = new MusicRadioRvAdapter(context);
-        rv.setAdapter(musicRadioRvAdapter);
         //获取网络数据, 解析
         getNetDatas();
+        rv.setAdapter(musicRadioRvAdapter);
         //设置布局管理器
         rv.setLayoutManager(new GridLayoutManager(context, 4));
     }

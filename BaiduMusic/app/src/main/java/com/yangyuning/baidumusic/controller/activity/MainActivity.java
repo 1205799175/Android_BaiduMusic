@@ -4,8 +4,11 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -24,8 +27,10 @@ import com.yangyuning.baidumusic.utils.BaiduMusicValues;
 public class MainActivity extends AbsBaseActivity implements View.OnClickListener {
     private FrameLayout frameLayout;
     private TextView songTv, singerTv;
-    private ImageView iconImg, nextImg, playImg, listImg;
+    private ImageView nextImg, playImg, listImg;
     private LinearLayout linearLayout;
+
+    private boolean isExit; // app退出标志位
 
     private FrameReceiver frameReceiver;
     private AliveTopRvReceiver aliveTopRvReceiver;
@@ -41,7 +46,6 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
         frameLayout = byView(R.id.main_frame_layout);
         songTv = byView(R.id.main_song);
         singerTv = byView(R.id.main_singer);
-        iconImg = byView(R.id.main_song_icon);
         nextImg = byView(R.id.main_next);
         playImg = byView(R.id.main_play);
         listImg = byView(R.id.main_playinglist);
@@ -55,6 +59,7 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
     @Override
     protected void initDatas() {
         //我的Fragment广播接收者注册
+
         frameReceiver = new FrameReceiver();
         IntentFilter ownFilter = new IntentFilter();
         ownFilter.addAction(BaiduMusicValues.THE_ACTION_OWN_LOCAL);
@@ -76,6 +81,9 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.main_frame_layout, MainFragment.newInstance());
         ft.commit();
+
+        //按两次返回键退出应用程序
+
     }
 
     //广播接收者  从OwnFragment发送
@@ -144,22 +152,55 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.main_play:
-                Toast.makeText(this, "a", Toast.LENGTH_SHORT).show();
+            case R.id.main_play:    //播放键
                 break;
-            case R.id.main_next:
-                Toast.makeText(this, "b", Toast.LENGTH_SHORT).show();
+            case R.id.main_next:    //下一曲
                 break;
-            case R.id.main_playinglist:
-                Toast.makeText(this, "c", Toast.LENGTH_SHORT).show();
+            case R.id.main_playinglist:     //播放列表
                 break;
-            case R.id.main_play_layout:
+            case R.id.main_play_layout:     //播放栏
                 Intent intent = new Intent(MainActivity.this, PlayMusicPageActivity.class);
                 startActivity(intent);
                 break;
         }
     }
 
+
+    Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            // TODO Auto-generated method stub
+            super.handleMessage(msg);
+            isExit = false;
+        }
+    };
+
+    //当按下BACK键时，会被onKeyDown捕获，判断是BACK键，则执行exit方法
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            exit();
+            return false;
+        } else {
+            return super.onKeyDown(keyCode, event);
+        }
+    }
+
+    //首先判断isExit的值，如果为false的话，则置为true，
+    //同时会弹出提示，并在2000毫秒（2秒）后发出一个消息，在Handler中将此值还原成false
+    //如果在发送消息间隔的2秒内，再次按了BACK键，则再次执行exit方法，此时isExit的值已为true，则会执行退出的方法
+    public void exit(){
+        if (!isExit) {
+            isExit = true;
+            Toast.makeText(getApplicationContext(), R.string.exit_app, Toast.LENGTH_SHORT).show();
+            mHandler.sendEmptyMessageDelayed(0, 2000);
+        } else {
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            startActivity(intent);
+            System.exit(0);
+        }
+    }
 
     //广播接收者取消注册
     @Override

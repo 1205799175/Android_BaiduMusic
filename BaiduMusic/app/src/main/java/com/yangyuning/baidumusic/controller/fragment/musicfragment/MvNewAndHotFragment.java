@@ -44,10 +44,10 @@ public class MvNewAndHotFragment extends AbsBaseFragment {
 
     @Override
     protected void initDatas() {
-        //获得网络数据并解析
-        getNetDatas();
         //初始化适配器, 绑定适配器
         musicMvRvAdapter = new MusicMvRvAdapter(context);
+        //获得网络数据并解析
+        getNetDatas();
         rv.setAdapter(musicMvRvAdapter);
         //设置布局管理器
         rv.setLayoutManager(new GridLayoutManager(context, BaiduMusicValues.MV_RECYCLERVIEW_ROW_NUM));

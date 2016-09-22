@@ -151,6 +151,39 @@ public class RecommendFragment extends AbsBaseFragment {
 
         //获取网络数据, 适配器操作
         getNetDatas();
+        doAdapter();
+    }
+
+    private void doAdapter() {
+        recommendEntryRv.setAdapter(entryAdapter);
+        recommendEntryRv.setLayoutManager(new GridLayoutManager(context, 3));
+
+        recommendDiyRv.setAdapter(diyRvAdapter);
+        recommendDiyRv.setLayoutManager(new GridLayoutManager(context, 3));
+
+        recommendMix1Rv.setAdapter(mix1RvAdapter);
+        recommendMix1Rv.setLayoutManager(new GridLayoutManager(context, 3));
+
+        recommendMix22Rv.setAdapter(mix22RvAdapter);
+        recommendMix22Rv.setLayoutManager(new GridLayoutManager(context, 3));
+
+        recommendScenRv.setAdapter(scenRcAdapter);
+        recommendScenRv.setLayoutManager(new GridLayoutManager(context, 4));
+
+        recommendRecsongRv.setAdapter(recsongRvAdapter);
+        recommendRecsongRv.setLayoutManager(new LinearLayoutManager(context,LinearLayoutManager.VERTICAL, false));
+
+        recommendmix9Rv.setAdapter(mix9RvAdapter);
+        recommendmix9Rv.setLayoutManager(new GridLayoutManager(context, 3));
+
+        recommendMix5Rv.setAdapter(mix5RvAdapter);
+        recommendMix5Rv.setLayoutManager(new GridLayoutManager(context, 3));
+
+        recommendRadioRv.setAdapter(radioRvAdapter);
+        recommendRadioRv.setLayoutManager(new GridLayoutManager(context, 3));
+
+        recommendMod7Rv.setAdapter(mod7RvAdapter);
+        recommendMod7Rv.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
     }
 
     //获取网络数据.适配器操作, 设置布局管理器
@@ -163,64 +196,54 @@ public class RecommendFragment extends AbsBaseFragment {
                 //轮播图下三个图标
                 entryResultBeen = bean.getResult().getEntry().getResult();
                 entryAdapter = new RecommendEntryRvAdapter(context, entryResultBeen);
-                recommendEntryRv.setAdapter(entryAdapter);
-                recommendEntryRv.setLayoutManager(new GridLayoutManager(context, 3));
+
                 //歌单推荐
                 diyResultBeen = bean.getResult().getDiy().getResult();
                 diyRvAdapter = new RecommendDiyRvAdapter(context, diyResultBeen);
-                recommendDiyRv.setAdapter(diyRvAdapter);
-                recommendDiyRv.setLayoutManager(new GridLayoutManager(context, 3));
+
                 //新碟上架
                 mix1Been = bean.getResult().getMix_1().getResult();
                 mix1RvAdapter = new RecommendMix1RvAdapter(context, mix1Been);
-                recommendMix1Rv.setAdapter(mix1RvAdapter);
-                recommendMix1Rv.setLayoutManager(new GridLayoutManager(context, 3));
+
                 //热销专辑
                 mix22ResultBeen = bean.getResult().getMix_22().getResult();
                 mix22RvAdapter = new RecommendMix22RvAdapter(context, mix22ResultBeen);
-                recommendMix22Rv.setAdapter(mix22RvAdapter);
-                recommendMix22Rv.setLayoutManager(new GridLayoutManager(context, 3));
+
                 //场景电台
                 scenBeen = bean.getResult().getScene().getResult().getAction();
                 scenRcAdapter = new RecommendScenRcAdapter(context, scenBeen);
-                recommendScenRv.setAdapter(scenRcAdapter);
-                recommendScenRv.setLayoutManager(new GridLayoutManager(context, 4));
+
                 //今日推荐歌曲
                 recsongResultBeen = bean.getResult().getRecsong().getResult();
                 recsongRvAdapter = new RecommendRecsongRvAdapter(context, recsongResultBeen);
-                recommendRecsongRv.setAdapter(recsongRvAdapter);
-                recommendRecsongRv.setLayoutManager(new LinearLayoutManager(context,LinearLayoutManager.VERTICAL, false));
+
                 //原创音乐
                 mix9ResultBeen = bean.getResult().getMix_9().getResult();
                 mix9RvAdapter = new RecommendMix9RvAdapter(context, mix9ResultBeen);
-                recommendmix9Rv.setAdapter(mix9RvAdapter);
-                recommendmix9Rv.setLayoutManager(new GridLayoutManager(context, 3));
+
                 //最热MV推荐
                 mix5ResultBeen = bean.getResult().getMix_5().getResult();
                 mix5RvAdapter = new RecommendMix5RvAdapter(context, mix5ResultBeen);
-                recommendMix5Rv.setAdapter(mix5RvAdapter);
-                recommendMix5Rv.setLayoutManager(new GridLayoutManager(context, 3));
+
                 //乐播节目
                 radioResultBeen = bean.getResult().getRadio().getResult();
                 radioRvAdapter = new RecommendRadioRvAdapter(context, radioResultBeen);
-                recommendRadioRv.setAdapter(radioRvAdapter);
-                recommendRadioRv.setLayoutManager(new GridLayoutManager(context, 3));
+
                 //专栏
                 mod7ResultBeen = bean.getResult().getMod_7().getResult();
                 mod7RvAdapter = new RecommendMod7RvAdapter(mod7ResultBeen, context);
-                recommendMod7Rv.setAdapter(mod7RvAdapter);
-                recommendMod7Rv.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
+
                 //标题图标
                 List<MusicRecommendBean.ModuleBean> Iconbean = bean.getModule();
                 Picasso.with(context).load(Iconbean.get(3).getPicurl()).resize(30,30).into(diyIcon);
                 Picasso.with(context).load(Iconbean.get(5).getPicurl()).resize(30,30).into(mix1Icon);
                 Picasso.with(context).load(Iconbean.get(6).getPicurl()).resize(30,30).into(mix22Icon);
-                Picasso.with(context).load(Iconbean.get(7).getPicurl()).resize(30,30).into(scenIcon);
-                Picasso.with(context).load(Iconbean.get(8).getPicurl()).resize(30,30).into(recsongIcon);
-                Picasso.with(context).load(Iconbean.get(9).getPicurl()).resize(30,30).into(mix9Icon);
-                Picasso.with(context).load(Iconbean.get(10).getPicurl()).resize(30,30).into(mix5Icon);
-                Picasso.with(context).load(Iconbean.get(11).getPicurl()).resize(30,30).into(radioIcon);
-                Picasso.with(context).load(Iconbean.get(12).getPicurl()).resize(30,30).into(mod7Icon);
+                Picasso.with(context).load(Iconbean.get(8).getPicurl()).resize(30,30).into(scenIcon);
+                Picasso.with(context).load(Iconbean.get(9).getPicurl()).resize(30,30).into(recsongIcon);
+                Picasso.with(context).load(Iconbean.get(10).getPicurl()).resize(30,30).into(mix9Icon);
+                Picasso.with(context).load(Iconbean.get(11).getPicurl()).resize(30,30).into(mix5Icon);
+                Picasso.with(context).load(Iconbean.get(12).getPicurl()).resize(30,30).into(radioIcon);
+                Picasso.with(context).load(Iconbean.get(13).getPicurl()).resize(30,30).into(mod7Icon);
             }
 
             @Override
