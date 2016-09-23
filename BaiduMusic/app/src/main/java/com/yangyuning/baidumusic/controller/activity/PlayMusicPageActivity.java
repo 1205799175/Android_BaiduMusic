@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.yangyuning.baidumusic.R;
 import com.yangyuning.baidumusic.controller.adapter.VpAdapter;
@@ -50,6 +51,7 @@ public class PlayMusicPageActivity extends AbsBaseActivity implements View.OnCli
 
     //播放模式图标
     private int[] modeIcon;
+    private int[] modeName = new int[]{R.string.random_mode, R.string.order_mode, R.string.roundsingle_mode, R.string.loop_mode};
     private int currentMode = 0;
 
     //广播相关
@@ -184,15 +186,15 @@ public class PlayMusicPageActivity extends AbsBaseActivity implements View.OnCli
         bindService(intent, serviceConnection, BIND_AUTO_CREATE);
     }
 
-    //获取播放界面播放模式图片
+    //获取播放界面播放模式图片, 名称
     private void initPlayMode() {
-        TypedArray playAR;
-        playAR = getResources().obtainTypedArray(R.array.play_page_mode);
-        int len = playAR.length();
+        TypedArray playMode;
+        playMode = getResources().obtainTypedArray(R.array.play_page_mode);
+        int len = playMode.length();
         modeIcon = new int[len];
         for (int i = 0; i < len; i++)
-            modeIcon[i] = playAR.getResourceId(i, 0);
-        playAR.recycle();
+            modeIcon[i] = playMode.getResourceId(i, 0);
+        playMode.recycle();
         modeImg.setImageResource(modeIcon[0]);
     }
 
@@ -228,6 +230,8 @@ public class PlayMusicPageActivity extends AbsBaseActivity implements View.OnCli
                 currentMode++;
                 currentMode = currentMode % modeIcon.length;
                 modeImg.setImageResource(modeIcon[currentMode]);
+                musicBinder.changePlayMode(currentMode);
+                Toast.makeText(this, modeName[currentMode], Toast.LENGTH_SHORT).show();
                 break;
             case R.id.play_music_past_img:  //上一曲
                 if (musicBinder != null) {
@@ -244,7 +248,6 @@ public class PlayMusicPageActivity extends AbsBaseActivity implements View.OnCli
                     if (!musicBinder.getMusicIsPlaying()) {
                         playImg.setSelected(false);
                     } else {
-//                        musicBinder.pauseMusic();
                         playImg.setSelected(true);
                     }
                 }
@@ -275,6 +278,16 @@ public class PlayMusicPageActivity extends AbsBaseActivity implements View.OnCli
                 }
 
                 break;
+        }
+        //设置播放键状态
+        initBtnState();
+    }
+
+    private void initBtnState() {
+        if (musicBinder.getMusicIsPlaying()) {
+            playImg.setSelected(true);
+        } else {
+            playImg.setSelected(false);
         }
     }
 

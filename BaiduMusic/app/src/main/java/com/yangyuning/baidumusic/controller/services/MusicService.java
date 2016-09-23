@@ -9,6 +9,7 @@ import android.os.IBinder;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.yangyuning.baidumusic.model.bean.OwnLocalMusicLvBean;
 import com.yangyuning.baidumusic.utils.BaiduMusicValues;
@@ -16,6 +17,7 @@ import com.yangyuning.baidumusic.utils.BaiduMusicValues;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by dllo on 16/9/20.
@@ -32,13 +34,65 @@ public class MusicService extends Service {
     //播放模式
     private int currentPlayMode = 0;
     //定义播放模式的数组
-    private PLAY_MODE [] playMode = {PLAY_MODE.LOOP, PLAY_MODE.ORDER, PLAY_MODE.RANDOM, PLAY_MODE.ROUNDSINGLE};
+    private PLAY_MODE[] playMode = {PLAY_MODE.RANDOM, PLAY_MODE.ORDER, PLAY_MODE.ROUNDSINGLE, PLAY_MODE.LOOP};
 
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
         return musicBinder;
     }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        musicBinder = new MusicBinder();
+        //初始化播放器
+        mediaPlayer = new MediaPlayer();
+        initMediaPlayer();
+    }
+
+    private void initMediaPlayer() {
+        //获取歌曲
+        datas = getLocalMusicInfo();
+        //完成监听 自动播放下一首
+        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                // 处理下一首
+                if (playMode[currentPlayMode] == PLAY_MODE.ROUNDSINGLE){    //单曲循环
+                    musicBinder.playMusicByMode(currentIndex);
+                }
+                if (playMode[currentPlayMode] == PLAY_MODE.ORDER){  //顺序播放
+                    musicBinder.nextMusixORDER();
+                }
+                if (playMode[currentPlayMode] == PLAY_MODE.RANDOM){ //随机播放
+                    currentIndex = randomPosition();
+                    musicBinder.playMusicByMode(currentIndex);
+                }
+                if (playMode[currentPlayMode] == PLAY_MODE.LOOP){  //循环播放
+                    musicBinder.nextMusic();
+                }
+                if (currentIndex != datas.size()) {     //发送广播, 通知数据改变, 歌名, 歌手
+                    Intent intent = new Intent();
+                    intent.setAction(BaiduMusicValues.THE_ACTION_PLAY_PAGE_PLAY);
+                    sendBroadcast(intent);
+                }
+            }
+        });
+    }
+
+    //获得随机播放的随机数
+    private int randomPosition() {
+        Random random = new Random(System.currentTimeMillis());
+        double randomDouble = random.nextDouble();
+        double rate = randomDouble / 1.0;
+        int cur = (int) (rate * datas.size());
+        if (cur == currentIndex) {
+            cur = random.nextInt(3);
+        }
+        return cur;
+    }
+
 
     public class MusicBinder extends Binder {
         //获取音乐集合
@@ -81,7 +135,7 @@ public class MusicService extends Service {
          */
         public void nextMusic() {
             currentIndex++;
-            if (currentIndex == datas.size()) {
+            if (currentIndex >= datas.size()) {
                 currentIndex = 0;
             }
             try {
@@ -91,6 +145,25 @@ public class MusicService extends Service {
                 mediaPlayer.start();
             } catch (IOException e) {
                 e.printStackTrace();
+            }
+        }
+
+        /**
+         * 下一曲, 列表播放完不循环
+         */
+        public void nextMusixORDER() {
+            currentIndex++;
+            if (currentIndex >= datas.size()) {
+                mediaPlayer.pause();
+            }else {
+                try {
+                    mediaPlayer.reset();
+                    mediaPlayer.setDataSource(datas.get(currentIndex).getUrl());
+                    mediaPlayer.prepare();
+                    mediaPlayer.start();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
 
@@ -129,10 +202,9 @@ public class MusicService extends Service {
         /**
          * 改变播放模式
          */
-        public void changePlayMode(int position){
+        public void changePlayMode(int position) {
             currentPlayMode = position;
         }
-
 
         /**
          * 获取当前音乐时长
@@ -177,30 +249,6 @@ public class MusicService extends Service {
             mediaPlayer.stop();
             mediaPlayer.release();
         }
-    }
-
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        musicBinder = new MusicBinder();
-
-        //获取歌曲
-        getLocalMusicInfo();
-
-        //初始化播放器
-        mediaPlayer = new MediaPlayer();
-
-        //完成监听 自动播放下一首
-        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-                // 处理下一首
-                musicBinder.nextMusic();
-                Intent intent = new Intent();
-                intent.setAction(BaiduMusicValues.THE_ACTION_PLAY_PAGE_PLAY);
-                sendBroadcast(intent);
-            }
-        });
     }
 
     //获取歌曲

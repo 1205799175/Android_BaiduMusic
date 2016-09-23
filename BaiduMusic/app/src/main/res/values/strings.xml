@@ -104,5 +104,9 @@
         <item>@mipmap/bt_playpage_loop_normal</item>
     </string-array>
 
+    <string name="random_mode">随机播放</string>
+    <string name="order_mode">顺序播放</string>
+    <string name="roundsingle_mode">单曲循环</string>
+    <string name="loop_mode">循环播放</string>
 
 </resources>

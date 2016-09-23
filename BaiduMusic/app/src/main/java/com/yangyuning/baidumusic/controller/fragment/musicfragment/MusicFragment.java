@@ -61,6 +61,7 @@ public class MusicFragment extends AbsBaseFragment {
         musicTb.getTabAt(3).setText(getString(R.string.music_tab_radio));
         musicTb.getTabAt(4).setText(getString(R.string.music_tab_mv));
         musicTb.setTabTextColors(Color.BLACK, Color.argb(255, 0, 180, 255));
+        musicVp.setOffscreenPageLimit(0);
 
     }
 }
