@@ -46,9 +46,10 @@ public class AliveDetailTabFragment extends AbsBaseFragment {
     @Override
     protected void initDatas() {
         //直播下部RecyClerView操作
-        rv.setAdapter(aliveRvBottomAdapter);
+        aliveRvBottomAdapter = new AliveRvBottomAdapter(context);
         //获取,解析上部数据
         getBottomNetDatas();
+        rv.setAdapter(aliveRvBottomAdapter);
         //设置布局管理器
         rv.setLayoutManager(new GridLayoutManager(context, 2));
     }
@@ -57,13 +58,13 @@ public class AliveDetailTabFragment extends AbsBaseFragment {
     private void getBottomNetDatas() {
         Bundle bundle = getArguments();
         String url = bundle.getString(BaiduMusicValues.THE_NEWINSTANCE_URL_KEY);
+
         VolleyInstance.getInstance().startResult(url, new VolleyResult() {
             @Override
             public void success(String resultStr) {
                 Gson gson = new Gson();
                 AliveRvBottomBean aliveRvBottomBean = gson.fromJson(resultStr, AliveRvBottomBean.class);
                 List<AliveRvBottomBean.DataBean.mDataBean> bottomDatas =  aliveRvBottomBean.getData().getmData();
-                aliveRvBottomAdapter = new AliveRvBottomAdapter(context);
                 aliveRvBottomAdapter.setDatas(bottomDatas);
             }
 

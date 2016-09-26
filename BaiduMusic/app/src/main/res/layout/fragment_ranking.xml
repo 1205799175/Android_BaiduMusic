@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <!--乐库 排行 ListView-->
     <ListView
         android:id="@+id/ranking_lv"
         android:layout_width="match_parent"

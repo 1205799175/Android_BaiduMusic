@@ -22,6 +22,7 @@
                 android:src="@mipmap/new_songss" />
 
             <ImageView
+                android:id="@+id/music_ranking_play_img"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/item_ranking_img"

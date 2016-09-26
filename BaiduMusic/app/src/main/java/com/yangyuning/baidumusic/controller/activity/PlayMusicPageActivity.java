@@ -124,9 +124,11 @@ public class PlayMusicPageActivity extends AbsBaseActivity implements View.OnCli
                     }
                 }
             }
+
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
             }
+
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
             }
@@ -176,7 +178,7 @@ public class PlayMusicPageActivity extends AbsBaseActivity implements View.OnCli
 
         //设置毛玻璃效果
         BitmapDrawable bg = new BitmapDrawable(getResources(),
-                AeroGlassUtil.doBlur(BitmapFactory.decodeResource(getResources(), R.mipmap.play_page_bg), 50, false));
+                AeroGlassUtil.doBlur(BitmapFactory.decodeResource(getResources(), R.mipmap.lunbo), 90, false));
         playMusicBg.setBackground(bg);
         //设置初始播放模式
         initPlayMode();
@@ -206,16 +208,18 @@ public class PlayMusicPageActivity extends AbsBaseActivity implements View.OnCli
             while (true) {
                 if (musicBinder != null) {
                     if (musicBinder.getMusicIsPlaying()) {
+                        if (musicBinder != null) {
+                            int currentPosition = musicBinder.getCurrentMusicPosition();
+                            Message message = new Message();
+                            message.what = 101;
+                            message.obj = currentPosition;
+                            handler.sendMessage(message);
+                        }
                         try {
                             Thread.sleep(1000);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
-                        int currentPosition = musicBinder.getCurrentMusicPosition();
-                        Message message = new Message();
-                        message.what = 101;
-                        message.obj = currentPosition;
-                        handler.sendMessage(message);
                     }
                 }
             }
@@ -328,8 +332,10 @@ public class PlayMusicPageActivity extends AbsBaseActivity implements View.OnCli
     protected void onDestroy() {
         super.onDestroy();
         unregisterReceiver(playPageReceiver);
-//        if (musicBinder != null)
-//            musicBinder.stopMusic();
         unbindService(serviceConnection);
+        if (musicBinder != null) {
+            musicBinder.stopMusic();
+        }
+        musicBinder = null;
     }
 }

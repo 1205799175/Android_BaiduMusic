@@ -1,37 +1,65 @@
 package com.yangyuning.baidumusic.controller.activity;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager;
+import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.yangyuning.baidumusic.R;
+import com.yangyuning.baidumusic.controller.adapter.VpAdapter;
 import com.yangyuning.baidumusic.controller.fragment.alivefragment.AliveFragment;
 import com.yangyuning.baidumusic.controller.fragment.alivefragment.AliveRvDetailFragment;
 import com.yangyuning.baidumusic.controller.fragment.ownfragment.LocalMusicDetailsFragment;
 import com.yangyuning.baidumusic.controller.fragment.MainFragment;
 import com.yangyuning.baidumusic.controller.fragment.ownfragment.OwnFragment;
+import com.yangyuning.baidumusic.controller.fragment.playpagefragment.PlayPageLyricFragment;
+import com.yangyuning.baidumusic.utils.AeroGlassUtil;
 import com.yangyuning.baidumusic.utils.BaiduMusicValues;
+import com.yangyuning.baidumusic.utils.ScreenSizeUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AbsBaseActivity implements View.OnClickListener {
-    private FrameLayout frameLayout;
-    private TextView songTv, singerTv;
-    private ImageView nextImg, playImg, listImg;
-    private LinearLayout linearLayout;
+    private TextView songTv, singerTv;  //底部播放栏歌手名, 歌曲名
+    private ImageView nextImg, playImg, listImg;    //底部播放栏按钮
+    private LinearLayout linearLayout, main_ll;  //底部播放栏线性布局, main整体布局的线性布局
 
     private boolean isExit; // app退出标志位
 
+    //弹出PopWindow相关内容
+    private View popView;   //PopWindow布局
+    private List<Fragment> fragments;   //PopWindow中三个fragment
+    private ViewPager popVp;
+    private VpAdapter popVpAdapter;
+    private TextView popSonVgTv, popSingerTv;    //PopWindow上方歌名歌手
+    private ImageView popBackImg, popLyricImg;  //返回, 词
+    private ImageView popModeImg, popPastImg, popPlayImg, popNextImg, popListImg;   //PopWindow内播放模式, 上一曲,播放, 下一曲, 播放列表
+    private SeekBar popSeekBar; //进度条
+    private TextView popCurrentTimeTv, popDurationTv;   //进度条时间
+
+    //广播接收者
     private FrameReceiver frameReceiver;
     private AliveTopRvReceiver aliveTopRvReceiver;
     private LocalMusicPlayReceiver localMusicPlayReceiver;
@@ -43,13 +71,28 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
 
     @Override
     protected void initView() {
-        frameLayout = byView(R.id.main_frame_layout);
         songTv = byView(R.id.main_song);
         singerTv = byView(R.id.main_singer);
         nextImg = byView(R.id.main_next);
         playImg = byView(R.id.main_play);
         listImg = byView(R.id.main_playinglist);
         linearLayout = byView(R.id.main_play_layout);
+        main_ll = byView(R.id.main_ll);
+        //PopWindow
+        popView = LayoutInflater.from(MainActivity.this).inflate(R.layout.activity_play_music, null);
+        popVp = (ViewPager) popView.findViewById(R.id.play_page_vp);
+        popSonVgTv = (TextView) popView.findViewById(R.id.play_music_song_tv);
+        popSingerTv = (TextView) popView.findViewById(R.id.play_music_singer_tv);
+        popBackImg = (ImageView) popView.findViewById(R.id.play_music_back_img);
+        popLyricImg = (ImageView) popView.findViewById(R.id.play_music_lyric_img);
+        popModeImg = (ImageView) popView.findViewById(R.id.play_music_form_img);
+        popPastImg = (ImageView) popView.findViewById(R.id.play_music_past_img);
+        popPlayImg = (ImageView) popView.findViewById(R.id.play_music_play_img);
+        popNextImg = (ImageView) popView.findViewById(R.id.play_music_next_img);
+        popListImg = (ImageView) popView.findViewById(R.id.play_music_list_img);
+        popSeekBar = (SeekBar) popView.findViewById(R.id.play_music_seekbar);
+        popCurrentTimeTv = (TextView) popView.findViewById(R.id.play_music_current_time_tv);
+        popDurationTv = (TextView) popView.findViewById(R.id.play_music_duration_tv);
 
         nextImg.setOnClickListener(this);
         playImg.setOnClickListener(this);
@@ -58,8 +101,24 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
     }
     @Override
     protected void initDatas() {
-        //我的Fragment广播接收者注册
+        //替换占位布局
+        replaceFrameLayout();
+        //注册广播接收者
+        initRegisterReceivers();
+    }
 
+    //替换占位布局
+    private void replaceFrameLayout() {
+        //刚开始替换为占位布局
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.main_frame_layout, MainFragment.newInstance());
+        ft.commit();
+    }
+
+    //注册广播接收者
+    private void initRegisterReceivers() {
+        //我的Fragment广播接收者注册
         frameReceiver = new FrameReceiver();
         IntentFilter ownFilter = new IntentFilter();
         ownFilter.addAction(BaiduMusicValues.THE_ACTION_OWN_LOCAL);
@@ -76,14 +135,6 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
         IntentFilter localFilter = new IntentFilter();
         localFilter.addAction(BaiduMusicValues.THE_ACTION_PLAY_MUSIC);
         registerReceiver(localMusicPlayReceiver, localFilter);
-
-        FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        ft.replace(R.id.main_frame_layout, MainFragment.newInstance());
-        ft.commit();
-
-        //按两次返回键退出应用程序
-
     }
 
     //广播接收者  从OwnFragment发送
@@ -158,14 +209,60 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
                 break;
             case R.id.main_playinglist:     //播放列表
                 break;
-            case R.id.main_play_layout:     //播放栏
-                Intent intent = new Intent(MainActivity.this, PlayMusicPageActivity.class);
-                startActivity(intent);
+            case R.id.main_play_layout:     //播放栏, 点击弹出PopWindow播放界面
+                //初始化PopWindow并显示
+                showPopWindow(v);
+                //初始化PopWindow数据
+                initPopWindowData();
                 break;
         }
     }
 
+    /**
+     * 初始化PopWindow并显示
+     */
+    private void showPopWindow(View v) {
+        int[] location = new int[2];
+        v.getLocationOnScreen(location);
+        PopupWindow popupWindow = new PopupWindow(
+                WindowManager.LayoutParams.MATCH_PARENT,
+                ScreenSizeUtil.getScreenSize(ScreenSizeUtil.ScreenState.HEIGHT) - getStatusBarHeight());
+        BitmapDrawable bg = new BitmapDrawable(getResources(),
+                AeroGlassUtil.doBlur(BitmapFactory.decodeResource(getResources(), R.mipmap.lunbo), 80, false)
+        );
+        popupWindow.setBackgroundDrawable(bg);
+        popupWindow.setContentView(popView);
+        popupWindow.setFocusable(true);
+        popupWindow.showAtLocation(main_ll, Gravity.NO_GRAVITY, 0, getStatusBarHeight());
+    }
 
+    /**
+     * 初始化PopWindow数据
+     */
+    private void initPopWindowData() {
+        fragments = new ArrayList<>();
+        fragments.add(PlayPageLyricFragment.newInstance());
+        fragments.add(PlayPageLyricFragment.newInstance());
+        fragments.add(PlayPageLyricFragment.newInstance());
+        popVpAdapter = new VpAdapter(getSupportFragmentManager(), fragments);
+        popVp.setAdapter(popVpAdapter);
+        popVp.setCurrentItem(1);
+    }
+
+    /**
+     * 获取屏幕顶部标题栏高度
+     * @return 标题栏高度
+     */
+    public int getStatusBarHeight() {
+        int result = 0;
+        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = getResources().getDimensionPixelSize(resourceId);
+        }
+        return result;
+    }
+
+    ///////////////////////////
     Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -201,6 +298,7 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
             System.exit(0);
         }
     }
+///////////////////////////////
 
     //广播接收者取消注册
     @Override

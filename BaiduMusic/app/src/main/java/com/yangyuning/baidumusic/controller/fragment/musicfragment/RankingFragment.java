@@ -1,13 +1,17 @@
 package com.yangyuning.baidumusic.controller.fragment.musicfragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.google.gson.Gson;
 import com.yangyuning.baidumusic.R;
 import com.yangyuning.baidumusic.controller.adapter.MusicRankingLvAdapter;
 import com.yangyuning.baidumusic.controller.fragment.AbsBaseFragment;
+import com.yangyuning.baidumusic.controller.services.MusicService;
 import com.yangyuning.baidumusic.model.bean.MusicRankingBean;
 import com.yangyuning.baidumusic.model.net.VolleyInstance;
 import com.yangyuning.baidumusic.model.net.VolleyResult;
@@ -47,6 +51,8 @@ public class RankingFragment extends AbsBaseFragment {
         //获得并解析网络数据
         getNetDatas();
         rangkingLv.setAdapter(musicRankingLvAdapter);
+        //行点击事件 进入二级页面
+//        initListener();
     }
 
     //获得并解析网络数据
@@ -65,4 +71,15 @@ public class RankingFragment extends AbsBaseFragment {
             }
         });
     }
+
+    //行点击事件 进入二级页面
+//    private void initListener() {
+//        rangkingLv.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//            }
+//        });
+//    }
+
 }

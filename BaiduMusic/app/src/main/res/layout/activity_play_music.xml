@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:id="@+id/play_music_ll">
 
-    <!--播放界面-->
+    <!--播放栏 播放界面-->
 
     <!--最上部-->
     <LinearLayout
