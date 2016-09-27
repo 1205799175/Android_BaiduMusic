@@ -12,10 +12,8 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
-import android.os.Vibrator;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -82,7 +80,7 @@ public class PlayMusicPageActivity extends AbsBaseActivity implements View.OnCli
 
     @Override
     protected int setLayout() {
-        return R.layout.activity_play_music;
+        return R.layout.activity_popwin_play_music;
     }
 
     @Override

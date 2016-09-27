@@ -25,6 +25,12 @@ public class BaiduMusicValues {
     public static final String THE_ACTION_KEY_POAITION = "position";
 
     /**
+     * 点击进入排行详情页 广播
+     */
+    public static final String THE_ACTION_RANKING_DETAIL = "com.yangyuning.baidumusic.controller.fragment.musicfragment.RankingFragment";
+    public static final String RANKING_DETAIL_KET_POSITION = "position";
+
+    /**
      * 播放界面点击播放 在歌词Fragment上方显示歌名歌歌手 广播
      */
     public static final String THE_ACTION_PLAY_PAGE_PLAY = "com.yangyuning.baidumusic.controller.activity.PlayMusicPageActivity";
@@ -87,6 +93,11 @@ public class BaiduMusicValues {
      */
     public static final String MUSIC_RANKING = "http://tingapi.ting.baidu.com/v1/restserver/ting?method=baidu.ting.billboard.billCategory&format=json&from=ios&version=5.2.1&from=ios&channel=appstore";
 
+    /**
+     * 乐库--排行--详情
+     */
+    public static final String MUSIC_RANKING_DETAIL_HEAD = "http://tingapi.ting.baidu.com/v1/restserver/ting?method=baidu.ting.billboard.billList&type=";
+    public static final String MUSIC_RANKING_DETAIL_BOTTOM = "&format=json&offset=0&size=50&from=ios&fields=title,song_id,author,resource_type,havehigh,is_new,has_mv_mobile,album_title,ting_uid,album_id,charge,all_rate&version=5.2.1&from=ios&channel=appstore";
     /**
      * 乐库-电台 接口
      */

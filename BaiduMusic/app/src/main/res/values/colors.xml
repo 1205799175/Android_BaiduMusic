@@ -22,9 +22,23 @@
     <!--播放界面背景色-->
     <color name="play_music_bg">#787778</color>
 
+    <!--min List popwindow-->
+    <color name="min_list_pop_header">#F2F4F5</color>
+    <color name="min_list_is_playing">#EEEEEE</color>
+
     <!--乐库 电台 图标颜色-->
     <color name="colorMLRadioOne">#ea8c12</color>
     <color name="colorMLRadioTwo">#36ea12</color>
     <color name="colorMLRadioThree">#1fe9bd</color>
     <color name="colorMLRadioFour">#12a6ea</color>
+
+
+    <color name="colorBg">#3ea6e7</color>
+    <color name="colorTextWhite">#ffffff</color>
+    <color name="colorBgAlpha">#01000000</color>
+    <color name="colorBgWhite">#ffffff</color>
+    <color name="colorBgPlayPage">#53c2c2</color>
+    <color name="colarBgNotif">#000000</color>
+
+
 </resources>

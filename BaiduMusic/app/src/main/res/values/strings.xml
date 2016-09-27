@@ -42,6 +42,10 @@
 
     <!--////////////////////////////////////////////////-->
 
+    <!--min List popWindow-->
+    <string name="min_list_is_playing_list">正在播放列表</string>
+    <string name="min_list_clear_all">全部清空</string>
+
     <!--我的界面-->
     <string name="own_create_self">自建歌单</string>
     <string name="own_songlist">收藏歌单</string>

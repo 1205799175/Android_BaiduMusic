@@ -134,19 +134,19 @@ public class MusicService extends Service {
          * 下一曲
          */
         public void nextMusic() {
-            currentIndex++;
-            if (currentIndex >= datas.size()) {
+            // 根据播放模式获得下一个将要播放的音乐
+            currentIndex = getNextPos(1);
+            if (currentIndex == datas.size()) {
                 currentIndex = 0;
+                if (playMode[currentPlayMode] == PLAY_MODE.ORDER) {
+                    Toast.makeText(MusicService.this, "顺序播放完成", Toast.LENGTH_SHORT).show();
+                    resetPlayer();
+                    return;
+                }
             }
-            try {
-                mediaPlayer.reset();
-                mediaPlayer.setDataSource(datas.get(currentIndex).getUrl());
-                mediaPlayer.prepare();
-                mediaPlayer.start();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            playMusic();
         }
+
 
         /**
          * 下一曲, 列表播放完不循环
@@ -167,22 +167,43 @@ public class MusicService extends Service {
             }
         }
 
+
         /**
          * 上一曲
          */
         public void pastMusic() {
-            currentIndex--;
+            currentIndex = getNextPos(-1);
             if (currentIndex < 0) {
                 currentIndex = datas.size() - 1;
+                if (playMode[currentPlayMode] == PLAY_MODE.ORDER) {
+                    Toast.makeText(MusicService.this, "没有可播放的歌曲", Toast.LENGTH_SHORT).show();
+                    resetPlayer();
+                    return;
+                }
             }
-            try {
-                mediaPlayer.reset();
-                mediaPlayer.setDataSource(datas.get(currentIndex).getUrl());
-                mediaPlayer.prepare();
-                mediaPlayer.start();
-            } catch (IOException e) {
-                e.printStackTrace();
+            playMusic();
+        }
+
+        private int getNextPos(int add) {
+            int next = 0;
+            switch (playMode[currentPlayMode]) {
+                case RANDOM:
+                    next = randomPosition();
+                    break;
+                // 上一曲或下一曲用add区分
+                case ORDER:
+                case LOOP:
+                case ROUNDSINGLE:
+                    next = currentIndex + add;
+                    break;
             }
+            return next;
+        }
+
+        public void resetPlayer() {
+            currentIndex = 0;
+            musicBinder.playMusic();
+            musicBinder.pauseMusic();
         }
 
         /**
@@ -241,7 +262,6 @@ public class MusicService extends Service {
             return mediaPlayer.isPlaying();
         }
 
-
         /**
          * 退出应用, 停止音乐播放
          */
@@ -276,11 +296,4 @@ public class MusicService extends Service {
     public enum PLAY_MODE {
         LOOP, ORDER, RANDOM, ROUNDSINGLE;   //循环播放, 顺序播放, 随机播放, 单曲循环
     }
-
-//    @Override
-//    public void onDestroy() {
-//        super.onDestroy();
-//        musicBinder.stopMusic();
-//        musicBinder = null;
-//    }
 }

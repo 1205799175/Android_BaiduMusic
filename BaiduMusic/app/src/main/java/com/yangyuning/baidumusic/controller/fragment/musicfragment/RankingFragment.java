@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 
@@ -52,7 +53,7 @@ public class RankingFragment extends AbsBaseFragment {
         getNetDatas();
         rangkingLv.setAdapter(musicRankingLvAdapter);
         //行点击事件 进入二级页面
-//        initListener();
+        initListener();
     }
 
     //获得并解析网络数据
@@ -73,13 +74,16 @@ public class RankingFragment extends AbsBaseFragment {
     }
 
     //行点击事件 进入二级页面
-//    private void initListener() {
-//        rangkingLv.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//            }
-//        });
-//    }
+    private void initListener() {
+        rangkingLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent();
+                intent.setAction(BaiduMusicValues.THE_ACTION_RANKING_DETAIL);
+                intent.putExtra(BaiduMusicValues.RANKING_DETAIL_KET_POSITION, position);
+                context.sendBroadcast(intent);
+            }
+        });
+    }
 
 }
