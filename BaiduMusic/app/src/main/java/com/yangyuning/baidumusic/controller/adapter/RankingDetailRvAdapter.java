@@ -12,7 +12,9 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.yangyuning.baidumusic.R;
+import com.yangyuning.baidumusic.model.bean.AliveRvTopBean;
 import com.yangyuning.baidumusic.model.bean.RankingDetailRvBean;
+import com.yangyuning.baidumusic.utils.interfaces.OnRvItemClick;
 
 import java.util.List;
 
@@ -24,16 +26,12 @@ public class RankingDetailRvAdapter extends RecyclerView.Adapter<RankingDetailRv
 
     private List<RankingDetailRvBean.SongListBean> datas;
     private Context context;
-//    private OnRankDetailRvListener onRankDetailRvListener;
-//    private OnGetMoreListener onGetMoreListener;
-//
-//    public void setOnGetMoreListener(OnGetMoreListener onGetMoreListener) {
-//        this.onGetMoreListener = onGetMoreListener;
-//    }
-//
-//    public void setOnRankDetailRvListener(OnRankDetailRvListener onRankDetailRvListener) {
-//        this.onRankDetailRvListener = onRankDetailRvListener;
-//    }
+
+    private OnRvItemClick<RankingDetailRvBean.SongListBean> onRvItemClickListener;
+
+    public void setOnRvItemClickListener(OnRvItemClick<RankingDetailRvBean.SongListBean> onRvItemClickListener) {
+        this.onRvItemClickListener = onRvItemClickListener;
+    }
 
     public RankingDetailRvAdapter(Context context) {
         this.context = context;
@@ -51,22 +49,22 @@ public class RankingDetailRvAdapter extends RecyclerView.Adapter<RankingDetailRv
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, final int position) {
+    public void onBindViewHolder(final MyViewHolder holder, final int position) {
         holder.title.setText(datas.get(position).getTitle());
         holder.author.setText(datas.get(position).getAuthor());
         Picasso.with(context).load(datas.get(position).getPic_small()).into(holder.coverIv);
-//        holder.item.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                onRankDetailRvListener.onItemClick(position);
-//            }
-//        });
-//        holder.moreIv.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                onGetMoreListener.OnMoreClick(position);
-//            }
-//        });
+
+        //点击事件
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onRvItemClickListener != null){
+                    int position = holder.getLayoutPosition();
+                    RankingDetailRvBean.SongListBean bean = datas.get(position);
+                    onRvItemClickListener.onRvItemClickListener(position, bean);
+                }
+            }
+        });
     }
 
     @Override
@@ -88,13 +86,6 @@ public class RankingDetailRvAdapter extends RecyclerView.Adapter<RankingDetailRv
         }
     }
 
-//    interface OnRankDetailRvListener{
-//        void onItemClick(int position);
-//    }
-//
-//    interface OnGetMoreListener{
-//        void OnMoreClick(int position);
-//    }
 }
 
 

@@ -19,11 +19,13 @@ import com.yangyuning.baidumusic.model.bean.RankingDetailRvBean;
 import com.yangyuning.baidumusic.model.net.VolleyInstance;
 import com.yangyuning.baidumusic.model.net.VolleyResult;
 import com.yangyuning.baidumusic.utils.BaiduMusicValues;
+import com.yangyuning.baidumusic.utils.interfaces.OnRvItemClick;
 
 import java.util.List;
 
 /**
  * Created by dllo on 16/9/27.
+ * 乐库 排行 详情
  */
 public class RankingDetailFragment extends AbsBaseFragment {
     private CollapsingToolbarLayout collapsingToolbarLayout;
@@ -32,10 +34,11 @@ public class RankingDetailFragment extends AbsBaseFragment {
     private ImageView backImg, downImg, shareImg;      //返回键, 下载, 分享
     private RecyclerView recyclerView;
     private RankingDetailRvAdapter rankingDetalAdapter;
+    private List<RankingDetailRvBean.SongListBean> datas;
 
-    public static RankingDetailFragment newInstance(int id) {
+    public static RankingDetailFragment newInstance(int type) {
         Bundle args = new Bundle();
-        args.putInt("id", id);
+        args.putInt("type", type);
         RankingDetailFragment fragment = new RankingDetailFragment();
         fragment.setArguments(args);
         return fragment;
@@ -78,19 +81,33 @@ public class RankingDetailFragment extends AbsBaseFragment {
                 context.sendBroadcast(intent);
             }
         });
+
+        //点击播放网络歌曲
+        rankingDetalAdapter.setOnRvItemClickListener(new OnRvItemClick<RankingDetailRvBean.SongListBean>() {
+            @Override
+            public void onRvItemClickListener(int position, RankingDetailRvBean.SongListBean songListBean) {
+                //向MainActivity发送广播  传songId
+                Intent intent = new Intent();
+                intent.setAction(BaiduMusicValues.THE_ACTION_RANKING_DETAIL_PLAY_MUSIC);
+                String songId = datas.get(position).getSong_id();
+                intent.putExtra(BaiduMusicValues.RANKING_DETAIL_PLAY_MUSIC_SONGID, songId);
+                context.sendBroadcast(intent);
+            }
+        });
     }
 
     //获取网络数据
     private void getNetData() {
         Bundle bundle = getArguments();
-        int id = (int) bundle.get("id");
-        String url = BaiduMusicValues.MUSIC_RANKING_DETAIL_HEAD + id + BaiduMusicValues.MUSIC_RANKING_DETAIL_BOTTOM;
+        int type = bundle.getInt("type");
+        Log.d("rrr", "type:" + type);
+        String url = BaiduMusicValues.MUSIC_RANKING_DETAIL_HEAD + type + BaiduMusicValues.MUSIC_RANKING_DETAIL_BOTTOM;
         VolleyInstance.getInstance().startResult(url, new VolleyResult() {
             @Override
             public void success(String resultStr) {
                 Gson gson = new Gson();
                 RankingDetailRvBean bean = gson.fromJson(resultStr, RankingDetailRvBean.class);
-                List<RankingDetailRvBean.SongListBean> datas = bean.getSong_list();
+                datas = bean.getSong_list();
                 rankingDetalAdapter.setDatas(datas);
             }
 

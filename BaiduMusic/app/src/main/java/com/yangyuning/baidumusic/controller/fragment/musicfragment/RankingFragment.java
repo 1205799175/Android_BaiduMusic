@@ -27,6 +27,7 @@ import java.util.List;
 public class RankingFragment extends AbsBaseFragment {
     private MusicRankingLvAdapter musicRankingLvAdapter;
     private ListView rangkingLv;
+    private List<MusicRankingBean.ContentBean> datas;
 
     public static RankingFragment newInstance() {
         Bundle args = new Bundle();
@@ -63,7 +64,7 @@ public class RankingFragment extends AbsBaseFragment {
             public void success(String resultStr) {
                 Gson gson = new Gson();
                 MusicRankingBean musicRankingBean = gson.fromJson(resultStr, MusicRankingBean.class);
-                List<MusicRankingBean.ContentBean> datas = musicRankingBean.getContent();
+                datas = musicRankingBean.getContent();
                 musicRankingLvAdapter.setDatas(datas);
             }
 
@@ -80,7 +81,9 @@ public class RankingFragment extends AbsBaseFragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent();
                 intent.setAction(BaiduMusicValues.THE_ACTION_RANKING_DETAIL);
+                int type = datas.get(position).getType();
                 intent.putExtra(BaiduMusicValues.RANKING_DETAIL_KET_POSITION, position);
+                intent.putExtra(BaiduMusicValues.RANKING_DETAIL_KET_TYPE, type);
                 context.sendBroadcast(intent);
             }
         });

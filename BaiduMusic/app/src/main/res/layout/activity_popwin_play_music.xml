@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:id="@+id/play_music_ll">
 
@@ -64,6 +65,14 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/margin_zero"
         android:layout_weight="1"/>
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/play_page_tb"
+        android:layout_width="wrap_content"
+        android:layout_height="5dp"
+        android:layout_gravity="center"
+        app:tabIndicatorColor="@color/play_music_bg"
+        app:tabMaxWidth="@dimen/common_margin"/>
 
     <LinearLayout
         android:layout_width="match_parent"

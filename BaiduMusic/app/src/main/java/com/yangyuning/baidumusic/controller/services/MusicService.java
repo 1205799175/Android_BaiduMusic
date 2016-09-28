@@ -26,6 +26,7 @@ import java.util.Random;
 public class MusicService extends Service {
     private MusicBinder musicBinder;
     private List<OwnLocalMusicLvBean> datas;
+
     //当前歌曲
     private int currentIndex = 0;
     //播放器

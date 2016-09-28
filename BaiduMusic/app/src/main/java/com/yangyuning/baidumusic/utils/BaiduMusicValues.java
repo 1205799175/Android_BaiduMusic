@@ -5,7 +5,8 @@ package com.yangyuning.baidumusic.utils;
  * 常量类
  */
 public class BaiduMusicValues {
-    public BaiduMusicValues() {}
+    public BaiduMusicValues() {
+    }
 
     /**
      * 我的Fragment本地歌曲到二级页面 广播 getAction
@@ -29,6 +30,18 @@ public class BaiduMusicValues {
      */
     public static final String THE_ACTION_RANKING_DETAIL = "com.yangyuning.baidumusic.controller.fragment.musicfragment.RankingFragment";
     public static final String RANKING_DETAIL_KET_POSITION = "position";
+    public static final String RANKING_DETAIL_KET_TYPE = "type";
+
+    /**
+     * 点击排行详情行布局播放网络歌曲  向MainActivity发广播 songId
+     */
+    public static final String THE_ACTION_RANKING_DETAIL_PLAY_MUSIC = "com.yangyuning.baidumusic.controller.fragment.musicfragment.RankingDetailFragment";
+    public static final String RANKING_DETAIL_PLAY_MUSIC_SONGID = "songId";
+
+    /**
+     * 各个页面发送网络歌曲链接广播到服务
+     */
+    public static final String THE_ACTION_MUSICSETVICE = "com.yangyuning.baidumusic.controller.services.MusicService";
 
     /**
      * 播放界面点击播放 在歌词Fragment上方显示歌名歌歌手 广播
@@ -134,7 +147,7 @@ public class BaiduMusicValues {
     public static final String ALIVE_BOTTOM_RECYCLERVIEW = "http://tingapi.ting.baidu.com/v1/restserver/ting?from=android&version=5.8.2.0&channel=875b&operator=0&method=baidu.ting.show.live&page_no=1&page_size=40";
 
     /**
-     *直播 上部 RV 二级页面 全部, 女神
+     * 直播 上部 RV 二级页面 全部, 女神
      */
     public static final String ALIVE_TOP_RV_DETAIL_ALL = "http://tingapi.ting.baidu.com/v1/restserver/ting?from=android&version=5.8.2.0&channel=875b&operator=0&method=baidu.ting.show.item&page_size=30&page_no=1&category=hot";
     public static final String ALIVE_TOP_RV_DETAIL_WOMAN = "http://tingapi.ting.baidu.com/v1/restserver/ting?from=android&version=5.8.2.0&channel=875b&operator=0&method=baidu.ting.show.item&page_size=30&page_no=1&category=4";
@@ -144,4 +157,13 @@ public class BaiduMusicValues {
     public static final String ALIVE_TOP_RV_DETAIL_JOY = "http://tingapi.ting.baidu.com/v1/restserver/ting?from=android&version=5.8.2.0&channel=875b&operator=0&method=baidu.ting.show.item&page_size=30&page_no=1&category=15";
     public static final String ALIVE_TOP_RV_DETAIL_SISTER = "http://tingapi.ting.baidu.com/v1/restserver/ting?from=android&version=5.8.2.0&channel=875b&operator=0&method=baidu.ting.show.item&page_size=30&page_no=1&category=1";
     public static final String ALIVE_TOP_RV_DETAIL_RECOMMEND = "http://tingapi.ting.baidu.com/v1/restserver/ting?from=android&version=5.8.2.0&channel=875b&operator=0&method=baidu.ting.show.item&page_size=30&page_no=1&category=recommend";
+
+    /**
+     * 网址拼接 播放网络歌曲
+     * SONG_ULR_HEAD : URL 头
+     * SONG_ULR_FOOT : URL 尾
+     */
+    public static final String SONG_ULR_HEAD = "http://tingapi.ting.baidu.com/v1/restserver/ting?from=webapp_music&method=baidu.ting.song.play&format=json&callback=&songid=";
+    public static final String SONG_URL_FOOT = "&_=1413017198449";
+
 }
