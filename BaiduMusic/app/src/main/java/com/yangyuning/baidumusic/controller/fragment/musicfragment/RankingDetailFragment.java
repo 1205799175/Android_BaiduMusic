@@ -100,7 +100,6 @@ public class RankingDetailFragment extends AbsBaseFragment {
     private void getNetData() {
         Bundle bundle = getArguments();
         int type = bundle.getInt("type");
-        Log.d("rrr", "type:" + type);
         String url = BaiduMusicValues.MUSIC_RANKING_DETAIL_HEAD + type + BaiduMusicValues.MUSIC_RANKING_DETAIL_BOTTOM;
         VolleyInstance.getInstance().startResult(url, new VolleyResult() {
             @Override
@@ -109,6 +108,9 @@ public class RankingDetailFragment extends AbsBaseFragment {
                 RankingDetailRvBean bean = gson.fromJson(resultStr, RankingDetailRvBean.class);
                 datas = bean.getSong_list();
                 rankingDetalAdapter.setDatas(datas);
+                Picasso.with(context).load(bean.getBillboard().getPic_s210()).into(toolBarBgImg);
+                totalSongNum.setText("共" + datas.size() + "首歌");
+                collapsingToolbarLayout.setTitle(bean.getBillboard().getName());
             }
 
             @Override

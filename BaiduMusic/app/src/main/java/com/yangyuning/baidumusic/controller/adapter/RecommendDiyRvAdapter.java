@@ -47,7 +47,11 @@ public class RecommendDiyRvAdapter extends RecyclerView.Adapter<RecommendDiyRvAd
 
     @Override
     public void onBindViewHolder(ViewHodler holder, int position) {
-        Picasso.with(context).load(datas.get(position).getPic()).into(holder.imagView);
+        if (datas.get(position).getPic().equals("")){
+
+        }else {
+            Picasso.with(context).load(datas.get(position).getPic()).into(holder.imagView);
+        }
         holder.countTv.setText(datas.get(position).getListenum() + "");
         holder.songTv.setText(datas.get(position).getTitle());
         LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(height,width);

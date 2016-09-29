@@ -31,6 +31,18 @@ public class BaiduMusicValues {
     public static final String THE_ACTION_RANKING_DETAIL = "com.yangyuning.baidumusic.controller.fragment.musicfragment.RankingFragment";
     public static final String RANKING_DETAIL_KET_POSITION = "position";
     public static final String RANKING_DETAIL_KET_TYPE = "type";
+    /**
+     * 点击进入歌单详情
+     */
+    public static final String THE_ACTION_SONG_TO_DETAIL= "com.yangyuning.baidumusic.controller.fragment.musicfragment.SongFragment";
+    public static final String SONG_DETAIL_KET_POSITION = "position";
+    public static final String SONG_DETAIL_SONGID = "songId";
+
+    /**
+     * 点击推荐页面进入详情页
+     */
+    public static final String THE_ACTION_RECOMMEND_SONGER = "com.yangyuning.baidumusic.controller.fragment.musicfragment.RecommendSongerDetailFragment";
+
 
     /**
      * 点击排行详情行布局播放网络歌曲  向MainActivity发广播 songId
@@ -49,6 +61,20 @@ public class BaiduMusicValues {
     public static final String THE_ACTION_PLAY_PAGE_PLAY = "com.yangyuning.baidumusic.controller.activity.PlayMusicPageActivity";
     public static final String THE_ACTION_PLAY_PAGE_SONG = "song";
     public static final String THE_ACTION_PLAY_PAGE_SINGER = "singer";
+
+    /**
+     * K歌跳详情页 广播
+     */
+    public static final String K_KTVS = "新歌榜";
+    public static final String K_CHINAS = "华语金曲";
+    public static final String K_USAS= "欧美经典";
+    public static final String K_MAN = "男歌手";
+    public static final String K_WOMAN = "男歌手";
+    public static final String K_TEAM = "男歌手";
+
+    public static final String THE_ACTION_K_TO_DETAIL = "com.yangyuning.baidumusic.controller.fragment.kfragment.KFragment";
+    public static final String K_KEY = "key";
+
 
     /**
      * Fragment复用传网址的key
@@ -157,6 +183,13 @@ public class BaiduMusicValues {
     public static final String ALIVE_TOP_RV_DETAIL_JOY = "http://tingapi.ting.baidu.com/v1/restserver/ting?from=android&version=5.8.2.0&channel=875b&operator=0&method=baidu.ting.show.item&page_size=30&page_no=1&category=15";
     public static final String ALIVE_TOP_RV_DETAIL_SISTER = "http://tingapi.ting.baidu.com/v1/restserver/ting?from=android&version=5.8.2.0&channel=875b&operator=0&method=baidu.ting.show.item&page_size=30&page_no=1&category=1";
     public static final String ALIVE_TOP_RV_DETAIL_RECOMMEND = "http://tingapi.ting.baidu.com/v1/restserver/ting?from=android&version=5.8.2.0&channel=875b&operator=0&method=baidu.ting.show.item&page_size=30&page_no=1&category=recommend";
+
+    /**
+     *  K歌 KTV 华语金曲, 欧美经典 详情页
+     */
+    public static final String K_KTV = "http://tingapi.ting.baidu.com/v1/restserver/ting?from=android&version=5.8.2.0&channel=875b&operator=0&method=baidu.ting.learn.detail&page_no=0&page_size=50&query=all&value=0&desc=KTV%E7%83%AD%E6%AD%8C%E6%A6%9C";
+    public static final String K_CHINA = "http://tingapi.ting.baidu.com/v1/restserver/ting?from=android&version=5.8.2.0&channel=875b&operator=0&method=baidu.ting.learn.detail&page_no=0&page_size=50&query=area&value=1&desc=%E5%8D%8E%E8%AF%AD%E9%87%91%E6%9B%B2";
+    public static final String K_USA = "http://tingapi.ting.baidu.com/v1/restserver/ting?from=android&version=5.8.2.0&channel=875b&operator=0&method=baidu.ting.learn.detail&page_no=0&page_size=50&query=area&value=2&desc=%E6%AC%A7%E7%BE%8E%E7%BB%8F%E5%85%B8";
 
     /**
      * 网址拼接 播放网络歌曲

@@ -13,8 +13,10 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.yangyuning.baidumusic.R;
+import com.yangyuning.baidumusic.model.bean.AliveRvTopBean;
 import com.yangyuning.baidumusic.model.bean.MusicSongBean;
 import com.yangyuning.baidumusic.utils.ScreenSizeUtil;
+import com.yangyuning.baidumusic.utils.interfaces.OnRvItemClick;
 
 import java.util.List;
 
@@ -25,6 +27,12 @@ import java.util.List;
 public class MusicSongRvAdapter extends RecyclerView.Adapter<MusicSongRvAdapter.SongViewHolder> {
     private Context context;
     private List<MusicSongBean.ContentBean> datas;
+
+    private OnRvItemClick<MusicSongBean.ContentBean> onRvItemClickListener;
+
+    public void setOnRvItemClickListener(OnRvItemClick<MusicSongBean.ContentBean> onRvItemClickListener) {
+        this.onRvItemClickListener = onRvItemClickListener;
+    }
 
     private int height = ScreenSizeUtil.getScreenSize(ScreenSizeUtil.ScreenState.WIDTH) / 2;
     private int width = ScreenSizeUtil.getScreenSize(ScreenSizeUtil.ScreenState.WIDTH) / 2;
@@ -46,11 +54,26 @@ public class MusicSongRvAdapter extends RecyclerView.Adapter<MusicSongRvAdapter.
     }
 
     @Override
-    public void onBindViewHolder(SongViewHolder holder, int position) {
+    public void onBindViewHolder(final SongViewHolder holder, int position) {
         holder.titleTv.setText(datas.get(position).getTitle());
         holder.styleTv.setText(datas.get(position).getTag());
         holder.listenum.setText(datas.get(position).getListenum());
-        Picasso.with(context).load(datas.get(position).getPic_300()).resize(width, height).into(holder.imgId);
+        if (datas.get(position).getPic_300().equals("")) {
+        } else {
+            Picasso.with(context).load(datas.get(position).getPic_300()).resize(width, height).into(holder.imgId);
+        }
+
+        //点击事件
+        holder.imgId.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onRvItemClickListener != null){
+                    int position = holder.getLayoutPosition();
+                    MusicSongBean.ContentBean bean = datas.get(position);
+                    onRvItemClickListener.onRvItemClickListener(position, bean);
+                }
+            }
+        });
     }
 
     @Override

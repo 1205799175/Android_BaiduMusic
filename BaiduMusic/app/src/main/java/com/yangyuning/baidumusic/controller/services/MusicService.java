@@ -1,7 +1,10 @@
 package com.yangyuning.baidumusic.controller.services;
 
 import android.app.Service;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.media.MediaPlayer;
 import android.os.Binder;
@@ -24,8 +27,20 @@ import java.util.Random;
  * 服务 控制音乐
  */
 public class MusicService extends Service {
+    private MusicReceiver musicReceiver;
+
     private MusicBinder musicBinder;
     private List<OwnLocalMusicLvBean> datas;
+
+    private static List<String> musicUrlData = new ArrayList<>();
+
+    public static class MusicReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            musicUrlData = intent.getStringArrayListExtra("msuicUrl");
+            Log.d("www", "musicUrlData:" + musicUrlData);
+        }
+    }
 
     //当前歌曲
     private int currentIndex = 0;
@@ -45,6 +60,12 @@ public class MusicService extends Service {
 
     @Override
     public void onCreate() {
+        //注册广播
+        musicReceiver = new MusicReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(BaiduMusicValues.THE_ACTION_MUSICSETVICE);
+        registerReceiver(musicReceiver, filter);
+
         super.onCreate();
         musicBinder = new MusicBinder();
         //初始化播放器
@@ -296,5 +317,11 @@ public class MusicService extends Service {
      */
     public enum PLAY_MODE {
         LOOP, ORDER, RANDOM, ROUNDSINGLE;   //循环播放, 顺序播放, 随机播放, 单曲循环
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(musicReceiver);
     }
 }

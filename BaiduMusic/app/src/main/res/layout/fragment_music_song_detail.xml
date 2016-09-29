@@ -6,7 +6,7 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
-    <!--排行详情-->
+    <!--歌单详情-->
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
@@ -15,7 +15,7 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <android.support.design.widget.CollapsingToolbarLayout
-            android:id="@+id/rank_detail_toolbar_layout"
+            android:id="@+id/song_detail_toolbar_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
@@ -23,22 +23,41 @@
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <ImageView
-                android:id="@+id/rank_detail_toolbar_layout_bg"
+                android:id="@+id/song_detail_toolbar_layout_bg"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="fitXY" />
 
             <TextView
-                android:id="@+id/music_ranking_detail_date"
+                android:id="@+id/music_song_detail_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
                 android:layout_marginBottom="@dimen/common_margin"
                 android:layout_marginLeft="@dimen/common_margin"
-                android:text="更新日期: 2016.9.27" />
+                android:text="古风, 华语, 美好"/>
+
+            <TextView
+                android:id="@+id/music_song_detail_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@mipmap/ic_listen_count"
+                android:text="111"
+                android:layout_gravity="bottom"
+                android:layout_marginLeft="120dp"
+                android:layout_marginBottom="@dimen/common_margin"/>
+
+            <TextView
+                android:id="@+id/music_song_detail_fav_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@mipmap/ic_fav_count"
+                android:text="111"
+                android:layout_gravity="bottom|center"
+                android:layout_marginBottom="@dimen/common_margin"/>
 
             <ImageView
-                android:id="@+id/music_ranking_detail_play_all"
+                android:id="@+id/music_song_detail_play_all"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|right"
@@ -47,13 +66,13 @@
                 android:src="@mipmap/bt_playall_normal" />
 
             <android.support.v7.widget.Toolbar
-                android:id="@+id/rank_detail_toolbar"
+                android:id="@+id/song_detail_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin">
 
                 <ImageView
-                    android:id="@+id/rank_detail_back_btn"
+                    android:id="@+id/music_song_detail_back_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@mipmap/ic_back_normal" />
@@ -77,31 +96,46 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/rank_detail_total_songs"
+                android:id="@+id/msuic_song_detail_total_songs"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="@dimen/common_margin"
                 android:layout_weight="1"
                 android:text="111" />
-
-            <ImageView
-                android:id="@+id/rank_detail_down_load_all"
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/ic_download_normal" />
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/music_song_detail_fav"
+                    android:layout_width="@dimen/margin_zero"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/common_margin"
+                    android:layout_marginRight="@dimen/common_margin"
+                    android:src="@mipmap/ic_fav_normal"/>
 
-            <ImageView
-                android:id="@+id/rank_detail_share_song_list"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/common_margin"
-                android:layout_marginRight="@dimen/common_margin"
-                android:src="@mipmap/ic_share_normal" />
+                <ImageView
+                    android:id="@+id/music_song_detail_down_load_all"
+                    android:layout_width="@dimen/margin_zero"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/ic_download_normal" />
+
+                <ImageView
+                    android:id="@+id/music_song_detail_share_song_list"
+                    android:layout_width="@dimen/margin_zero"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/common_margin"
+                    android:layout_marginRight="@dimen/common_margin"
+                    android:src="@mipmap/ic_share_normal" />
+            </LinearLayout>
+
         </LinearLayout>
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/rank_detail_rv"
+            android:id="@+id/music_song_detail_rv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />

@@ -41,9 +41,13 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.yangyuning.baidumusic.R;
 import com.yangyuning.baidumusic.controller.adapter.PlayPageLinearPagerAdapter;
+import com.yangyuning.baidumusic.controller.adapter.RecommendDiyRvAdapter;
 import com.yangyuning.baidumusic.controller.adapter.VpAdapter;
 import com.yangyuning.baidumusic.controller.fragment.alivefragment.AliveRvDetailFragment;
+import com.yangyuning.baidumusic.controller.fragment.kfragment.KDetailFragment;
 import com.yangyuning.baidumusic.controller.fragment.musicfragment.RankingDetailFragment;
+import com.yangyuning.baidumusic.controller.fragment.musicfragment.RecommendDetailSongerFragment;
+import com.yangyuning.baidumusic.controller.fragment.musicfragment.SongDetailFragment;
 import com.yangyuning.baidumusic.controller.fragment.ownfragment.LocalMusicDetailsFragment;
 import com.yangyuning.baidumusic.controller.fragment.MainFragment;
 import com.yangyuning.baidumusic.controller.fragment.playpagefragment.PlayPageLyricFragment;
@@ -128,6 +132,9 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
     private RankingDetailReceiver rankingDetailReceiver;
     private PlayPageReceiver playPageReceiver;
     private RankingDetailPlayMusicRececiver rankingDetailPlayMusicRececiver;
+    private SongDetailReceiver songDetailReceiver;
+    private KDeatilReceiver kDeatilReceiver;
+    private RecommendDetailSongerReceiver recommendDetailSongerReceiver;
 
 
     //播放网络歌曲相关
@@ -356,6 +363,23 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
         rankDetailPlayFileter.addAction(BaiduMusicValues.THE_ACTION_RANKING_DETAIL_PLAY_MUSIC);
         registerReceiver(rankingDetailPlayMusicRececiver, rankDetailPlayFileter);
 
+        //歌单详情页广播接收者
+        songDetailReceiver = new SongDetailReceiver();
+        IntentFilter songDetailFilter = new IntentFilter();
+        songDetailFilter.addAction(BaiduMusicValues.THE_ACTION_SONG_TO_DETAIL);
+        registerReceiver(songDetailReceiver, songDetailFilter);
+
+        //广播接收者 进K歌详情
+        kDeatilReceiver = new KDeatilReceiver();
+        IntentFilter kDeatailFilter = new IntentFilter();
+        kDeatailFilter.addAction(BaiduMusicValues.THE_ACTION_K_TO_DETAIL);
+        registerReceiver(kDeatilReceiver, kDeatailFilter);
+
+        //广播接收者 推荐页面 歌手详情页
+        recommendDetailSongerReceiver = new RecommendDetailSongerReceiver();
+        IntentFilter songerFilter = new IntentFilter();
+        songerFilter.addAction(BaiduMusicValues.THE_ACTION_RECOMMEND_SONGER);
+        registerReceiver(recommendDetailSongerReceiver, songerFilter);
     }
 
     //广播接收者  从OwnFragment发送
@@ -458,8 +482,97 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
             getNetMusic();
         }
     }
+
+    //广播接收者 进入歌单详情
+    private class SongDetailReceiver extends BroadcastReceiver{
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            int pos = intent.getIntExtra(BaiduMusicValues.SONG_DETAIL_KET_POSITION, BaiduMusicValues.MAIN_RECEIVER_POSITION_MINUS_ONE);
+            String songId = intent.getStringExtra(BaiduMusicValues.SONG_DETAIL_SONGID);
+            List<String> songIds = intent.getStringArrayListExtra("songId");
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            switch (pos) {
+                case BaiduMusicValues.MAIN_RECEIVER_POSITION_MINUS_ONE:
+                    getSupportFragmentManager().popBackStack();
+                    break;
+                default:
+                    ft.addToBackStack(null);
+                    ft.replace(R.id.main_frame_layout, SongDetailFragment.newInstance(songIds));
+                    break;
+            }
+            ft.commit();
+        }
+    }
+
+    //广播接收者 进K歌详情
+    private class KDeatilReceiver extends BroadcastReceiver{
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            int pos = intent.getIntExtra(BaiduMusicValues.K_KEY, BaiduMusicValues.MAIN_RECEIVER_POSITION_ONE);
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            switch (pos){
+                case BaiduMusicValues.MAIN_RECEIVER_POSITION_MINUS_ONE:
+                    getSupportFragmentManager().popBackStack();
+                    break;
+                case BaiduMusicValues.MAIN_RECEIVER_POSITION_ONE:
+                    ft.addToBackStack(null);
+                    ft.replace(R.id.main_frame_layout, KDetailFragment.newInstance(BaiduMusicValues.K_KTV, BaiduMusicValues.K_KTVS));
+                    break;
+                case BaiduMusicValues.MAIN_RECEIVER_POSITION_TWO:
+                    ft.addToBackStack(null);
+                    ft.replace(R.id.main_frame_layout, KDetailFragment.newInstance(BaiduMusicValues.K_CHINA, BaiduMusicValues.K_CHINAS));
+                    break;
+                case BaiduMusicValues.MAIN_RECEIVER_POSITION_THREE:
+                    ft.addToBackStack(null);
+                    ft.replace(R.id.main_frame_layout, KDetailFragment.newInstance(BaiduMusicValues.K_USA, BaiduMusicValues.K_USAS));
+                    break;
+                case BaiduMusicValues.MAIN_RECEIVER_POSITION_FOUR:
+                    ft.addToBackStack(null);
+                    ft.replace(R.id.main_frame_layout, KDetailFragment.newInstance(BaiduMusicValues.K_KTV, BaiduMusicValues.K_MAN));
+                    break;
+                case BaiduMusicValues.MAIN_RECEIVER_POSITION_FIVE:
+                    ft.addToBackStack(null);
+                    ft.replace(R.id.main_frame_layout, KDetailFragment.newInstance(BaiduMusicValues.K_KTV, BaiduMusicValues.K_WOMAN));
+                    break;
+                case BaiduMusicValues.MAIN_RECEIVER_POSITION_SIX:
+                    ft.addToBackStack(null);
+                    ft.replace(R.id.main_frame_layout, KDetailFragment.newInstance(BaiduMusicValues.K_KTV, BaiduMusicValues.K_TEAM));
+                    break;
+            }
+            ft.commit();
+        }
+    }
+
+    //广播接收者 推荐页面 歌手详情页
+    private class RecommendDetailSongerReceiver extends BroadcastReceiver{
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            int pos = intent.getIntExtra(BaiduMusicValues.THE_ACTION_KEY_POAITION, BaiduMusicValues.MAIN_RECEIVER_POSITION_MINUS_ONE);
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            switch (pos) {
+                case BaiduMusicValues.MAIN_RECEIVER_POSITION_MINUS_ONE:
+                    getSupportFragmentManager().popBackStack();
+                    break;
+                case BaiduMusicValues.MAIN_RECEIVER_POSITION_ZREO:
+                    ft.addToBackStack(null);
+                    ft.replace(R.id.main_frame_layout, RecommendDetailSongerFragment.newInstance());
+                    break;
+                case BaiduMusicValues.MAIN_RECEIVER_POSITION_ONE:
+                    ft.addToBackStack(null);
+                    ft.replace(R.id.main_frame_layout, RecommendDetailSongerFragment.newInstance());
+                    break;
+                case BaiduMusicValues.MAIN_RECEIVER_POSITION_TWO:
+                    ft.addToBackStack(null);
+                    ft.replace(R.id.main_frame_layout, RecommendDetailSongerFragment.newInstance());
+                    break;
+            }
+            ft.commit();
+        }
+    }
+
     private void getNetMusic() {
         netMusicUrl = BaiduMusicValues.SONG_ULR_HEAD + songId + BaiduMusicValues.SONG_URL_FOOT;
+        Log.d("sss", netMusicUrl);
         VolleyInstance.getInstance().startResult(netMusicUrl, new VolleyResult() {
             @Override
             public void success(String resultStr) {
@@ -497,11 +610,9 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
                 }).start();
                 Intent intentMusic = new Intent();
                 intentMusic.setAction(BaiduMusicValues.THE_ACTION_MUSICSETVICE);
-                intentMusic.putStringArrayListExtra("name", (ArrayList<String>) musicURLData);
+                intentMusic.putStringArrayListExtra("msuicUrl", (ArrayList<String>) musicURLData);
                 sendBroadcast(intentMusic);
             }
-
-
             @Override
             public void failure() {
 
@@ -511,7 +622,7 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
 
     private Bitmap getBlurBitmap(Bitmap imgBg) {
         BitmapDrawable bg = new BitmapDrawable(getResources(),
-                AeroGlassUtil.doBlur(BitmapFactory.decodeResource(getResources(), R.mipmap.lunbo), 80, false));
+                AeroGlassUtil.doBlur(imgBg, 80, false));
         imgBg = bg.getBitmap();
         return imgBg;
     }
@@ -764,6 +875,9 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
         unregisterReceiver(rankingDetailReceiver);
         unregisterReceiver(playPageReceiver);
         unregisterReceiver(rankingDetailPlayMusicRececiver);
+        unregisterReceiver(songDetailReceiver);
+        unregisterReceiver(kDeatilReceiver);
+        unregisterReceiver(recommendDetailSongerReceiver);
         unbindService(serviceConnection);
         if (musicBinder != null) {
             musicBinder.stopMusic();

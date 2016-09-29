@@ -1,12 +1,13 @@
 package com.yangyuning.baidumusic.model.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by dllo on 16/9/27.
  * 乐库 排行 详情
  */
-public class RankingDetailRvBean {
+public class RankingDetailRvBean implements Serializable{
 
     /**
      * billboard_type : 1

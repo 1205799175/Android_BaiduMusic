@@ -8,6 +8,7 @@
 
     <!--中间图片-->
     <ImageView
+        android:id="@+id/play_page_lyric_img"
         android:layout_width="match_parent"
         android:layout_height="@dimen/margin_zero"
         android:layout_weight="4"

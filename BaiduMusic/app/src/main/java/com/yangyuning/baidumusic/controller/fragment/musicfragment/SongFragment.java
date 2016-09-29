@@ -1,5 +1,6 @@
 package com.yangyuning.baidumusic.controller.fragment.musicfragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,7 +22,9 @@ import com.yangyuning.baidumusic.model.net.VolleyInstance;
 import com.yangyuning.baidumusic.model.net.VolleyResult;
 import com.yangyuning.baidumusic.utils.BaiduMusicValues;
 import com.yangyuning.baidumusic.utils.ScreenSizeUtil;
+import com.yangyuning.baidumusic.utils.interfaces.OnRvItemClick;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -34,6 +37,7 @@ public class SongFragment extends AbsBaseFragment {
 
     private ImageView imgPopWindow;
     private LinearLayout rootView;
+    private List<MusicSongBean.ContentBean> datas;
 
     public static SongFragment newInstance() {
 
@@ -66,13 +70,12 @@ public class SongFragment extends AbsBaseFragment {
         rv.setAdapter(musicSongRvAdapter);
         //设置布局管理器
         rv.setLayoutManager(new GridLayoutManager(context, BaiduMusicValues.MV_RECYCLERVIEW_ROW_NUM));
-        //弹出PopWindow
-        setPopWindow();
+        addListener();
 
     }
 
-    //弹出PopWindow
-    private void setPopWindow() {
+    private void addListener() {
+        //弹出PopWindow
         imgPopWindow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -92,7 +95,23 @@ public class SongFragment extends AbsBaseFragment {
                 pw.showAtLocation(rootView, Gravity.BOTTOM, 0, 100);
             }
         });
+
+        //进入详情
+        musicSongRvAdapter.setOnRvItemClickListener(new OnRvItemClick<MusicSongBean.ContentBean>() {
+            @Override
+            public void onRvItemClickListener(int position, MusicSongBean.ContentBean contentBean) {
+                Intent intent = new Intent();
+                intent.setAction(BaiduMusicValues.THE_ACTION_SONG_TO_DETAIL);
+                intent.putExtra(BaiduMusicValues.SONG_DETAIL_KET_POSITION, position);
+                List<String> songIds = datas.get(position).getSongIds();
+                intent.putExtra(BaiduMusicValues.SONG_DETAIL_SONGID, songIds.get(position));
+                intent.putStringArrayListExtra("songId", (ArrayList<String>) songIds);
+                context.sendBroadcast(intent);
+            }
+        });
     }
+
+
 
     //获得并解析网络数据
     private void getNetDatas() {
@@ -101,7 +120,7 @@ public class SongFragment extends AbsBaseFragment {
             public void success(String resultStr) {
                 Gson gson = new Gson();
                 MusicSongBean musicSongBean = gson.fromJson(resultStr, MusicSongBean.class);
-                List<MusicSongBean.ContentBean> datas = musicSongBean.getContent();
+                datas = musicSongBean.getContent();
                 musicSongRvAdapter.setDatas(datas);
             }
 

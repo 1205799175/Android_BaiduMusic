@@ -1,5 +1,6 @@
 package com.yangyuning.baidumusic.controller.fragment.musicfragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.ViewPager;
@@ -15,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
@@ -37,6 +39,7 @@ import com.yangyuning.baidumusic.model.net.VolleyInstance;
 import com.yangyuning.baidumusic.model.net.VolleyResult;
 import com.yangyuning.baidumusic.utils.BaiduMusicValues;
 import com.yangyuning.baidumusic.utils.ScreenSizeUtil;
+import com.yangyuning.baidumusic.utils.interfaces.OnRvItemClick;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -154,6 +157,20 @@ public class RecommendFragment extends AbsBaseFragment {
         initAdapter();
         getNetDatas();
         doAdapter();
+        //点击事件
+        initListener();
+    }
+
+    private void initListener() {
+        entryAdapter.setOnRvItemClick(new OnRvItemClick<MusicRecommendBean.ResultBean.EntryBean.entryResultBean>() {
+            @Override
+            public void onRvItemClickListener(int position, MusicRecommendBean.ResultBean.EntryBean.entryResultBean entryResultBean) {
+                Intent intent = new Intent();
+                intent.setAction(BaiduMusicValues.THE_ACTION_RECOMMEND_SONGER);
+                intent.putExtra(BaiduMusicValues.THE_ACTION_KEY_POAITION, position);
+                context.sendBroadcast(intent);
+            }
+        });
     }
 
     private void initAdapter() {

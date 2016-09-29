@@ -1,8 +1,10 @@
 package com.yangyuning.baidumusic.controller.fragment.kfragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.ViewPager;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -27,7 +29,7 @@ import java.util.List;
  * Created by dllo on 16/9/9.
  * K歌Fragment
  */
-public class KFragment extends AbsBaseFragment {
+public class KFragment extends AbsBaseFragment implements View.OnClickListener {
     //轮播图
     private static final int TIME = 3000;
     private ViewPager viewPager;
@@ -41,10 +43,11 @@ public class KFragment extends AbsBaseFragment {
     private MyListView myListView;
     private KLvAdapter kLvAdapter;
 
+    //上部分类
+    private LinearLayout ktv, china, usa, man, woman, team;
+
     public static KFragment newInstance() {
-
         Bundle args = new Bundle();
-
         KFragment fragment = new KFragment();
         fragment.setArguments(args);
         return fragment;
@@ -60,6 +63,18 @@ public class KFragment extends AbsBaseFragment {
         viewPager = byView(R.id.k_rotate_vp);
         pointLl = byView(R.id.k_rotate_point_container);
         myListView = byView(R.id.k_lv);
+        ktv = byView(R.id.k_ktv);
+        china = byView(R.id.k_china);
+        usa = byView(R.id.k_usa);
+        man = byView(R.id.k_man);
+        woman = byView(R.id.k_woman);
+        team = byView(R.id.k_team);
+        ktv.setOnClickListener(this);
+        china.setOnClickListener(this);
+        usa.setOnClickListener(this);
+        man.setOnClickListener(this);
+        woman.setOnClickListener(this);
+        team.setOnClickListener(this);
     }
 
     @Override
@@ -100,6 +115,34 @@ public class KFragment extends AbsBaseFragment {
             }
         });
     }
+
+    @Override
+    public void onClick(View v) {
+        Intent intent = new Intent();
+        intent.setAction(BaiduMusicValues.THE_ACTION_K_TO_DETAIL);
+        switch (v.getId()){
+            case R.id.k_ktv:
+                intent.putExtra(BaiduMusicValues.K_KEY, BaiduMusicValues.MAIN_RECEIVER_POSITION_ONE);
+                break;
+            case R.id.k_china:
+                intent.putExtra(BaiduMusicValues.K_KEY, BaiduMusicValues.MAIN_RECEIVER_POSITION_TWO);
+                break;
+            case R.id.k_usa:
+                intent.putExtra(BaiduMusicValues.K_KEY, BaiduMusicValues.MAIN_RECEIVER_POSITION_THREE);
+                break;
+            case R.id.k_man:
+                intent.putExtra(BaiduMusicValues.K_KEY, BaiduMusicValues.MAIN_RECEIVER_POSITION_FOUR);
+                break;
+            case R.id.k_woman:
+                intent.putExtra(BaiduMusicValues.K_KEY, BaiduMusicValues.MAIN_RECEIVER_POSITION_FIVE);
+                break;
+            case R.id.k_team:
+                intent.putExtra(BaiduMusicValues.K_KEY, BaiduMusicValues.MAIN_RECEIVER_POSITION_SIX);
+                break;
+        }
+        context.sendBroadcast(intent);
+    }
+
 
     //随着轮播改变小点
     private void changePoints() {
@@ -201,4 +244,5 @@ public class KFragment extends AbsBaseFragment {
         super.onPause();
         isRotate = false;
     }
+
 }

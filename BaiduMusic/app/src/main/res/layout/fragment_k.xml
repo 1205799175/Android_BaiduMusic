@@ -55,6 +55,7 @@
                 android:orientation="horizontal">
 
                 <LinearLayout
+                    android:id="@+id/k_ktv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -73,6 +74,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/k_china"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -91,6 +93,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/k_usa"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -117,6 +120,7 @@
                 android:orientation="horizontal">
 
                 <LinearLayout
+                    android:id="@+id/k_man"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -135,6 +139,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/k_woman"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -153,6 +158,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/k_team"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

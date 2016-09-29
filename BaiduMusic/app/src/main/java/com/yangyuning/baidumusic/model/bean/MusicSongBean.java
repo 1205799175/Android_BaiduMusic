@@ -1,12 +1,13 @@
 package com.yangyuning.baidumusic.model.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by dllo on 16/9/12.
  * 乐库 歌单 实体类
  */
-public class MusicSongBean {
+public class MusicSongBean implements Serializable{
     /**
      * error_code : 22000
      * total : 6826
@@ -167,31 +168,4 @@ public class MusicSongBean {
         }
     }
 
-
-//    private String title;
-//    private String area;
-//
-//    public MusicSongBean() {
-//    }
-//
-//    public MusicSongBean(String title, String area) {
-//        this.title = title;
-//        this.area = area;
-//    }
-//
-//    public String getTitle() {
-//        return title;
-//    }
-//
-//    public void setTitle(String title) {
-//        this.title = title;
-//    }
-//
-//    public String getArea() {
-//        return area;
-//    }
-//
-//    public void setArea(String area) {
-//        this.area = area;
-//    }
 }

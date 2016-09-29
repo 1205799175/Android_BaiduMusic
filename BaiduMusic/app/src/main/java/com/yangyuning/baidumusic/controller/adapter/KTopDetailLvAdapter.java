@@ -5,28 +5,27 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.yangyuning.baidumusic.R;
 import com.yangyuning.baidumusic.model.bean.KLvBean;
-import com.yangyuning.baidumusic.model.bean.OwnLvBean;
+import com.yangyuning.baidumusic.model.bean.KTopDetailLvBean;
 
 import java.util.List;
 
 /**
- * Created by dllo on 16/9/13.
- * K歌Fragment的ListView适配器
+ * Created by dllo on 16/9/29.
+ * K歌 KTV 华语金曲, 欧美经典 详情页
  */
-public class KLvAdapter extends BaseAdapter {
+public class KTopDetailLvAdapter extends BaseAdapter {
     private Context context;
-    private List<KLvBean.ResultBean.ItemsBean> datas;
+    private List<KTopDetailLvBean.ResultBean.ItemsBean> datas;
 
-    public KLvAdapter(Context context) {
+    public KTopDetailLvAdapter(Context context) {
         this.context = context;
     }
 
-    public void setDatas(List<KLvBean.ResultBean.ItemsBean> datas) {
+    public void setDatas(List<KTopDetailLvBean.ResultBean.ItemsBean> datas) {
         this.datas = datas;
         notifyDataSetChanged();
     }
@@ -56,8 +55,8 @@ public class KLvAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        viewHolder.nameTv.setText(datas.get(position).getSong_title() + " - " + datas.get(position).getArtist_name());
-        viewHolder.timeTv.setText(datas.get(position).getPlay_num() + "唱过");
+        viewHolder.nameTv.setText(datas.get(position).getSong_title());
+        viewHolder.timeTv.setText(datas.get(position).getArtist_name());
         return convertView;
     }
 

@@ -11,7 +11,9 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.yangyuning.baidumusic.R;
+import com.yangyuning.baidumusic.model.bean.AliveRvTopBean;
 import com.yangyuning.baidumusic.model.bean.MusicRecommendBean;
+import com.yangyuning.baidumusic.utils.interfaces.OnRvItemClick;
 
 import java.util.List;
 
@@ -22,6 +24,12 @@ import java.util.List;
 public class RecommendEntryRvAdapter extends RecyclerView.Adapter<RecommendEntryRvAdapter.ViewHolder>{
     private Context context;
     private List<MusicRecommendBean.ResultBean.EntryBean.entryResultBean> datas;
+
+    private OnRvItemClick<MusicRecommendBean.ResultBean.EntryBean.entryResultBean> onRvItemClick;
+
+    public void setOnRvItemClick(OnRvItemClick<MusicRecommendBean.ResultBean.EntryBean.entryResultBean> onRvItemClick) {
+        this.onRvItemClick = onRvItemClick;
+    }
 
     public RecommendEntryRvAdapter(Context context) {
         this.context = context;
@@ -40,9 +48,21 @@ public class RecommendEntryRvAdapter extends RecyclerView.Adapter<RecommendEntry
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.titleTv.setText(datas.get(position).getTitle());
         Picasso.with(context).load(datas.get(position).getIcon()).into(holder.imgId);
+
+        //点击事件
+        holder.imgId.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onRvItemClick != null){
+                    int position = holder.getLayoutPosition();
+                    MusicRecommendBean.ResultBean.EntryBean.entryResultBean bean = datas.get(position);
+                    onRvItemClick.onRvItemClickListener(position, bean);
+                }
+            }
+        });
     }
 
     @Override
