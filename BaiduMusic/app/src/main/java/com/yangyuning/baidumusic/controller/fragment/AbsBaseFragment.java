@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.yangyuning.baidumusic.R;
+import com.yangyuning.baidumusic.utils.interfaces.OnChangeMusicListener;
 
 /**
  * Created by dllo on 16/9/8.
@@ -18,10 +19,11 @@ import com.yangyuning.baidumusic.R;
  * @time 9-8
  * @version 1.0
  */
-public abstract class AbsBaseFragment extends Fragment {
+public abstract class AbsBaseFragment extends Fragment{
 
     protected Context context;
-
+    // 所有界面都能够切换当前播放的音乐
+    protected OnChangeMusicListener onChangeMusicListener;
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);

@@ -29,6 +29,16 @@
                 android:scaleType="fitXY" />
 
             <TextView
+                android:id="@+id/music_song_detail_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="111"
+                android:layout_marginBottom="30dp"
+                android:textSize="@dimen/recommend_text_sizes"
+                android:layout_marginLeft="@dimen/common_margin"
+                android:layout_gravity="bottom"/>
+
+            <TextView
                 android:id="@+id/music_song_detail_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

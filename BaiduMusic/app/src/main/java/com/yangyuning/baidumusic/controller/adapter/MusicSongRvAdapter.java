@@ -11,6 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 import com.yangyuning.baidumusic.R;
 import com.yangyuning.baidumusic.model.bean.AliveRvTopBean;
@@ -46,6 +47,16 @@ public class MusicSongRvAdapter extends RecyclerView.Adapter<MusicSongRvAdapter.
         notifyDataSetChanged();
     }
 
+    /**
+     * 根据点击位置获取歌曲列表
+     * @param pos 数据的索引
+     * @return 返回歌曲列表信息
+     */
+    public MusicSongBean.ContentBean getList(int pos) {
+        MusicSongBean.ContentBean contentBean = datas.get(pos);
+        return contentBean;
+    }
+
     @Override
     public SongViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.item_music_song_rv, parent, false);
@@ -60,7 +71,7 @@ public class MusicSongRvAdapter extends RecyclerView.Adapter<MusicSongRvAdapter.
         holder.listenum.setText(datas.get(position).getListenum());
         if (datas.get(position).getPic_300().equals("")) {
         } else {
-            Picasso.with(context).load(datas.get(position).getPic_300()).resize(width, height).into(holder.imgId);
+            Glide.with(context).load(datas.get(position).getPic_300()).override(width, height).into(holder.imgId);
         }
 
         //点击事件

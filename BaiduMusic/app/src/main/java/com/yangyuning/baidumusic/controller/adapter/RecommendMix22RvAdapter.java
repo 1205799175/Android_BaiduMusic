@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 import com.yangyuning.baidumusic.R;
 import com.yangyuning.baidumusic.model.bean.MusicRecommendBean;
@@ -46,7 +47,7 @@ public class RecommendMix22RvAdapter extends RecyclerView.Adapter<RecommendMix22
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Picasso.with(context).load(datas.get(position).getPic()).resize(width, height).into(holder.imgId);
+        Glide.with(context).load(datas.get(position).getPic()).override(width, height).into(holder.imgId);
         holder.titleTv.setText(datas.get(position).getTitle());
         holder.singetTv.setText(datas.get(position).getAuthor());
     }

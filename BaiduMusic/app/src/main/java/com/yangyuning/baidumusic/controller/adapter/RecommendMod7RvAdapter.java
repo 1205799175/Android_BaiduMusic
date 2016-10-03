@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 import com.yangyuning.baidumusic.R;
 import com.yangyuning.baidumusic.model.bean.MusicRecommendBean;
@@ -49,7 +50,7 @@ public class RecommendMod7RvAdapter extends RecyclerView.Adapter<RecommendMod7Rv
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.titleTv.setText(datas.get(position).getTitle());
         holder.stateTv.setText(datas.get(position).getDesc());
-        Picasso.with(context).load(datas.get(position).getPic()).into(holder.imgId);
+        Glide.with(context).load(datas.get(position).getPic()).into(holder.imgId);
         LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(height,width);
         holder.imgId.setLayoutParams(params);
     }

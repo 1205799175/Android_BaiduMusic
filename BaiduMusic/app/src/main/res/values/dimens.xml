@@ -124,6 +124,7 @@
     <dimen name="own_text_size">12sp</dimen>
     <!--推荐页面 标题带歌手名 文字大小-->
     <dimen name="recommend_text_size">12sp</dimen>
+    <dimen name="recommend_text_sizes">15sp</dimen>
     <!--推荐 听歌次数-->
     <dimen name="recommend_listen_count">8sp</dimen>
     <!--mv  RecyclerView布局字体大小-->
@@ -143,6 +144,7 @@
 
     <!--播放界面-->
     <dimen name="play_page_song_size">18sp</dimen>
+    <dimen name="lyric_size">12sp</dimen>
 
 
 

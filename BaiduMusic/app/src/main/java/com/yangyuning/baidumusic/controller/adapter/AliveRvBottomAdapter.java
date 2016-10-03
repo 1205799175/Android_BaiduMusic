@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 import com.yangyuning.baidumusic.R;
 import com.yangyuning.baidumusic.model.bean.AliveRvBottomBean;
@@ -23,7 +24,7 @@ public class AliveRvBottomAdapter extends RecyclerView.Adapter<AliveRvBottomAdap
     private Context context;
     private List<AliveRvBottomBean.DataBean.mDataBean> datas;
 
-    private int height = ScreenSizeUtil.getScreenSize(ScreenSizeUtil.ScreenState.WIDTH) / 3;
+    private int height = ScreenSizeUtil.getScreenSize(ScreenSizeUtil.ScreenState.HEIGHT) / 3;
     private int width = ScreenSizeUtil.getScreenSize(ScreenSizeUtil.ScreenState.WIDTH) / 2;
 
     public AliveRvBottomAdapter(Context context) {
@@ -48,7 +49,7 @@ public class AliveRvBottomAdapter extends RecyclerView.Adapter<AliveRvBottomAdap
         holder.playImg.setImageResource(R.mipmap.ic_live_play_press);
         holder.titleTv.setText(datas.get(position).getNickname());
         holder.listenum.setText(datas.get(position).getUsercount() + "");
-        Picasso.with(context).load(datas.get(position).getLiveimg()).resize(width, height).into(holder.imgId);
+        Glide.with(context).load(datas.get(position).getLiveimg()).override(width, height).into(holder.imgId);
     }
 
     @Override

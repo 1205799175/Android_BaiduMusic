@@ -50,7 +50,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by dllo on 16/9/9.
  * 乐库 推荐 Fragment
  */
-public class RecommendFragment extends AbsBaseFragment {
+public class RecommendFragment extends AbsBaseFragment implements View.OnClickListener {
     //轮播图
     private static final int TIME = 3000;
     private ViewPager viewPager;
@@ -94,6 +94,9 @@ public class RecommendFragment extends AbsBaseFragment {
     private RecommendRadioRvAdapter radioRvAdapter;
     private RecommendMod7RvAdapter mod7RvAdapter;
 
+    //歌单推荐 更多跳转
+    private TextView diyMore;
+
     public static RecommendFragment newInstance() {
         Bundle args = new Bundle();
         RecommendFragment fragment = new RecommendFragment();
@@ -132,6 +135,9 @@ public class RecommendFragment extends AbsBaseFragment {
         mix5Icon = byView(R.id.recommend_mix5_icon);
         radioIcon = byView(R.id.recommend_radio_icon);
         mod7Icon = byView(R.id.recommend_mod7_icon);
+
+        diyMore = byView(R.id.recommend_diy_more);
+        diyMore.setOnClickListener(this);
     }
 
     @Override
@@ -285,6 +291,17 @@ public class RecommendFragment extends AbsBaseFragment {
         });
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.recommend_diy_more:
+                Intent intent = new Intent();
+                intent.setAction("a");
+                context.sendBroadcast(intent);
+                break;
+        }
+    }
+
     //随着轮播改变小点
     private void changePoints() {
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -384,4 +401,6 @@ public class RecommendFragment extends AbsBaseFragment {
         super.onPause();
         isRotate = false;
     }
+
+
 }

@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 import com.yangyuning.baidumusic.R;
 import com.yangyuning.baidumusic.model.bean.MusicRecommendBean;
@@ -46,7 +47,7 @@ public class RecommendRecsongRvAdapter extends RecyclerView.Adapter<RecommendRec
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Picasso.with(context).load(datas.get(position).getPic_premium()).into(holder.imgId);
+        Glide.with(context).load(datas.get(position).getPic_premium()).into(holder.imgId);
         holder.nameTv.setText(datas.get(position).getAuthor());
         holder.songTv.setText(datas.get(position).getTitle());
 

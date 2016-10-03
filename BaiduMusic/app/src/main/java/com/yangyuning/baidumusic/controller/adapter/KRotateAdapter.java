@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 import com.yangyuning.baidumusic.R;
 import com.yangyuning.baidumusic.model.bean.KRotareBean;
@@ -50,7 +51,7 @@ public class KRotateAdapter extends PagerAdapter {
         int newPosition = position % datas.size();
         View convertView = inflater.inflate(R.layout.item_rotate_vp, container, false);
         ImageView imageView = (ImageView) convertView.findViewById(R.id.item_vp_rotate_img);
-        Picasso.with(context).load(datas.get(newPosition).getPicture()).into(imageView);
+        Glide.with(context).load(datas.get(newPosition).getPicture()).into(imageView);
         container.addView(convertView);
         return convertView;
     }

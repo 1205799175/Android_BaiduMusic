@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 import com.yangyuning.baidumusic.R;
 import com.yangyuning.baidumusic.model.bean.AliveRvTopBean;
@@ -54,7 +55,7 @@ public class AliveRvTopAdpter extends RecyclerView.Adapter<AliveRvTopAdpter.Aliv
     @Override
     public void onBindViewHolder(final AliveTopRvViewHolder holder, int position) {
         holder.titleTv.setText(datas.get(position).getCategory_name());
-        Picasso.with(context).load(datas.get(position).getImg_url()).resize(width, width).into(holder.imgId);
+        Glide.with(context).load(datas.get(position).getImg_url()).override(width, width).into(holder.imgId);
         //点击事件
         holder.imgId.setOnClickListener(new View.OnClickListener() {
             @Override

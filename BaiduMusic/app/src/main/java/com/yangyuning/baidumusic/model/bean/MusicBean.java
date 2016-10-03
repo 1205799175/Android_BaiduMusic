@@ -1,66 +1,67 @@
 package com.yangyuning.baidumusic.model.bean;
 
+import java.io.Serializable;
+
 /**
- * Created by dllo on 16/9/29.
- * 歌单 详情
+ * Created by dllo on 16/9/28.
  */
-public class SongDeatilRvBean {
+public class MusicBean implements Serializable{
 
     /**
      * special_type : 0
-     * pic_huge : http://c.hiphotos.baidu.com/ting/pic/item/8435e5dde71190ef3401e2d9cd1b9d16fdfa6039.jpg
-     * resource_type : 2
-     * pic_premium : http://musicdata.baidu.com/data2/pic/123380375/123380375.jpg
-     * havehigh : 0
-     * author : 好妹妹乐队
+     * pic_huge : http://musicdata.baidu.com/data2/pic/81398e1d319ef9986adf5397b3094492/270673397/270673397.jpg
+     * resource_type : 0
+     * pic_premium : http://musicdata.baidu.com/data2/pic/1eb6ddb84ccdae1c91c37b7f71783045/270673398/270673398.jpg
+     * havehigh : 2
+     * author : 贾玲,方磊
      * toneid : 0
      * has_mv : 0
-     * song_id : 123380320
+     * song_id : 270673330
      * piao_id : 0
-     * artist_id : 20633953
-     * lrclink : http://musicdata.baidu.com/data2/lrc/239128571/239128571.lrc
+     * artist_id : 60111476
+     * lrclink : http://musicdata.baidu.com/data2/lrc/22b9b9f5d55889c8154766ce98f33d6d/271666741/271666741.lrc
      * relate_status : 0
      * learn : 0
-     * pic_big : http://musicdata.baidu.com/data2/pic/123380379/123380379.jpg
+     * pic_big : http://musicdata.baidu.com/data2/pic/850bfb2a28ef2da06d5cf49c895ca030/270672781/270672781.jpg
      * play_type : 0
-     * album_id : 123380388
-     * album_title : 说时依旧
+     * album_id : 270673385
+     * album_title : 依兰爱情故事
      * bitrate_fee : {"0":"0|0","1":"0|0"}
      * song_source : web
-     * all_artist_id : 20633953
-     * all_artist_ting_uid : 31514359
-     * all_rate : 24,64,128
+     * all_artist_id : 60111476,5418272
+     * all_artist_ting_uid : 92456116,232632272
+     * all_rate : 64,128,256,320,flac
      * charge : 0
      * copy_type : 0
      * is_first_publish : 0
      * korean_bb_song : 0
-     * pic_radio : http://musicdata.baidu.com/data2/pic/123380376/123380376.jpg
+     * pic_radio : http://musicdata.baidu.com/data2/pic/3799073f3fdab176335a7ac01b6ac4a2/270672777/270672777.jpg
      * has_mv_mobile : 0
-     * title : 清平调
-     * pic_small : http://musicdata.baidu.com/data2/pic/123380382/123380382.jpg
-     * album_no : 7
+     * title : 依兰爱情故事
+     * pic_small : http://musicdata.baidu.com/data2/pic/d5e94be7cdc3881c50874c8a276cb89d/270672786/270672786.jpg
+     * album_no : 1
      * resource_type_ext : 0
-     * ting_uid : 31514359
+     * ting_uid : 92456116
      */
 
     private SonginfoBean songinfo;
     /**
-     * songinfo : {"special_type":0,"pic_huge":"http://c.hiphotos.baidu.com/ting/pic/item/8435e5dde71190ef3401e2d9cd1b9d16fdfa6039.jpg","resource_type":"2","pic_premium":"http://musicdata.baidu.com/data2/pic/123380375/123380375.jpg","havehigh":0,"author":"好妹妹乐队","toneid":"0","has_mv":0,"song_id":"123380320","piao_id":"0","artist_id":"20633953","lrclink":"http://musicdata.baidu.com/data2/lrc/239128571/239128571.lrc","relate_status":"0","learn":0,"pic_big":"http://musicdata.baidu.com/data2/pic/123380379/123380379.jpg","play_type":0,"album_id":"123380388","album_title":"说时依旧","bitrate_fee":"{\"0\":\"0|0\",\"1\":\"0|0\"}","song_source":"web","all_artist_id":"20633953","all_artist_ting_uid":"31514359","all_rate":"24,64,128","charge":0,"copy_type":"0","is_first_publish":0,"korean_bb_song":"0","pic_radio":"http://musicdata.baidu.com/data2/pic/123380376/123380376.jpg","has_mv_mobile":0,"title":"清平调","pic_small":"http://musicdata.baidu.com/data2/pic/123380382/123380382.jpg","album_no":"7","resource_type_ext":"0","ting_uid":"31514359"}
+     * songinfo : {"special_type":0,"pic_huge":"http://musicdata.baidu.com/data2/pic/81398e1d319ef9986adf5397b3094492/270673397/270673397.jpg","resource_type":"0","pic_premium":"http://musicdata.baidu.com/data2/pic/1eb6ddb84ccdae1c91c37b7f71783045/270673398/270673398.jpg","havehigh":2,"author":"贾玲,方磊","toneid":"0","has_mv":0,"song_id":"270673330","piao_id":"0","artist_id":"60111476","lrclink":"http://musicdata.baidu.com/data2/lrc/22b9b9f5d55889c8154766ce98f33d6d/271666741/271666741.lrc","relate_status":"0","learn":0,"pic_big":"http://musicdata.baidu.com/data2/pic/850bfb2a28ef2da06d5cf49c895ca030/270672781/270672781.jpg","play_type":0,"album_id":"270673385","album_title":"依兰爱情故事","bitrate_fee":"{\"0\":\"0|0\",\"1\":\"0|0\"}","song_source":"web","all_artist_id":"60111476,5418272","all_artist_ting_uid":"92456116,232632272","all_rate":"64,128,256,320,flac","charge":0,"copy_type":"0","is_first_publish":0,"korean_bb_song":"0","pic_radio":"http://musicdata.baidu.com/data2/pic/3799073f3fdab176335a7ac01b6ac4a2/270672777/270672777.jpg","has_mv_mobile":0,"title":"依兰爱情故事","pic_small":"http://musicdata.baidu.com/data2/pic/d5e94be7cdc3881c50874c8a276cb89d/270672786/270672786.jpg","album_no":"1","resource_type_ext":"0","ting_uid":"92456116"}
      * error_code : 22000
-     * bitrate : {"show_link":"","free":1,"song_file_id":123380411,"file_size":2214432,"file_extension":"mp3","file_duration":276,"file_bitrate":64,"file_link":"http://yinyueshiting.baidu.com/data2/music/123380411/123380411.mp3?xcode=2f3b83ff3845850a4394f800f7f2550e","hash":"72514da72811cebeb7a5d7b46e491f3cbef99e80"}
+     * bitrate : {"show_link":"http://zhangmenshiting.baidu.com/data2/music/c8c988aba301c3e542bc4d557383eb00/270673453/270673453.mp3?xcode=8ab4b69635eb975a2a1779a2a81a9c08","free":1,"song_file_id":270673448,"file_size":2344194,"file_extension":"mp3","file_duration":292,"file_bitrate":64,"file_link":"http://yinyueshiting.baidu.com/data2/music/c8c988aba301c3e542bc4d557383eb00/270673453/270673453.mp3?xcode=8ab4b69635eb975a2a1779a2a81a9c08","hash":"2d9725cd6902b1653efc3b00689415b480338f8f"}
      */
 
     private int error_code;
     /**
-     * show_link :
+     * show_link : http://zhangmenshiting.baidu.com/data2/music/c8c988aba301c3e542bc4d557383eb00/270673453/270673453.mp3?xcode=8ab4b69635eb975a2a1779a2a81a9c08
      * free : 1
-     * song_file_id : 123380411
-     * file_size : 2214432
+     * song_file_id : 270673448
+     * file_size : 2344194
      * file_extension : mp3
-     * file_duration : 276
+     * file_duration : 292
      * file_bitrate : 64
-     * file_link : http://yinyueshiting.baidu.com/data2/music/123380411/123380411.mp3?xcode=2f3b83ff3845850a4394f800f7f2550e
-     * hash : 72514da72811cebeb7a5d7b46e491f3cbef99e80
+     * file_link : http://yinyueshiting.baidu.com/data2/music/c8c988aba301c3e542bc4d557383eb00/270673453/270673453.mp3?xcode=8ab4b69635eb975a2a1779a2a81a9c08
+     * hash : 2d9725cd6902b1653efc3b00689415b480338f8f
      */
 
     private BitrateBean bitrate;

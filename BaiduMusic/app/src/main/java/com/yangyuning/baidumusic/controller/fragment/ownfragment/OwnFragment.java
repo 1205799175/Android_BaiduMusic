@@ -14,6 +14,8 @@ import com.yangyuning.baidumusic.R;
 import com.yangyuning.baidumusic.controller.adapter.OwnLvAdapter;
 import com.yangyuning.baidumusic.controller.adapter.OwnLvBottomAdapter;
 import com.yangyuning.baidumusic.controller.fragment.AbsBaseFragment;
+import com.yangyuning.baidumusic.controller.services.MusicService;
+import com.yangyuning.baidumusic.model.bean.MusicBean;
 import com.yangyuning.baidumusic.model.bean.OwnLvBean;
 import com.yangyuning.baidumusic.utils.BaiduMusicValues;
 import com.yangyuning.baidumusic.view.MyListView;
@@ -56,9 +58,11 @@ public class OwnFragment extends AbsBaseFragment {
 
     @Override
     protected void initDatas() {
+        //获取本地歌曲数据
+        List<MusicBean> datas = MusicService.getLocalMusicInfo();
         //我的Fragment上面的ListView
         topDatas = new ArrayList<>();
-        topDatas.add(new OwnLvBean(R.mipmap.ic_mymusic_local_normal, getString(R.string.own_lv_local_music), getString(R.string.own_lv_song_number), R.mipmap.bt_artist_item_play_nor));
+        topDatas.add(new OwnLvBean(R.mipmap.ic_mymusic_local_normal, getString(R.string.own_lv_local_music), datas.size() + "首", R.mipmap.bt_artist_item_play_nor));
         topDatas.add(new OwnLvBean(R.mipmap.ic_mymusic_play_normal, getString(R.string.own_lv_recently_play), getString(R.string.own_lv_song_number), R.mipmap.ic_songlist_detail_nor));
         topDatas.add(new OwnLvBean(R.mipmap.ic_mymusic_download_normal, getString(R.string.own_lv_download_manage), getString(R.string.own_lv_song_number), R.mipmap.ic_songlist_detail_nor));
         topDatas.add(new OwnLvBean(R.mipmap.ic_mymusic_ktv_normal, getString(R.string.own_lv_my_k), getString(R.string.own_lv_song_number), R.mipmap.ic_songlist_detail_nor));

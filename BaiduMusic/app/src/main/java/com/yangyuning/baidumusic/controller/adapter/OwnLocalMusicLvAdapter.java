@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.yangyuning.baidumusic.R;
+import com.yangyuning.baidumusic.model.bean.MusicBean;
 import com.yangyuning.baidumusic.model.bean.OwnLocalMusicLvBean;
 
 import java.util.List;
@@ -17,10 +18,10 @@ import java.util.List;
  * 我的Fragment 本地音乐 二级页面 ListView适配器
  */
 public class OwnLocalMusicLvAdapter extends BaseAdapter {
-    private List<OwnLocalMusicLvBean> datas;
+    private List<MusicBean> datas;
     private Context context;
 
-    public OwnLocalMusicLvAdapter(List<OwnLocalMusicLvBean> datas, Context context) {
+    public OwnLocalMusicLvAdapter(List<MusicBean> datas, Context context) {
         this.datas = datas;
         this.context = context;
     }
@@ -50,8 +51,8 @@ public class OwnLocalMusicLvAdapter extends BaseAdapter {
         } else {
             holder = (OwnLocalMusicViewHolder) convertView.getTag();
         }
-        holder.songTv.setText(datas.get(position).getSong());
-        holder.singerTv.setText(datas.get(position).getSinger());
+        holder.songTv.setText(datas.get(position).getSonginfo().getTitle());
+        holder.singerTv.setText(datas.get(position).getSonginfo().getAuthor());
         return convertView;
     }
 

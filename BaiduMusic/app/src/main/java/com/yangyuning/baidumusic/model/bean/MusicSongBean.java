@@ -66,7 +66,7 @@ public class MusicSongBean implements Serializable{
         this.content = content;
     }
 
-    public static class ContentBean {
+    public static class ContentBean implements Serializable{
         private String listid;
         private String listenum;
         private String collectnum;

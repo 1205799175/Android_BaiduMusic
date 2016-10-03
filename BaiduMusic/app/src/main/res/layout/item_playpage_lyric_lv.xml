@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/common_margin"
+    android:orientation="vertical">
+
+    <!--播放歌曲界面 歌词 LV 行布局-->
+    <TextView
+        android:id="@+id/item_playpage_lyric_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:maxLines="1"
+        android:ellipsize="marquee"
+        android:textSize="@dimen/lyric_size"
+        android:textColor="@android:color/darker_gray"
+        android:text="111111111111"/>
+
+</LinearLayout>

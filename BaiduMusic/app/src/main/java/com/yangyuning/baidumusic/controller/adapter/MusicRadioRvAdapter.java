@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 import com.yangyuning.baidumusic.R;
 import com.yangyuning.baidumusic.model.bean.MusicRadioBean;
@@ -63,7 +64,7 @@ public class MusicRadioRvAdapter extends RecyclerView.Adapter<MusicRadioRvAdapte
                 holder.imgId.setImageTintList(context.getResources().getColorStateList(R.color.split_line_color));
         }
         holder.titleTv.setText(datas.get(position).getScene_name());
-        Picasso.with(context).load(datas.get(position).getIcon_android()).resize(width, height).into(holder.imgId);
+        Glide.with(context).load(datas.get(position).getIcon_android()).override(width, height).into(holder.imgId);
     }
 
     @Override

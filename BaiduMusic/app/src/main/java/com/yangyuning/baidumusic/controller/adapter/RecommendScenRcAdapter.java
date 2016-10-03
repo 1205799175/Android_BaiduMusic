@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 import com.yangyuning.baidumusic.R;
 import com.yangyuning.baidumusic.model.bean.MusicRecommendBean;
@@ -56,7 +57,7 @@ public class RecommendScenRcAdapter extends RecyclerView.Adapter<RecommendScenRc
                 holder.bgImg.setImageResource(R.mipmap.img_recommend_lebo_blue);
                 break;
         }
-        Picasso.with(context).load(datas.get(position).getIcon_android()).into(holder.iconImg);
+        Glide.with(context).load(datas.get(position).getIcon_android()).override(100, 100).into(holder.iconImg);
         holder.titleTv.setText(datas.get(position).getScene_name());
 
     }

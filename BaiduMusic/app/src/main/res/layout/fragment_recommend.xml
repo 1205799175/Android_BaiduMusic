@@ -66,6 +66,7 @@
                 android:text="@string/music_recommend_songList" />
 
             <TextView
+                android:id="@+id/recommend_diy_more"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/more" />
@@ -122,7 +123,8 @@
             android:id="@+id/recommend_mix1_recyclerview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/rv_margin" />
+            android:layout_marginLeft="@dimen/rv_margin"
+            android:layout_marginRight="@dimen/rv_margin" />
 
         <include layout="@layout/item_view_line"/>
 
@@ -163,7 +165,8 @@
             android:id="@+id/recommend_mix22_recyclerview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/rv_margin" />
+            android:layout_marginLeft="@dimen/rv_margin"
+            android:layout_marginRight="@dimen/rv_margin" />
 
         <include layout="@layout/item_view_line"/>
 
@@ -204,7 +207,9 @@
             android:id="@+id/recommend_scene_recyclerview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/rv_margin" />
+            android:layout_marginLeft="@dimen/rv_margin"
+            android:layout_marginRight="@dimen/rv_margin"
+            android:layout_marginBottom="@dimen/rv_margin"/>
 
         <include layout="@layout/item_view_line"/>
 
@@ -245,7 +250,8 @@
             android:id="@+id/recommend_recsong_recyclerview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/rv_margin" />
+            android:layout_marginLeft="@dimen/rv_margin"
+            android:layout_marginRight="@dimen/rv_margin"/>
 
         <include layout="@layout/item_view_line"/>
 
@@ -286,7 +292,8 @@
             android:id="@+id/recommend_mix9_recyclerview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/rv_margin" />
+            android:layout_marginLeft="@dimen/rv_margin"
+            android:layout_marginRight="@dimen/rv_margin" />
 
         <include layout="@layout/item_view_line"/>
 
@@ -326,7 +333,9 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recommend_mix5_recyclerview"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/rv_margin"
+            android:layout_marginRight="@dimen/rv_margin"/>
 
         <include layout="@layout/item_view_line"/>
 
@@ -406,7 +415,9 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recommend_mod7_recyclerview"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/rv_margin"
+            android:layout_marginRight="@dimen/rv_margin"/>
 
     </LinearLayout>
 

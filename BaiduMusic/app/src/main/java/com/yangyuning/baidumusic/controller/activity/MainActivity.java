@@ -11,12 +11,12 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
@@ -25,7 +25,6 @@ import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -38,11 +37,16 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
+import com.squareup.picasso.Picasso;
 import com.yangyuning.baidumusic.R;
 import com.yangyuning.baidumusic.controller.adapter.PlayPageLinearPagerAdapter;
-import com.yangyuning.baidumusic.controller.adapter.RecommendDiyRvAdapter;
-import com.yangyuning.baidumusic.controller.adapter.VpAdapter;
+import com.yangyuning.baidumusic.controller.adapter.PlayPageLyricLvAdapter;
 import com.yangyuning.baidumusic.controller.fragment.alivefragment.AliveRvDetailFragment;
 import com.yangyuning.baidumusic.controller.fragment.kfragment.KDetailFragment;
 import com.yangyuning.baidumusic.controller.fragment.musicfragment.RankingDetailFragment;
@@ -50,27 +54,23 @@ import com.yangyuning.baidumusic.controller.fragment.musicfragment.RecommendDeta
 import com.yangyuning.baidumusic.controller.fragment.musicfragment.SongDetailFragment;
 import com.yangyuning.baidumusic.controller.fragment.ownfragment.LocalMusicDetailsFragment;
 import com.yangyuning.baidumusic.controller.fragment.MainFragment;
-import com.yangyuning.baidumusic.controller.fragment.playpagefragment.PlayPageLyricFragment;
 import com.yangyuning.baidumusic.controller.services.MusicService;
-import com.yangyuning.baidumusic.model.bean.NetMusicBean;
+import com.yangyuning.baidumusic.model.bean.MusicBean;
+import com.yangyuning.baidumusic.model.bean.MusicSongBean;
 import com.yangyuning.baidumusic.model.bean.OwnLocalMusicLvBean;
 import com.yangyuning.baidumusic.model.net.VolleyInstance;
 import com.yangyuning.baidumusic.model.net.VolleyResult;
 import com.yangyuning.baidumusic.utils.AeroGlassUtil;
 import com.yangyuning.baidumusic.utils.BaiduMusicValues;
 import com.yangyuning.baidumusic.utils.ScreenSizeUtil;
+import com.yangyuning.baidumusic.utils.interfaces.OnChangeMusicListener;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AbsBaseActivity implements View.OnClickListener {
+public class MainActivity extends AbsBaseActivity implements View.OnClickListener, OnChangeMusicListener {
     private TextView minSongTv, minSingerTv;  //底部播放栏歌手名, 歌曲名
-    private ImageView minNextImg, minPlayImg, minListImg;    //底部播放栏按钮
+    private ImageView minNextImg, minPlayImg, minListImg, minBgIcon;    //底部播放栏按钮, 播放歌曲图标
     private LinearLayout linearLayout, main_ll;  //底部播放栏线性布局, main整体布局的线性布局
 
     private boolean isExit; // app退出标志位
@@ -78,6 +78,7 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
     private FrameLayout frameLayout;
     //弹出播放PopWindow相关内容
     private PopupWindow popupWindow;
+    private ImageView popBgImg; //PopWindow背景
     private View popView;   //PopWindow布局
     private List<LinearLayout> linearLayouts;   //PopWindow中三个布局
     private PlayPageLinearPagerAdapter playPageLinearPagerAdapter;
@@ -89,9 +90,15 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
     private SeekBar popSeekBar; //进度条
     private TextView popCurrentTimeTv, popDurationTv;   //进度条时间
     private boolean flag = false;   //切换歌/词 状态记录
-    private LinearLayout playPageLl;    //播放界面
-    private LinearLayout playPageLyrivLl; //播放界面 歌词
+    private LinearLayout playPageLl;    //播放界面 歌词 最右面
+    private LinearLayout playPageLyrivLl; //播放界面 中间
     private GestureDetector gestureDetector;
+
+    //歌词同步
+    private PlayPageLyricLvAdapter lyricLvAdapter;
+    private ListView lyrivLv;
+    private ImageView playPageCenterBgImg;  //播放歌曲中间页背景图片
+
     //播放模式图标
     private int[] modeIcon;
     private int[] modeName = new int[]{R.string.random_mode, R.string.order_mode, R.string.roundsingle_mode, R.string.loop_mode};
@@ -131,20 +138,12 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
     private LocalMusicPlayReceiver localMusicPlayReceiver;
     private RankingDetailReceiver rankingDetailReceiver;
     private PlayPageReceiver playPageReceiver;
-    private RankingDetailPlayMusicRececiver rankingDetailPlayMusicRececiver;
     private SongDetailReceiver songDetailReceiver;
     private KDeatilReceiver kDeatilReceiver;
     private RecommendDetailSongerReceiver recommendDetailSongerReceiver;
 
-
-    //播放网络歌曲相关
-    private String songId;  //网络歌曲ID
-    private String netMusicUrl; //拼接后的歌曲URL
-    private NetMusicBean netMusicBean;  //网络歌曲实体类
-    private static String currentMusicUrl;
-    private List<String> musicURLData = new ArrayList<>();  //播放列表
-    private Bitmap imgBg;
-
+    //请求队列
+    private RequestQueue queue;
     @Override
     protected int setLayout() {
         return R.layout.activity_main;
@@ -152,8 +151,11 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
 
     @Override
     protected void initView() {
+        queue = Volley.newRequestQueue(MainActivity.this);
+
         frameLayout = byView(R.id.main_frame_layout);
 
+        minBgIcon = byView(R.id.main_song_icon);
         minSongTv = byView(R.id.main_song);
         minSingerTv = byView(R.id.main_singer);
         minNextImg = byView(R.id.main_next);
@@ -163,6 +165,7 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
         main_ll = byView(R.id.main_ll);
         //播放PopWindow
         popView = LayoutInflater.from(MainActivity.this).inflate(R.layout.activity_popwin_play_music, null);
+        popBgImg = (ImageView) popView.findViewById(R.id.play_page_pop_bg_img);
         popVp = (ViewPager) popView.findViewById(R.id.play_page_vp);
         popTb = (TabLayout) popView.findViewById(R.id.play_page_tb);
         popSonVgTv = (TextView) popView.findViewById(R.id.play_music_song_tv);
@@ -177,8 +180,11 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
         popSeekBar = (SeekBar) popView.findViewById(R.id.play_music_seekbar);
         popCurrentTimeTv = (TextView) popView.findViewById(R.id.play_music_current_time_tv);
         popDurationTv = (TextView) popView.findViewById(R.id.play_music_duration_tv);
+        //歌词界面
         playPageLl = (LinearLayout) LayoutInflater.from(MainActivity.this).inflate(R.layout.fragment_play_page_lyric, null);
+        lyrivLv = (ListView) playPageLl.findViewById(R.id.play_page_lyric_lv);
         playPageLyrivLl = (LinearLayout) LayoutInflater.from(MainActivity.this).inflate(R.layout.fragment_playpage_lyric, null);
+        playPageCenterBgImg = (ImageView) playPageLyrivLl.findViewById(R.id.play_page_lyric_img);
 
         //min播放列表PopWindow
         minListPopView = LayoutInflater.from(MainActivity.this).inflate(R.layout.activity_popwin_minlist, null);
@@ -300,6 +306,24 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
         minListPopMode.setImageResource(minListModeIcon[0]);
     }
 
+    /**
+     * 在任何界面播放的音乐一改变就会回调该方法,使该界面的播放器播放指定音乐
+     */
+    @Override
+    public void OnChangeMuisc(MusicBean musicBean, int position) {
+        if (musicBinder != null) {
+            musicBinder.setCurrentMusic(musicBean, position);
+            updateUIState();
+        }
+    }
+
+    private void updateUIState() {
+        // 设置音乐
+        setMusicTimeInfo();
+        // 初始化按钮状态
+        initBtnState();
+    }
+
     //进度条线程
     private class SeekBarRunnable implements Runnable {
         @Override
@@ -356,12 +380,6 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
         IntentFilter filter = new IntentFilter();
         filter.addAction(BaiduMusicValues.THE_ACTION_PLAY_PAGE_PLAY);
         registerReceiver(playPageReceiver, filter);
-
-        //排行详情页songId广播接收者
-        rankingDetailPlayMusicRececiver = new RankingDetailPlayMusicRececiver();
-        IntentFilter rankDetailPlayFileter = new IntentFilter();
-        rankDetailPlayFileter.addAction(BaiduMusicValues.THE_ACTION_RANKING_DETAIL_PLAY_MUSIC);
-        registerReceiver(rankingDetailPlayMusicRececiver, rankDetailPlayFileter);
 
         //歌单详情页广播接收者
         songDetailReceiver = new SongDetailReceiver();
@@ -473,23 +491,12 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
         }
     }
 
-    //广播接收者 排行详情页播放网络歌曲 songid
-    private class RankingDetailPlayMusicRececiver extends BroadcastReceiver{
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            songId = intent.getStringExtra(BaiduMusicValues.RANKING_DETAIL_PLAY_MUSIC_SONGID);
-            //解析网络歌曲
-            getNetMusic();
-        }
-    }
-
     //广播接收者 进入歌单详情
     private class SongDetailReceiver extends BroadcastReceiver{
         @Override
         public void onReceive(Context context, Intent intent) {
             int pos = intent.getIntExtra(BaiduMusicValues.SONG_DETAIL_KET_POSITION, BaiduMusicValues.MAIN_RECEIVER_POSITION_MINUS_ONE);
-            String songId = intent.getStringExtra(BaiduMusicValues.SONG_DETAIL_SONGID);
-            List<String> songIds = intent.getStringArrayListExtra("songId");
+            Bundle bundle = intent.getBundleExtra("bundle");
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             switch (pos) {
                 case BaiduMusicValues.MAIN_RECEIVER_POSITION_MINUS_ONE:
@@ -497,7 +504,7 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
                     break;
                 default:
                     ft.addToBackStack(null);
-                    ft.replace(R.id.main_frame_layout, SongDetailFragment.newInstance(songIds));
+                    ft.replace(R.id.main_frame_layout, SongDetailFragment.newInstance(bundle));
                     break;
             }
             ft.commit();
@@ -570,63 +577,6 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
         }
     }
 
-    private void getNetMusic() {
-        netMusicUrl = BaiduMusicValues.SONG_ULR_HEAD + songId + BaiduMusicValues.SONG_URL_FOOT;
-        Log.d("sss", netMusicUrl);
-        VolleyInstance.getInstance().startResult(netMusicUrl, new VolleyResult() {
-            @Override
-            public void success(String resultStr) {
-                String newStr = resultStr.substring(1, resultStr.length() - 2);
-                netMusicBean = new Gson().fromJson(newStr, NetMusicBean.class);
-                currentMusicUrl = netMusicBean.getBitrate().getFile_link();
-                musicURLData.add(currentMusicUrl);
-
-                //设置播放的背景图片
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        URL fileUrl = null;
-                        imgBg = null;
-                        try {
-                            fileUrl = new URL(netMusicBean.getSonginfo().getPic_big());
-                        } catch (MalformedURLException e) {
-                            e.printStackTrace();
-                        }
-                        try {
-                            HttpURLConnection conn = (HttpURLConnection) fileUrl.openConnection();
-                            InputStream is = conn.getInputStream();
-                            imgBg = BitmapFactory.decodeStream(is);
-                            conn.disconnect();
-                            is.close();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        if (imgBg != null) {
-                            Bitmap imgBlurBg = getBlurBitmap(imgBg);
-                            Drawable drawableBg = new BitmapDrawable(imgBlurBg);
-                        } else {
-                        }
-                    }
-                }).start();
-                Intent intentMusic = new Intent();
-                intentMusic.setAction(BaiduMusicValues.THE_ACTION_MUSICSETVICE);
-                intentMusic.putStringArrayListExtra("msuicUrl", (ArrayList<String>) musicURLData);
-                sendBroadcast(intentMusic);
-            }
-            @Override
-            public void failure() {
-
-            }
-        });
-    }
-
-    private Bitmap getBlurBitmap(Bitmap imgBg) {
-        BitmapDrawable bg = new BitmapDrawable(getResources(),
-                AeroGlassUtil.doBlur(imgBg, 80, false));
-        imgBg = bg.getBitmap();
-        return imgBg;
-    }
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -647,7 +597,7 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
                 break;
             case R.id.main_play_layout:     //播放栏, 点击弹出PopWindow播放界面
                 //初始化PopWindow并显示
-                showPopWindow(v);
+                showPopWindow();
                 //初始化PopWindow数据
                 initPopWindowData();
                 break;
@@ -735,9 +685,9 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
 
     //设置最大时长和歌曲信息
     private void setMusicTimeInfo() {
-        OwnLocalMusicLvBean bean = musicBinder.getCurrentMusicBean();
+        MusicBean bean = musicBinder.getCurrentMusicBean();
         //时间需要改成 00:00  分秒形式
-        long duration = bean.getDuration();
+        long duration = bean.getBitrate().getFile_duration();
         long minute = duration / (1000 * 60);
         long second = (duration % (1000 * 60)) / 1000;
         //把long类型的秒-->String
@@ -750,21 +700,28 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
             secondStr = "0" + secondStr;
         }
         popDurationTv.setText(minuteStr + ":" + secondStr);
-        String song = bean.getSong();
-        String singer = bean.getSinger();
+        String song = bean.getSonginfo().getTitle();
+        String singer = bean.getSonginfo().getAuthor();
         minSongTv.setText(song);
+
+        // 设置迷你播放栏
+        if (bean.getSonginfo().getPic_radio() != null && !bean.getSonginfo().getPic_radio().equals("")) {
+            Picasso.with(MainActivity.this).load(bean.getSonginfo().getPic_radio()).into(minBgIcon);
+            requestNewData(bean);
+        } else {
+            //如果没有图片则设置为默认
+            minBgIcon.setImageResource(R.mipmap.img_recommend_lebo_orange);
+        }
         minSingerTv.setText(singer);
         popSonVgTv.setText(song);
         popSingerTv.setText(singer);
-        popSeekBar.setMax((int) bean.getDuration());
+        popSeekBar.setMax(bean.getBitrate().getFile_duration());
     }
 
     /**
      * 初始化PopWindow并显示
      */
-    private void showPopWindow(View v) {
-        int[] location = new int[2];
-        v.getLocationOnScreen(location);
+    private void showPopWindow() {
         popupWindow = new PopupWindow(
                 WindowManager.LayoutParams.MATCH_PARENT,
                 ScreenSizeUtil.getScreenSize(ScreenSizeUtil.ScreenState.HEIGHT) - getStatusBarHeight());
@@ -782,6 +739,33 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
     private void initPopWindowData() {
         linearLayouts = new ArrayList<>();
         playPageLinearPagerAdapter = new PlayPageLinearPagerAdapter(MainActivity.this);
+
+        lyricLvAdapter = new PlayPageLyricLvAdapter(MainActivity.this);
+        lyrivLv.setAdapter(lyricLvAdapter);
+        // 获取歌词数据
+        if (!musicBinder.isLocalMusic()) {
+            VolleyInstance.getInstance().startResult(BaiduMusicValues.SONG_ULR_HEAD + musicBinder.getCurrentMusicBean().getSonginfo().getSong_id() + BaiduMusicValues.SONG_URL_FOOT, new VolleyResult() {
+                @Override
+                public void success(String resultStr) {
+                    resultStr = fixJsonData(resultStr);
+                    // 获得歌曲实体类
+                    Gson gson = new Gson();
+                    MusicBean musicBean = gson.fromJson(resultStr, MusicBean.class);
+                    int duration = musicBean.getBitrate().getFile_duration();
+                    musicBean.getBitrate().setFile_duration(duration * 1000);
+                    // 添加歌曲图片和文字
+                    if (!musicBean.getSonginfo().getPic_premium().equals(""))
+                        Picasso.with(MainActivity.this).load(musicBean.getSonginfo().getPic_premium()).into(playPageCenterBgImg);
+                    // 请求新的数据
+                    requestNewData(musicBean);
+                }
+
+                @Override
+                public void failure() {
+
+                }
+            });
+        }
         linearLayouts.add(playPageLl);
         linearLayouts.add(playPageLyrivLl);
         linearLayouts.add(playPageLl);
@@ -814,8 +798,28 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
     }
 
     /**
+     * 设置PopWindow背景图片和中间的图片
+     * @param musicBean
+     */
+    private void requestNewData(MusicBean musicBean) {
+        ImageRequest imageRequest = new ImageRequest(musicBean.getSonginfo().getPic_premium(), new Response.Listener<Bitmap>() {
+            @Override
+            public void onResponse(Bitmap bitmap) {
+                playPageCenterBgImg.setImageBitmap(bitmap);
+                bitmap = AeroGlassUtil.doBlur(bitmap, 40, false);
+                popBgImg.setImageBitmap(bitmap);
+            }
+        }, 2000, 2000, ImageView.ScaleType.FIT_XY, Bitmap.Config.ARGB_8888, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        queue.add(imageRequest);
+    }
+
+    /**
      * 获取屏幕顶部标题栏高度
-     *
      * @return 标题栏高度
      */
     public int getStatusBarHeight() {
@@ -827,6 +831,15 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
         return result;
     }
 
+    @NonNull
+    public static String fixJsonData(String resultStr) {
+        // 数据格式错误,修正
+        StringBuffer stringBuffer = new StringBuffer(resultStr);
+        stringBuffer.delete(stringBuffer.length() - 2, stringBuffer.length());
+        stringBuffer.delete(0, 1);
+        resultStr = stringBuffer.toString();
+        return resultStr;
+    }
     ///////////////////////////
     Handler mHandler = new Handler() {
         @Override
@@ -874,7 +887,6 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
         unregisterReceiver(localMusicPlayReceiver);
         unregisterReceiver(rankingDetailReceiver);
         unregisterReceiver(playPageReceiver);
-        unregisterReceiver(rankingDetailPlayMusicRececiver);
         unregisterReceiver(songDetailReceiver);
         unregisterReceiver(kDeatilReceiver);
         unregisterReceiver(recommendDetailSongerReceiver);

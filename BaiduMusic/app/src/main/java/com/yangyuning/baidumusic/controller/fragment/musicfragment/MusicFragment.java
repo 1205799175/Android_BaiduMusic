@@ -1,5 +1,9 @@
 package com.yangyuning.baidumusic.controller.fragment.musicfragment;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -22,6 +26,8 @@ public class MusicFragment extends AbsBaseFragment {
     private TabLayout musicTb;
     private List<Fragment> datas;
     private VpAdapter vpAdapter;
+    //广播接收者
+    private RecommendToSongReceiver recommendToSongReceiver;
 
     public static MusicFragment newInstance() {
 
@@ -63,5 +69,27 @@ public class MusicFragment extends AbsBaseFragment {
         musicTb.setTabTextColors(Color.BLACK, Color.argb(255, 0, 180, 255));
         musicVp.setOffscreenPageLimit(0);
 
+        //注册广播接收者
+        initReceiver();
+    }
+
+    private void initReceiver() {
+        recommendToSongReceiver = new RecommendToSongReceiver();
+        IntentFilter toSongFilter = new IntentFilter();
+        toSongFilter.addAction("a");
+        context.registerReceiver(recommendToSongReceiver, toSongFilter);
+    }
+
+    class RecommendToSongReceiver extends BroadcastReceiver{
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            musicVp.setCurrentItem(2);
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        context.unregisterReceiver(recommendToSongReceiver);
     }
 }

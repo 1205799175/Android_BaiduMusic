@@ -13,14 +13,17 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 import com.yangyuning.baidumusic.R;
+import com.yangyuning.baidumusic.controller.adapter.MusicRankingLvAdapter;
 import com.yangyuning.baidumusic.controller.adapter.RankingDetailRvAdapter;
 import com.yangyuning.baidumusic.controller.fragment.AbsBaseFragment;
+import com.yangyuning.baidumusic.model.bean.MusicBean;
 import com.yangyuning.baidumusic.model.bean.RankingDetailRvBean;
 import com.yangyuning.baidumusic.model.net.VolleyInstance;
 import com.yangyuning.baidumusic.model.net.VolleyResult;
 import com.yangyuning.baidumusic.utils.BaiduMusicValues;
 import com.yangyuning.baidumusic.utils.interfaces.OnRvItemClick;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -81,23 +84,11 @@ public class RankingDetailFragment extends AbsBaseFragment {
                 context.sendBroadcast(intent);
             }
         });
-
-        //点击播放网络歌曲
-        rankingDetalAdapter.setOnRvItemClickListener(new OnRvItemClick<RankingDetailRvBean.SongListBean>() {
-            @Override
-            public void onRvItemClickListener(int position, RankingDetailRvBean.SongListBean songListBean) {
-                //向MainActivity发送广播  传songId
-                Intent intent = new Intent();
-                intent.setAction(BaiduMusicValues.THE_ACTION_RANKING_DETAIL_PLAY_MUSIC);
-                String songId = datas.get(position).getSong_id();
-                intent.putExtra(BaiduMusicValues.RANKING_DETAIL_PLAY_MUSIC_SONGID, songId);
-                context.sendBroadcast(intent);
-            }
-        });
     }
 
     //获取网络数据
     private void getNetData() {
+        datas = new ArrayList<>();
         Bundle bundle = getArguments();
         int type = bundle.getInt("type");
         String url = BaiduMusicValues.MUSIC_RANKING_DETAIL_HEAD + type + BaiduMusicValues.MUSIC_RANKING_DETAIL_BOTTOM;

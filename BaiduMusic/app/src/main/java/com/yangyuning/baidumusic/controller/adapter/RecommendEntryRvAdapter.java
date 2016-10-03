@@ -9,10 +9,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 import com.yangyuning.baidumusic.R;
 import com.yangyuning.baidumusic.model.bean.AliveRvTopBean;
 import com.yangyuning.baidumusic.model.bean.MusicRecommendBean;
+import com.yangyuning.baidumusic.utils.ScreenSizeUtil;
 import com.yangyuning.baidumusic.utils.interfaces.OnRvItemClick;
 
 import java.util.List;
@@ -24,6 +26,9 @@ import java.util.List;
 public class RecommendEntryRvAdapter extends RecyclerView.Adapter<RecommendEntryRvAdapter.ViewHolder>{
     private Context context;
     private List<MusicRecommendBean.ResultBean.EntryBean.entryResultBean> datas;
+
+    private int width = ScreenSizeUtil.getScreenSize(ScreenSizeUtil.ScreenState.WIDTH) / 7;
+    private int height = ScreenSizeUtil.getScreenSize(ScreenSizeUtil.ScreenState.HEIGHT) / 12;
 
     private OnRvItemClick<MusicRecommendBean.ResultBean.EntryBean.entryResultBean> onRvItemClick;
 
@@ -50,7 +55,7 @@ public class RecommendEntryRvAdapter extends RecyclerView.Adapter<RecommendEntry
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.titleTv.setText(datas.get(position).getTitle());
-        Picasso.with(context).load(datas.get(position).getIcon()).into(holder.imgId);
+        Glide.with(context).load(datas.get(position).getIcon()).override(width, height).into(holder.imgId);
 
         //点击事件
         holder.imgId.setOnClickListener(new View.OnClickListener() {

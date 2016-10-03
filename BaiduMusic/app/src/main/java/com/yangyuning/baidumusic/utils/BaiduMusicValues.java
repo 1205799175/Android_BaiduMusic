@@ -71,6 +71,23 @@ public class BaiduMusicValues {
     public static final String K_MAN = "男歌手";
     public static final String K_WOMAN = "男歌手";
     public static final String K_TEAM = "男歌手";
+    /**
+     * 推荐 歌手 详情
+     */
+    public static final String RECOMMEND_SONGER_CHINA_MAN = "华语男歌手";
+    public static final String RECOMMEND_SONGER_CHINA_WOMAN = "华语女歌手";
+    public static final String RECOMMEND_SONGER_CHINA_TEAM = "华语组合";
+    public static final String RECOMMEND_SONGER_USA_MAN = "欧美男歌手";
+    public static final String RECOMMEND_SONGER_USA_WOMAN = "欧美女歌手";
+    public static final String RECOMMEND_SONGER_USA_TEAM = "欧美组合";
+    public static final String RECOMMEND_SONGER_KOREA_MAN = "韩国男歌手";
+    public static final String RECOMMEND_SONGER_KOREA_WOMAN = "韩国女歌手";
+    public static final String RECOMMEND_SONGER_KOREA_TEAM = "韩国组合";
+    public static final String RECOMMEND_SONGER_JAPAN_MAN = "日本男歌手";
+    public static final String RECOMMEND_SONGER_JAPAN_WOMAN = "日本女歌手";
+    public static final String RECOMMEND_SONGER_JAPAN_TEAM = "日本组合";
+    public static final String RECOMMEND_SONGER_OTHER = "其他歌手";
+
 
     public static final String THE_ACTION_K_TO_DETAIL = "com.yangyuning.baidumusic.controller.fragment.kfragment.KFragment";
     public static final String K_KEY = "key";
@@ -111,6 +128,14 @@ public class BaiduMusicValues {
      * 乐库-推荐-轮播图 接口
      */
     public static final String RECOMMEND_ROTATE = "http://tingapi.ting.baidu.com/v1/restserver/ting?method=baidu.ting.plaza.getFocusPic&format=json&from=ios&version=5.2.3&from=ios&channel=appstore";
+    /**
+     * 推荐 歌曲分类
+     */
+    public static final String RECOMMEND_SONG_KINDS = "http://tingapi.ting.baidu.com/v1/restserver/ting?from=android&version=5.8.2.0&channel=875b&operator=0&method=baidu.ting.tag.getAllTag&format=json&from=android&version=5.8.2.0";
+    /**
+     * 推荐 今日歌曲推荐
+     */
+    public static final String RECOMMEDN_SONG_TOADY = "http://tingapi.ting.baidu.com/v1/restserver/ting?from=android&version=5.8.2.0&channel=875b&operator=0&method=baidu.ting.song.userRecSongList&format=json&page_no=1&page_size=60";
 
     /**
      * 乐库-推荐 接口
@@ -126,6 +151,11 @@ public class BaiduMusicValues {
      * 乐库-歌单 POpWindow接口
      */
     public static final String MUSIC_SONG_POPWINDOW = "http://tingapi.ting.baidu.com/v1/restserver/ting?from=android&version=5.8.2.0&channel=875b&operator=0&method=baidu.ting.diy.gedanCategory";
+    /**
+     * 乐库 歌单 详情接口
+     */
+    public static final String SONG_LIST_DETAILS_URL_HEAD = "http://tingapi.ting.baidu.com/v1/restserver/ting?from=android&version=5.8.2.0&channel=ppzs&operator=0&method=baidu.ting.diy.gedanInfo&format=json&listid=";
+    public static final String SONG_LIST_DETAILS_URL_FOOT = "&isUGC=0";
 
     /**
      * 乐库-排行 接口

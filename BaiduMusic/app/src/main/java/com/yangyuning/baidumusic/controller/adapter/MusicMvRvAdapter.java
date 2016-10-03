@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 import com.yangyuning.baidumusic.R;
 import com.yangyuning.baidumusic.model.bean.MusicMvBean;
@@ -44,7 +45,7 @@ public class MusicMvRvAdapter extends RecyclerView.Adapter<MusicMvRvAdapter.MvVi
 
     @Override
     public void onBindViewHolder(MvViewHodler holder, int position) {
-        Picasso.with(context).load(datas.get(position).getThumbnail2()).resize(width, height).into(holder.imgId);
+        Glide.with(context).load(datas.get(position).getThumbnail2()).override(width, height).into(holder.imgId);
         holder.titleTv.setText(datas.get(position).getTitle());
         holder.artistTv.setText(datas.get(position).getArtist());
     }

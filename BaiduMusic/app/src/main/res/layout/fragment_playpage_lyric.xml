@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <!--播放界面 词-->
+    <!--播放界面 中间-->
 
     <!--中间图片-->
     <ImageView

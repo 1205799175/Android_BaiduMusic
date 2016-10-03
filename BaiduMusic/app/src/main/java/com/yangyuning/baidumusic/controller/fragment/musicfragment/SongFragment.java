@@ -38,11 +38,10 @@ public class SongFragment extends AbsBaseFragment {
     private ImageView imgPopWindow;
     private LinearLayout rootView;
     private List<MusicSongBean.ContentBean> datas;
+    private MusicSongBean musicSongBean;
 
     public static SongFragment newInstance() {
-
         Bundle args = new Bundle();
-
         SongFragment fragment = new SongFragment();
         fragment.setArguments(args);
         return fragment;
@@ -83,7 +82,6 @@ public class SongFragment extends AbsBaseFragment {
                 //设置Popwindow的宽高
                 pw.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
                 int height = ScreenSizeUtil.getScreenSize(ScreenSizeUtil.ScreenState.HEIGHT) / 2;
-                Log.d("www", "height:" + height);
                 pw.setHeight(height);
                 //显示内容
                 View view = LayoutInflater.from(context).inflate(R.layout.fragment_music_song_popwindow, null);
@@ -103,15 +101,15 @@ public class SongFragment extends AbsBaseFragment {
                 Intent intent = new Intent();
                 intent.setAction(BaiduMusicValues.THE_ACTION_SONG_TO_DETAIL);
                 intent.putExtra(BaiduMusicValues.SONG_DETAIL_KET_POSITION, position);
-                List<String> songIds = datas.get(position).getSongIds();
-                intent.putExtra(BaiduMusicValues.SONG_DETAIL_SONGID, songIds.get(position));
-                intent.putStringArrayListExtra("songId", (ArrayList<String>) songIds);
+                intent.putExtra("listId", datas.get(position).getListid());
+                Bundle bundle = new Bundle();
+                MusicSongBean.ContentBean bean = musicSongRvAdapter.getList(position);
+                bundle.putSerializable("contentBean", bean);
+                intent.putExtra("bundle", bundle);
                 context.sendBroadcast(intent);
             }
         });
     }
-
-
 
     //获得并解析网络数据
     private void getNetDatas() {
@@ -119,7 +117,7 @@ public class SongFragment extends AbsBaseFragment {
             @Override
             public void success(String resultStr) {
                 Gson gson = new Gson();
-                MusicSongBean musicSongBean = gson.fromJson(resultStr, MusicSongBean.class);
+                musicSongBean = gson.fromJson(resultStr, MusicSongBean.class);
                 datas = musicSongBean.getContent();
                 musicSongRvAdapter.setDatas(datas);
             }

@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 import com.yangyuning.baidumusic.R;
 import com.yangyuning.baidumusic.model.bean.MusicRecommendBean;
@@ -50,7 +51,7 @@ public class RecommendDiyRvAdapter extends RecyclerView.Adapter<RecommendDiyRvAd
         if (datas.get(position).getPic().equals("")){
 
         }else {
-            Picasso.with(context).load(datas.get(position).getPic()).into(holder.imagView);
+            Glide.with(context).load(datas.get(position).getPic()).into(holder.imagView);
         }
         holder.countTv.setText(datas.get(position).getListenum() + "");
         holder.songTv.setText(datas.get(position).getTitle());

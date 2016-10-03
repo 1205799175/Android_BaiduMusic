@@ -14,6 +14,8 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.yangyuning.baidumusic.controller.app.BaiduMusicApp;
+import com.yangyuning.baidumusic.model.bean.MusicBean;
 import com.yangyuning.baidumusic.model.bean.OwnLocalMusicLvBean;
 import com.yangyuning.baidumusic.utils.BaiduMusicValues;
 
@@ -27,20 +29,9 @@ import java.util.Random;
  * 服务 控制音乐
  */
 public class MusicService extends Service {
-    private MusicReceiver musicReceiver;
-
-    private MusicBinder musicBinder;
-    private List<OwnLocalMusicLvBean> datas;
-
-    private static List<String> musicUrlData = new ArrayList<>();
-
-    public static class MusicReceiver extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            musicUrlData = intent.getStringArrayListExtra("msuicUrl");
-            Log.d("www", "musicUrlData:" + musicUrlData);
-        }
-    }
+    public static MusicBinder musicBinder;
+    private static List<MusicBean> datas;
+    private static boolean isLocalMusic = true; //判断是否为本地歌曲
 
     //当前歌曲
     private int currentIndex = 0;
@@ -52,6 +43,11 @@ public class MusicService extends Service {
     //定义播放模式的数组
     private PLAY_MODE[] playMode = {PLAY_MODE.RANDOM, PLAY_MODE.ORDER, PLAY_MODE.ROUNDSINGLE, PLAY_MODE.LOOP};
 
+    public static void setDatas(List<MusicBean> datas){
+        MusicService.datas = datas;
+        isLocalMusic = false;
+    }
+
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -60,12 +56,6 @@ public class MusicService extends Service {
 
     @Override
     public void onCreate() {
-        //注册广播
-        musicReceiver = new MusicReceiver();
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(BaiduMusicValues.THE_ACTION_MUSICSETVICE);
-        registerReceiver(musicReceiver, filter);
-
         super.onCreate();
         musicBinder = new MusicBinder();
         //初始化播放器
@@ -81,17 +71,17 @@ public class MusicService extends Service {
             @Override
             public void onCompletion(MediaPlayer mp) {
                 // 处理下一首
-                if (playMode[currentPlayMode] == PLAY_MODE.ROUNDSINGLE){    //单曲循环
+                if (playMode[currentPlayMode] == PLAY_MODE.ROUNDSINGLE) {    //单曲循环
                     musicBinder.playMusicByMode(currentIndex);
                 }
-                if (playMode[currentPlayMode] == PLAY_MODE.ORDER){  //顺序播放
+                if (playMode[currentPlayMode] == PLAY_MODE.ORDER) {  //顺序播放
                     musicBinder.nextMusixORDER();
                 }
-                if (playMode[currentPlayMode] == PLAY_MODE.RANDOM){ //随机播放
+                if (playMode[currentPlayMode] == PLAY_MODE.RANDOM) { //随机播放
                     currentIndex = randomPosition();
                     musicBinder.playMusicByMode(currentIndex);
                 }
-                if (playMode[currentPlayMode] == PLAY_MODE.LOOP){  //循环播放
+                if (playMode[currentPlayMode] == PLAY_MODE.LOOP) {  //循环播放
                     musicBinder.nextMusic();
                 }
                 if (currentIndex != datas.size()) {     //发送广播, 通知数据改变, 歌名, 歌手
@@ -118,7 +108,7 @@ public class MusicService extends Service {
 
     public class MusicBinder extends Binder {
         //获取音乐集合
-        public List<OwnLocalMusicLvBean> getListViewDatas() {
+        public List<MusicBean> getListViewDatas() {
             if (datas != null) {
                 return datas;
             } else {
@@ -133,7 +123,7 @@ public class MusicService extends Service {
             try {
                 mediaPlayer.reset();
                 //设置路径给音乐播放器
-                mediaPlayer.setDataSource(datas.get(currentIndex).getUrl());
+                mediaPlayer.setDataSource(datas.get(currentIndex).getBitrate().getFile_link());
                 mediaPlayer.prepare();
                 mediaPlayer.start();
             } catch (IOException e) {
@@ -177,10 +167,10 @@ public class MusicService extends Service {
             currentIndex++;
             if (currentIndex >= datas.size()) {
                 mediaPlayer.pause();
-            }else {
+            } else {
                 try {
                     mediaPlayer.reset();
-                    mediaPlayer.setDataSource(datas.get(currentIndex).getUrl());
+                    mediaPlayer.setDataSource(datas.get(currentIndex).getBitrate().getFile_link());
                     mediaPlayer.prepare();
                     mediaPlayer.start();
                 } catch (IOException e) {
@@ -229,17 +219,39 @@ public class MusicService extends Service {
         }
 
         /**
-         * 根据播放模式播放
+         * 根据播放模式播放当前音乐
          */
         public void playMusicByMode(int position) {
             try {
                 mediaPlayer.reset();
-                mediaPlayer.setDataSource(datas.get(position).getUrl());
+                mediaPlayer.setDataSource(datas.get(position).getBitrate().getFile_link());
                 mediaPlayer.prepare();
                 mediaPlayer.start();
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+
+        /**
+         * 设置当前音乐并播放
+         */
+        public void setCurrentMusic(MusicBean songBean, int pos) {
+            try {
+                currentIndex = pos;
+                mediaPlayer.reset();
+                mediaPlayer.setDataSource(songBean.getBitrate().getFile_link());
+                mediaPlayer.prepare();
+                mediaPlayer.start();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        /**
+         * 判断是不是本地音乐
+         */
+        public boolean isLocalMusic() {
+            return isLocalMusic;
         }
 
         /**
@@ -266,7 +278,7 @@ public class MusicService extends Service {
         /**
          * 获取当前音乐实体类
          */
-        public OwnLocalMusicLvBean getCurrentMusicBean() {
+        public MusicBean getCurrentMusicBean() {
             return datas.get(currentIndex);
         }
 
@@ -294,19 +306,30 @@ public class MusicService extends Service {
     }
 
     //获取歌曲
-    private List<OwnLocalMusicLvBean> getLocalMusicInfo() {
+    public static List<MusicBean> getLocalMusicInfo() {
         datas = new ArrayList<>();
-        Cursor cursor = getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, null, null, null, null);
+        Cursor cursor = BaiduMusicApp.getContext().getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, null, null, null, null);
         while (cursor.moveToNext()) {
             String title = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.TITLE));   //歌曲名
             String singer = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ARTIST)); //歌手
             long duration = cursor.getLong(cursor.getColumnIndex(MediaStore.Audio.Media.DURATION)); //歌曲时长
             String url = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DATA));      //歌曲地址
             int isMusic = cursor.getInt(cursor.getColumnIndex(MediaStore.Audio.Media.IS_MUSIC));    //是否是音乐
-            if (isMusic != 0) {
-                OwnLocalMusicLvBean musicBean = new OwnLocalMusicLvBean(title, singer, duration, url);
-                datas.add(musicBean);
-            }
+            String display = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DISPLAY_NAME));//专辑
+            MusicBean musicBean = new MusicBean();
+            //设置歌曲路径, 时长
+            MusicBean.BitrateBean bitrateBean = new MusicBean.BitrateBean();
+            bitrateBean.setFile_link(url);
+            bitrateBean.setFile_duration((int) duration);
+            musicBean.setBitrate(bitrateBean);
+            //设置歌曲信息
+            MusicBean.SonginfoBean songinfoBean = new MusicBean.SonginfoBean();
+            songinfoBean.setAuthor(singer);
+            songinfoBean.setTitle(title);
+            songinfoBean.setAlbum_title(display);
+            musicBean.setSonginfo(songinfoBean);
+            //添加数据
+            datas.add(musicBean);
         }
         cursor.close();
         return datas;
@@ -319,9 +342,4 @@ public class MusicService extends Service {
         LOOP, ORDER, RANDOM, ROUNDSINGLE;   //循环播放, 顺序播放, 随机播放, 单曲循环
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        unregisterReceiver(musicReceiver);
-    }
 }

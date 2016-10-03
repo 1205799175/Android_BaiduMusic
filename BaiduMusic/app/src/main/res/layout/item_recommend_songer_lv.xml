@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
+    <!--推荐 歌手 详情 ListView行布局-->
+    <TextView
+        android:id="@+id/recommend_songer_lv_title"
+        android:layout_width="@dimen/margin_zero"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="华语男歌手"
+        android:layout_margin="@dimen/control_margin_pbone_boeder"
+        android:textSize="@dimen/recommend_text_sizes"
+        android:textColor="@color/text_color_black"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/control_margin_pbone_boeder"
+        android:src="@mipmap/ic_songlist_detail_nor"/>
+
+</LinearLayout>

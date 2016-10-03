@@ -10,10 +10,13 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 import com.yangyuning.baidumusic.R;
 import com.yangyuning.baidumusic.model.bean.AliveRvTopBean;
+import com.yangyuning.baidumusic.model.bean.MusicBean;
 import com.yangyuning.baidumusic.model.bean.RankingDetailRvBean;
+import com.yangyuning.baidumusic.utils.ScreenSizeUtil;
 import com.yangyuning.baidumusic.utils.interfaces.OnRvItemClick;
 
 import java.util.List;
@@ -26,6 +29,9 @@ public class RankingDetailRvAdapter extends RecyclerView.Adapter<RankingDetailRv
 
     private List<RankingDetailRvBean.SongListBean> datas;
     private Context context;
+
+    private int height = ScreenSizeUtil.getScreenSize(ScreenSizeUtil.ScreenState.HEIGHT) / 7;
+    private int width = ScreenSizeUtil.getScreenSize(ScreenSizeUtil.ScreenState.WIDTH) / 4;
 
     private OnRvItemClick<RankingDetailRvBean.SongListBean> onRvItemClickListener;
 
@@ -50,9 +56,10 @@ public class RankingDetailRvAdapter extends RecyclerView.Adapter<RankingDetailRv
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
+        Log.d("sss", "datas.size():" + datas.size());
         holder.title.setText(datas.get(position).getTitle());
         holder.author.setText(datas.get(position).getAuthor());
-        Picasso.with(context).load(datas.get(position).getPic_small()).into(holder.coverIv);
+        Glide.with(context).load(datas.get(position).getPic_small()).override(width, height).into(holder.coverIv);
 
         //点击事件
         holder.itemView.setOnClickListener(new View.OnClickListener() {

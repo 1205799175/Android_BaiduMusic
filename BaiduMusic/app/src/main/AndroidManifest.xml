@@ -23,8 +23,6 @@
             </intent-filter>
         </activity>
 
-        <!--播放音乐界面-->
-        <activity android:name=".controller.activity.PlayMusicPageActivity"/>
         <!--注册服务-->
         <service android:name=".controller.services.MusicService"/>
     </application>

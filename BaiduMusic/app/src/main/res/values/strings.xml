@@ -90,6 +90,12 @@
     <string name="K_team">乐队组合</string>
     <string name="k_all_song">大家都在唱</string>
 
+    <!--推荐-->
+    <string name="recommend_songer">歌手</string>
+    <string name="recommend_songer_hot">热门歌手</string>
+    <string name="recommend_kinds">歌曲分类</string>
+    <string name="recommend_today">今日推荐歌曲</string>
+
     <!--直播-->
     <string name="hot_live">热门直播</string>
 
