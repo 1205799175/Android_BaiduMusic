@@ -126,4 +126,21 @@
     <string name="roundsingle_mode">单曲循环</string>
     <string name="loop_mode">循环播放</string>
 
+    <!--登录界面-->
+    <string name="login">立即登录</string>
+    <string name="login_hint">登录后, 自动为您同步歌曲</string>
+    <string name="login_wifi">仅WiFi联网</string>
+    <string name="login_setipauto">定时开关</string>
+    <string name="login_desktop">桌面歌词</string>
+    <string name="login_lockscr">锁屏</string>
+    <string name="login_skin">换肤</string>
+    <string name="login_sound">音效</string>
+    <string name="login_scan_lyric">扫描歌词</string>
+    <string name="login_import">电脑导歌</string>
+    <string name="login_vip">成为白金VIP</string>
+    <string name="login_ktv">雷石点歌机</string>
+    <string name="login_setting">设置</string>
+    <string name="login_activity">活动专区</string>
+    <string name="login_app">精品应用</string>
+
 </resources>

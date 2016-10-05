@@ -84,10 +84,7 @@ public class RecommendDetailSongerFragment extends AbsBaseFragment {
         backTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setAction(BaiduMusicValues.THE_ACTION_RECOMMEND_SONGER);
-                intent.putExtra(BaiduMusicValues.THE_ACTION_KEY_POAITION, BaiduMusicValues.MAIN_RECEIVER_POSITION_MINUS_ONE);
-                context.sendBroadcast(intent);
+                getFragmentManager().popBackStack();
             }
         });
     }

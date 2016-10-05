@@ -25,7 +25,6 @@ public class AliveDetailTabFragment extends AbsBaseFragment {
     private AliveRvBottomAdapter aliveRvBottomAdapter;
     private RecyclerView rv;
     public static AliveDetailTabFragment newInstance(String url) {
-
         Bundle args = new Bundle();
         args.putString(BaiduMusicValues.THE_NEWINSTANCE_URL_KEY, url);
         AliveDetailTabFragment fragment = new AliveDetailTabFragment();

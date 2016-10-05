@@ -296,7 +296,7 @@ public class RecommendFragment extends AbsBaseFragment implements View.OnClickLi
         switch (v.getId()){
             case R.id.recommend_diy_more:
                 Intent intent = new Intent();
-                intent.setAction("a");
+                intent.setAction(BaiduMusicValues.THE_ACTION_RECOMMEND_TO_SONG);
                 context.sendBroadcast(intent);
                 break;
         }

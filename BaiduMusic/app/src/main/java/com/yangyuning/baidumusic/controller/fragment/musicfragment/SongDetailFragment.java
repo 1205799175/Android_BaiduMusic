@@ -122,10 +122,7 @@ public class SongDetailFragment extends AbsBaseFragment{
         backImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setAction(BaiduMusicValues.THE_ACTION_SONG_TO_DETAIL);
-                intent.putExtra(BaiduMusicValues.SONG_DETAIL_KET_POSITION, BaiduMusicValues.MAIN_RECEIVER_POSITION_MINUS_ONE);
-                context.sendBroadcast(intent);
+                getFragmentManager().popBackStack();
             }
         });
 

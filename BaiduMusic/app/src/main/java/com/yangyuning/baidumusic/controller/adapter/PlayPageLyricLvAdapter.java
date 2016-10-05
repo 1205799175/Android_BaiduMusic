@@ -21,7 +21,8 @@ public class PlayPageLyricLvAdapter extends BaseAdapter{
     private Context context;
     private List<LyricBean> datas;
 
-    public PlayPageLyricLvAdapter(List<LyricBean> datas) {
+
+    public void setDatas(List<LyricBean> datas) {
         this.datas = datas;
         notifyDataSetChanged();
     }
@@ -36,8 +37,8 @@ public class PlayPageLyricLvAdapter extends BaseAdapter{
     }
 
     @Override
-    public Object getItem(int position) {
-        return datas != null && datas.size() > 0 ? datas.size() : 0;
+    public LyricBean getItem(int position) {
+        return datas != null && datas.size() > 0 ? datas.get(position) : null;
     }
 
     @Override

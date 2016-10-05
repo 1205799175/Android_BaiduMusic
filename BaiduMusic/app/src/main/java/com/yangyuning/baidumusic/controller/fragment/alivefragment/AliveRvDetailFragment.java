@@ -23,7 +23,6 @@ import java.util.List;
  */
 public class AliveRvDetailFragment extends AbsBaseFragment {
     private TextView titleBackTv;   //标题
-    private ImageView searchImg, scanImg, sortImg;    //搜索图标, 扫描, 排序图标
     private VpAdapter vpAdapter;
     private List<Fragment> fragments;   //存Fragment的集合
     private TabLayout tb;
@@ -46,9 +45,6 @@ public class AliveRvDetailFragment extends AbsBaseFragment {
 
     @Override
     protected void initView() {
-        searchImg = byView(R.id.local_music_search_img);
-        sortImg = byView(R.id.local_music_sort_img);
-        scanImg = byView(R.id.local_music_scan_img);
         titleBackTv = byView(R.id.detail_title_back);
         tb = byView(R.id.alive_rv_detail_tb);
         vp = byView(R.id.alive_rv_detail_vp);
@@ -58,10 +54,6 @@ public class AliveRvDetailFragment extends AbsBaseFragment {
     protected void initDatas() {
         //设置标题
         titleBackTv.setText(R.string.tab_title_alive);
-        //撤销不需要的图标
-        searchImg.setVisibility(View.GONE);
-        scanImg.setVisibility(View.GONE);
-        sortImg.setVisibility(View.GONE);
 
         fragments = new ArrayList<>();
         fragments.add(AliveDetailTabFragment.newInstance(BaiduMusicValues.ALIVE_TOP_RV_DETAIL_ALL));
@@ -97,10 +89,7 @@ public class AliveRvDetailFragment extends AbsBaseFragment {
         titleBackTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setAction(BaiduMusicValues.THE_ACTION_ALIVE_RV);
-                intent.putExtra(BaiduMusicValues.THE_ACTION_KEY_POAITION, BaiduMusicValues.MAIN_RECEIVER_POSITION_MINUS_ONE);
-                context.sendBroadcast(intent);
+                getFragmentManager().popBackStack();
             }
         });
     }

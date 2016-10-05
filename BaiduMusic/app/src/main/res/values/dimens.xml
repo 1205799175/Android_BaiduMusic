@@ -146,6 +146,9 @@
     <dimen name="play_page_song_size">18sp</dimen>
     <dimen name="lyric_size">12sp</dimen>
 
+    <!--登录界面-->
+    <dimen name="login_text_size">18sp</dimen>
+
 
 
 

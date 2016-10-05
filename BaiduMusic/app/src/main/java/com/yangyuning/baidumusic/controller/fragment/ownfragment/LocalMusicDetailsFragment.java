@@ -79,10 +79,7 @@ public class LocalMusicDetailsFragment extends AbsBaseFragment {
         localMusicBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setAction(BaiduMusicValues.THE_ACTION_OWN_LOCAL);
-                intent.putExtra(BaiduMusicValues.THE_ACTION_KEY_POAITION, BaiduMusicValues.MAIN_RECEIVER_POSITION_MINUS_ONE);
-                context.sendBroadcast(intent);
+                getFragmentManager().popBackStack();
             }
         });
     }

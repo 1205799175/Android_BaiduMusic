@@ -13,6 +13,7 @@ import android.support.v4.view.ViewPager;
 import com.yangyuning.baidumusic.R;
 import com.yangyuning.baidumusic.controller.adapter.VpAdapter;
 import com.yangyuning.baidumusic.controller.fragment.AbsBaseFragment;
+import com.yangyuning.baidumusic.utils.BaiduMusicValues;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,7 +77,7 @@ public class MusicFragment extends AbsBaseFragment {
     private void initReceiver() {
         recommendToSongReceiver = new RecommendToSongReceiver();
         IntentFilter toSongFilter = new IntentFilter();
-        toSongFilter.addAction("a");
+        toSongFilter.addAction(BaiduMusicValues.THE_ACTION_RECOMMEND_TO_SONG);
         context.registerReceiver(recommendToSongReceiver, toSongFilter);
     }
 

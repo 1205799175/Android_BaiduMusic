@@ -78,10 +78,7 @@ public class RankingDetailFragment extends AbsBaseFragment {
         backImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setAction(BaiduMusicValues.THE_ACTION_RANKING_DETAIL);
-                intent.putExtra(BaiduMusicValues.RANKING_DETAIL_KET_POSITION, BaiduMusicValues.MAIN_RECEIVER_POSITION_MINUS_ONE);
-                context.sendBroadcast(intent);
+                getFragmentManager().popBackStack();
             }
         });
     }

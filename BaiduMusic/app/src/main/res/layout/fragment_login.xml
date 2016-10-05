@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/main_title_layout"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/login_back"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="@dimen/common_margin"
+            android:drawableLeft="@mipmap/bt_return_nor"
+            android:drawablePadding="@dimen/control_margin_pbone_boeder"
+            android:text="@string/more"
+            android:textColor="@color/colorLocalMusic" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/control_margin_phone_border"
+        android:orientation="vertical">
+
+
+        <!--第一行-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/margin_zero"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/login_login"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_login_button_shape"
+                android:text="@string/login"
+                android:textColor="@android:color/holo_blue_light"
+                android:textSize="@dimen/login_text_size" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/title_margin_phone_border"
+                android:text="@string/login_hint" />
+        </LinearLayout>
+
+        <include layout="@layout/item_view_line" />
+
+        <!--第二行-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/margin_zero"
+            android:layout_weight="2"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <!--wifi-->
+            <LinearLayout
+                android:layout_width="@dimen/margin_zero"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/title_margin_phone_border"
+                android:paddingTop="@dimen/title_margin_phone_border">
+
+                <ImageView
+                    android:id="@+id/login_wifi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/login_wifi_selector" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/login_wifi" />
+            </LinearLayout>
+
+            <!--定时关闭-->
+            <LinearLayout
+                android:layout_width="@dimen/margin_zero"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/title_margin_phone_border"
+                android:paddingTop="@dimen/title_margin_phone_border">
+
+                <ImageView
+                    android:id="@+id/login_setipauto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/login_setipauto_selector" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/login_setipauto" />
+            </LinearLayout>
+
+            <!--桌面歌词-->
+            <LinearLayout
+                android:layout_width="@dimen/margin_zero"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/title_margin_phone_border"
+                android:paddingTop="@dimen/title_margin_phone_border">
+
+                <ImageView
+                    android:id="@+id/login_desktop"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/login_desktop_selector" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/login_desktop" />
+            </LinearLayout>
+
+            <!--锁屏-->
+            <LinearLayout
+                android:layout_width="@dimen/margin_zero"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/title_margin_phone_border"
+                android:paddingTop="@dimen/title_margin_phone_border">
+
+                <ImageView
+                    android:id="@+id/login_lockscreen"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/login_lockscr_selector" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/login_lockscr" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <include layout="@layout/item_view_line" />
+
+        <!--第三行-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/margin_zero"
+            android:layout_weight="3"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/title_margin_phone_border">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/common_margin"
+                android:padding="@dimen/title_margin_phone_border">
+
+                <TextView
+                    android:id="@+id/login_tool_skin"
+                    android:layout_width="@dimen/margin_zero"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawablePadding="@dimen/title_margin_phone_border"
+                    android:drawableTop="@mipmap/setting_tool_bt_setup_skin"
+                    android:gravity="center"
+                    android:text="@string/login_skin" />
+
+                <TextView
+                    android:id="@+id/login_tool_setup"
+                    android:layout_width="@dimen/margin_zero"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawablePadding="@dimen/title_margin_phone_border"
+                    android:drawableTop="@mipmap/setting_tool_bt_setup_sound"
+                    android:gravity="center"
+                    android:text="@string/login_sound" />
+
+                <TextView
+                    android:id="@+id/login_tool_scan"
+                    android:layout_width="@dimen/margin_zero"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawablePadding="@dimen/title_margin_phone_border"
+                    android:drawableTop="@mipmap/setting_tool_bt_setup_scan"
+                    android:gravity="center"
+                    android:text="@string/login_scan_lyric" />
+
+                <TextView
+                    android:id="@+id/login_tool_import"
+                    android:layout_width="@dimen/margin_zero"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawablePadding="@dimen/title_margin_phone_border"
+                    android:drawableTop="@mipmap/setting_tool_bt_setup_import"
+                    android:gravity="center"
+                    android:text="@string/login_import" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/control_margin_pbone_boeder"
+                android:orientation="horizontal"
+                android:padding="@dimen/title_margin_phone_border">
+
+                <TextView
+                    android:id="@+id/login_tool_vip"
+                    android:layout_width="@dimen/margin_zero"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawablePadding="@dimen/title_margin_phone_border"
+                    android:drawableTop="@mipmap/ic_setting_vip"
+                    android:gravity="center"
+                    android:text="@string/login_vip" />
+
+                <TextView
+                    android:id="@+id/login_tool_ktv"
+                    android:layout_width="@dimen/margin_zero"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawablePadding="@dimen/title_margin_phone_border"
+                    android:drawableTop="@mipmap/setting_tool_bt_setup_ktv"
+                    android:gravity="center"
+                    android:text="@string/login_ktv" />
+
+                <TextView
+                    android:layout_width="@dimen/margin_zero"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <include layout="@layout/item_view_line" />
+
+        <!--第四行-->
+        <LinearLayout
+            android:id="@+id/login_setting"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/margin_zero"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="@dimen/margin_zero"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@mipmap/ic_setting_setting"
+                android:drawablePadding="@dimen/title_margin_phone_border"
+                android:padding="@dimen/title_margin_phone_border"
+                android:text="@string/login_setting" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/ic_songlist_detail_nor"/>
+        </LinearLayout>
+
+        <include layout="@layout/item_view_line" />
+
+        <!--第五行-->
+        <LinearLayout
+            android:id="@+id/login_activity"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/margin_zero"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="@dimen/margin_zero"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@mipmap/ic_setting_activity"
+                android:drawablePadding="@dimen/title_margin_phone_border"
+                android:padding="@dimen/title_margin_phone_border"
+                android:text="@string/login_activity" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/ic_songlist_detail_nor"/>
+        </LinearLayout>
+
+        <include layout="@layout/item_view_line" />
+
+        <!--第六行-->
+        <LinearLayout
+            android:id="@+id/login_app"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/margin_zero"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="@dimen/margin_zero"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@mipmap/ic_setting_app"
+                android:drawablePadding="@dimen/title_margin_phone_border"
+                android:padding="@dimen/title_margin_phone_border"
+                android:text="@string/login_app" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/ic_songlist_detail_nor"/>
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

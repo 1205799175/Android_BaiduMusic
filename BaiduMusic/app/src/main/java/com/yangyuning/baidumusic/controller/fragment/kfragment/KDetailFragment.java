@@ -78,10 +78,7 @@ public class KDetailFragment extends AbsBaseFragment {
         backImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setAction(BaiduMusicValues.THE_ACTION_K_TO_DETAIL);
-                intent.putExtra(BaiduMusicValues.K_KEY,BaiduMusicValues.MAIN_RECEIVER_POSITION_MINUS_ONE);
-                context.sendBroadcast(intent);
+                getFragmentManager().popBackStack();
             }
         });
     }

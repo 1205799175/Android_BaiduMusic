@@ -1,5 +1,8 @@
 package com.yangyuning.baidumusic.controller.activity;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -9,6 +12,7 @@ import android.content.ServiceConnection;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -20,6 +24,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.Gravity;
@@ -33,6 +38,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.RemoteViews;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -47,6 +53,7 @@ import com.squareup.picasso.Picasso;
 import com.yangyuning.baidumusic.R;
 import com.yangyuning.baidumusic.controller.adapter.PlayPageLinearPagerAdapter;
 import com.yangyuning.baidumusic.controller.adapter.PlayPageLyricLvAdapter;
+import com.yangyuning.baidumusic.controller.fragment.LoginFragment;
 import com.yangyuning.baidumusic.controller.fragment.alivefragment.AliveRvDetailFragment;
 import com.yangyuning.baidumusic.controller.fragment.kfragment.KDetailFragment;
 import com.yangyuning.baidumusic.controller.fragment.musicfragment.RankingDetailFragment;
@@ -55,6 +62,7 @@ import com.yangyuning.baidumusic.controller.fragment.musicfragment.SongDetailFra
 import com.yangyuning.baidumusic.controller.fragment.ownfragment.LocalMusicDetailsFragment;
 import com.yangyuning.baidumusic.controller.fragment.MainFragment;
 import com.yangyuning.baidumusic.controller.services.MusicService;
+import com.yangyuning.baidumusic.model.bean.LyricBean;
 import com.yangyuning.baidumusic.model.bean.MusicBean;
 import com.yangyuning.baidumusic.model.bean.MusicSongBean;
 import com.yangyuning.baidumusic.model.bean.OwnLocalMusicLvBean;
@@ -65,6 +73,7 @@ import com.yangyuning.baidumusic.utils.BaiduMusicValues;
 import com.yangyuning.baidumusic.utils.ScreenSizeUtil;
 import com.yangyuning.baidumusic.utils.interfaces.OnChangeMusicListener;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -121,6 +130,9 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
         public void onServiceConnected(ComponentName name, IBinder service) {
             musicBinder = (MusicService.MusicBinder) service;
             new Thread(new SeekBarRunnable()).start();
+            // 启动歌词同步线程
+            new Thread(new NotifySynLyricThread()).start();
+            initSeekBar();
             musicBinder.playMusic();
             musicBinder.pauseMusic();
             setMusicTimeInfo();
@@ -141,9 +153,11 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
     private SongDetailReceiver songDetailReceiver;
     private KDeatilReceiver kDeatilReceiver;
     private RecommendDetailSongerReceiver recommendDetailSongerReceiver;
+    private MainFragmentToLoginReceiver mainFragmentToLoginReceiver;
 
     //请求队列
     private RequestQueue queue;
+
     @Override
     protected int setLayout() {
         return R.layout.activity_main;
@@ -256,6 +270,21 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
                     secondStr = "0" + secondStr;
                 }
                 popCurrentTimeTv.setText(minuteStr + ":" + secondStr);
+            } else if (msg.what == 102) {
+                int scrollPos = msg.arg1;
+                lyrivLv.smoothScrollToPosition(scrollPos);
+            } else if (msg.what == 103) {
+                int lvPos = msg.arg1;
+                View view = lyrivLv.getChildAt(lvPos);
+                if (view != null) {
+                    TextView tv = (TextView) view.findViewById(R.id.item_playpage_lyric_tv);
+                    tv.setTextColor(Color.WHITE);
+                    if (lvPos - 1 >= 0) {
+                        View lastView = lyrivLv.getChildAt(lvPos - 1);
+                        TextView lastTv = (TextView) lastView.findViewById(R.id.item_playpage_lyric_tv);
+                        lastTv.setTextColor(Color.DKGRAY);
+                    }
+                }
             }
             return false;
         }
@@ -398,6 +427,12 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
         IntentFilter songerFilter = new IntentFilter();
         songerFilter.addAction(BaiduMusicValues.THE_ACTION_RECOMMEND_SONGER);
         registerReceiver(recommendDetailSongerReceiver, songerFilter);
+
+        //MainFragment 到LoginFragment
+        mainFragmentToLoginReceiver = new MainFragmentToLoginReceiver();
+        IntentFilter loginFilter = new IntentFilter();
+        loginFilter.addAction(BaiduMusicValues.THE_ACTION_TO_LOGIN);
+        registerReceiver(mainFragmentToLoginReceiver, loginFilter);
     }
 
     //广播接收者  从OwnFragment发送
@@ -408,9 +443,6 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             switch (i) {
-                case BaiduMusicValues.MAIN_RECEIVER_POSITION_MINUS_ONE:
-                    fragmentManager.popBackStack();
-                    break;
                 case BaiduMusicValues.MAIN_RECEIVER_POSITION_ZREO:
                     fragmentTransaction.addToBackStack(null);
                     fragmentTransaction.replace(R.id.main_frame_layout, LocalMusicDetailsFragment.newInstance());
@@ -436,18 +468,10 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
     class AliveTopRvReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-            int pos = intent.getIntExtra(BaiduMusicValues.THE_ACTION_KEY_POAITION, BaiduMusicValues.MAIN_RECEIVER_POSITION_MINUS_ONE);
             FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction ft = fm.beginTransaction();
-            switch (pos) {
-                case BaiduMusicValues.MAIN_RECEIVER_POSITION_MINUS_ONE:
-                    fm.popBackStack();
-                    break;
-                default:
-                    ft.addToBackStack(null);
-                    ft.replace(R.id.main_frame_layout, AliveRvDetailFragment.newInstance());
-                    break;
-            }
+            ft.addToBackStack(null);
+            ft.replace(R.id.main_frame_layout, AliveRvDetailFragment.newInstance());
             ft.commit();
         }
     }
@@ -467,18 +491,10 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
     class RankingDetailReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-            int pos = intent.getIntExtra(BaiduMusicValues.RANKING_DETAIL_KET_POSITION, BaiduMusicValues.MAIN_RECEIVER_POSITION_MINUS_ONE);
             int type = intent.getIntExtra(BaiduMusicValues.RANKING_DETAIL_KET_TYPE, BaiduMusicValues.MAIN_RECEIVER_POSITION_MINUS_ONE);
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            switch (pos) {
-                case BaiduMusicValues.MAIN_RECEIVER_POSITION_MINUS_ONE:
-                    getSupportFragmentManager().popBackStack();
-                    break;
-                default:
-                    ft.addToBackStack(null);
-                    ft.replace(R.id.main_frame_layout, RankingDetailFragment.newInstance(type));
-                    break;
-            }
+            ft.addToBackStack(null);
+            ft.replace(R.id.main_frame_layout, RankingDetailFragment.newInstance(type));
             ft.commit();
         }
     }
@@ -492,35 +508,24 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
     }
 
     //广播接收者 进入歌单详情
-    private class SongDetailReceiver extends BroadcastReceiver{
+    private class SongDetailReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-            int pos = intent.getIntExtra(BaiduMusicValues.SONG_DETAIL_KET_POSITION, BaiduMusicValues.MAIN_RECEIVER_POSITION_MINUS_ONE);
             Bundle bundle = intent.getBundleExtra("bundle");
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            switch (pos) {
-                case BaiduMusicValues.MAIN_RECEIVER_POSITION_MINUS_ONE:
-                    getSupportFragmentManager().popBackStack();
-                    break;
-                default:
                     ft.addToBackStack(null);
                     ft.replace(R.id.main_frame_layout, SongDetailFragment.newInstance(bundle));
-                    break;
-            }
             ft.commit();
         }
     }
 
     //广播接收者 进K歌详情
-    private class KDeatilReceiver extends BroadcastReceiver{
+    private class KDeatilReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
             int pos = intent.getIntExtra(BaiduMusicValues.K_KEY, BaiduMusicValues.MAIN_RECEIVER_POSITION_ONE);
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            switch (pos){
-                case BaiduMusicValues.MAIN_RECEIVER_POSITION_MINUS_ONE:
-                    getSupportFragmentManager().popBackStack();
-                    break;
+            switch (pos) {
                 case BaiduMusicValues.MAIN_RECEIVER_POSITION_ONE:
                     ft.addToBackStack(null);
                     ft.replace(R.id.main_frame_layout, KDetailFragment.newInstance(BaiduMusicValues.K_KTV, BaiduMusicValues.K_KTVS));
@@ -551,15 +556,12 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
     }
 
     //广播接收者 推荐页面 歌手详情页
-    private class RecommendDetailSongerReceiver extends BroadcastReceiver{
+    private class RecommendDetailSongerReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
             int pos = intent.getIntExtra(BaiduMusicValues.THE_ACTION_KEY_POAITION, BaiduMusicValues.MAIN_RECEIVER_POSITION_MINUS_ONE);
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             switch (pos) {
-                case BaiduMusicValues.MAIN_RECEIVER_POSITION_MINUS_ONE:
-                    getSupportFragmentManager().popBackStack();
-                    break;
                 case BaiduMusicValues.MAIN_RECEIVER_POSITION_ZREO:
                     ft.addToBackStack(null);
                     ft.replace(R.id.main_frame_layout, RecommendDetailSongerFragment.newInstance());
@@ -577,6 +579,16 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
         }
     }
 
+    //广播接收者 到登录界面
+    private class MainFragmentToLoginReceiver extends BroadcastReceiver{
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.addToBackStack(null);
+            ft.replace(R.id.main_frame_layout, LoginFragment.newInstance());
+            ft.commit();
+        }
+    }
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -584,6 +596,8 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
                 if (musicBinder != null) {
                     musicBinder.pauseMusic();
                     setMusicTimeInfo();
+                    //初始化notification
+                    initNotifocation();
                 }
                 break;
             case R.id.main_next:    //下一曲
@@ -664,6 +678,32 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
         initBtnState();
     }
 
+    //初始化notification
+    private void initNotifocation() {
+        //管理者
+        NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        //builder
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+        builder.setSmallIcon(R.mipmap.ic_launcher);
+        //设置内容
+        RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.notification);
+        remoteViews.setTextViewText(R.id.notify_music_title, musicBinder.getCurrentMusicBean().getSonginfo().getTitle());
+        remoteViews.setTextColor(R.id.notify_music_title, Color.BLACK);
+        remoteViews.setTextViewText(R.id.notify_music_singer, musicBinder.getCurrentMusicBean().getSonginfo().getAuthor());
+        remoteViews.setTextColor(R.id.notify_music_singer, Color.BLACK);
+        remoteViews.setImageViewResource(R.id.notify_music_icon, R.mipmap.ic_launcher);
+//        remoteViews.setImageViewResource(R.id.notify_start, R.mipmap.start);
+//        remoteViews.setImageViewResource(R.id.notify_next, R.mipmap.next);
+//        remoteViews.setImageViewResource(R.id.notify_stop, R.mipmap.stop);
+        //延时意图
+//        Intent intent = new Intent(this, MainActivity.class);
+//        PendingIntent pi1 = PendingIntent.getActivity(this, 100, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+//        remoteViews.setOnClickPendingIntent(R.id.notify_img, pi1);
+        builder.setContent(remoteViews);
+        Notification notification = builder.build();
+        manager.notify(2, notification);
+    }
+
     private void showMinListPopWin() {
         minPopWin = new PopupWindow(WindowManager.LayoutParams.MATCH_PARENT, ScreenSizeUtil.getScreenSize(ScreenSizeUtil.ScreenState.HEIGHT) / 2);
         minPopWin.setContentView(minListPopView);
@@ -707,7 +747,7 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
         // 设置迷你播放栏
         if (bean.getSonginfo().getPic_radio() != null && !bean.getSonginfo().getPic_radio().equals("")) {
             Picasso.with(MainActivity.this).load(bean.getSonginfo().getPic_radio()).into(minBgIcon);
-            requestNewData(bean);
+            requestMusicImg(bean);
         } else {
             //如果没有图片则设置为默认
             minBgIcon.setImageResource(R.mipmap.img_recommend_lebo_orange);
@@ -756,8 +796,8 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
                     // 添加歌曲图片和文字
                     if (!musicBean.getSonginfo().getPic_premium().equals(""))
                         Picasso.with(MainActivity.this).load(musicBean.getSonginfo().getPic_premium()).into(playPageCenterBgImg);
-                    // 请求新的数据
-                    requestNewData(musicBean);
+                    // 请求图片
+                    requestMusicImg(musicBean);
                 }
 
                 @Override
@@ -799,9 +839,10 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
 
     /**
      * 设置PopWindow背景图片和中间的图片
+     *
      * @param musicBean
      */
-    private void requestNewData(MusicBean musicBean) {
+    private void requestMusicImg(MusicBean musicBean) {
         ImageRequest imageRequest = new ImageRequest(musicBean.getSonginfo().getPic_premium(), new Response.Listener<Bitmap>() {
             @Override
             public void onResponse(Bitmap bitmap) {
@@ -816,10 +857,118 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
             }
         });
         queue.add(imageRequest);
+        //请求歌词
+        requestLyric(musicBean);
+    }
+
+    /**
+     * 请求歌词
+     */
+    private void requestLyric(MusicBean musicBean) {
+        VolleyInstance.getInstance().startResult(musicBean.getSonginfo().getLrclink(), new VolleyResult() {
+            @Override
+            public void success(String resultStr) {
+                // 解决中文乱码问题
+                String praseResult = "";
+                try {
+                    praseResult = new String(resultStr.getBytes("ISO8859-1"), "utf-8"); // 解决中文乱码问题
+                } catch (UnsupportedEncodingException e1) {
+                    e1.printStackTrace();
+                }
+                // 把整个歌词 按行分割成 单行歌词实体
+                List<LyricBean> stringList = new ArrayList<>();
+                // 保存上一行的结束(\n)位置
+                int lastLine = 0;
+                // 按行分割
+                for (int i = 0; i < praseResult.length(); i++) {
+                    if (praseResult.charAt(i) == '\n') {    // 如果遍历到回车符就截取该行
+                        int min = 0;
+                        int sec = 0;
+                        int msec10 = 0;
+                        String pieceAll = praseResult.substring(lastLine, i);   // 单行歌词
+                        String piece = "";
+                        // 去掉时间的单行歌词
+                        if (pieceAll.length() >= 10 && Character.isDigit(pieceAll.charAt(1))) {
+                            min = Integer.parseInt(pieceAll.substring(1, 3));   // 时间项的获取
+                            sec = Integer.parseInt(pieceAll.substring(4, 6));
+                            msec10 = Integer.parseInt(pieceAll.substring(7, 9));
+                            for (int l = 0; l < pieceAll.length(); l++) {
+                                if (pieceAll.charAt(l) == ']') {
+                                    piece = pieceAll.substring(l + 1, pieceAll.length());
+                                    break;
+                                }
+                            }
+                        } else {
+                            lastLine = i + 1;   // 保存该行的结束位置
+                            continue;
+                        }
+                        stringList.add(new LyricBean(piece, min, sec, msec10)); // 把拆分的数据封装到实体类,便于操作
+                        lastLine = i + 1;   // 保存该行的结束位置
+                    }
+                }
+                if (lyricLvAdapter != null)
+                    lyricLvAdapter.setDatas(stringList);
+            }
+
+            @Override
+            public void failure() {
+                Toast.makeText(MainActivity.this, "请求歌词失败", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private int lastPos = 0;
+
+    public void OnColorChanged(int pos) {
+        if (lastPos != pos) {
+            Message colorMessage = new Message();
+            colorMessage.what = 103;
+            colorMessage.arg1 = pos;
+            handler.sendMessage(colorMessage);
+            lastPos = pos;
+        } else {
+            lastPos = pos;
+        }
+    }
+
+    /**
+     * 控制歌词同步的线程
+     */
+    private class NotifySynLyricThread extends Thread {
+        public boolean isRun = true;
+
+        @Override
+        public void run() {
+            while (isRun) {
+                if (musicBinder != null && musicBinder.getMusicIsPlaying()) {
+                    if (lyricLvAdapter != null) {
+                        for (int i = 0; i < lyricLvAdapter.getCount() - 1; i++) {
+                            LyricBean beanLast = lyricLvAdapter.getItem(i);
+                            LyricBean beanNext = lyricLvAdapter.getItem(i + 1);
+                            int lastSec = beanLast.getSeconds();
+                            int nextSec = beanNext.getSeconds();
+                            long seek = musicBinder.getCurrentMusicPosition();
+                            int seekSec = (int) (seek / 1000);
+                            if (seekSec >= lastSec && seekSec <= nextSec) {
+                                lyrivLv.smoothScrollToPositionFromTop(i + 1, lyrivLv.getMeasuredHeight() / 2);
+                                OnColorChanged(i);
+                                try {
+                                    Thread.sleep(200);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     /**
      * 获取屏幕顶部标题栏高度
+     *
      * @return 标题栏高度
      */
     public int getStatusBarHeight() {
@@ -840,6 +989,7 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
         resultStr = stringBuffer.toString();
         return resultStr;
     }
+
     ///////////////////////////
     Handler mHandler = new Handler() {
         @Override
@@ -890,6 +1040,7 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
         unregisterReceiver(songDetailReceiver);
         unregisterReceiver(kDeatilReceiver);
         unregisterReceiver(recommendDetailSongerReceiver);
+        unregisterReceiver(mainFragmentToLoginReceiver);
         unbindService(serviceConnection);
         if (musicBinder != null) {
             musicBinder.stopMusic();

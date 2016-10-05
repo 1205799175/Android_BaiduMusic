@@ -9,6 +9,11 @@ public class BaiduMusicValues {
     }
 
     /**
+     * 到登录界面 广播
+     */
+    public static final String THE_ACTION_TO_LOGIN = "com.yangyuning.baidumusic.controller.fragment.MainFragment";
+
+    /**
      * 我的Fragment本地歌曲到二级页面 广播 getAction
      */
     public static final String THE_ACTION_OWN_LOCAL = "com.yangyuning.baidumusic.controller.fragment.ownfragmet.OwnFragment";
@@ -43,6 +48,10 @@ public class BaiduMusicValues {
      */
     public static final String THE_ACTION_RECOMMEND_SONGER = "com.yangyuning.baidumusic.controller.fragment.musicfragment.RecommendSongerDetailFragment";
 
+    /**
+     * 推荐页面 歌单推荐跳转歌单 广播
+     */
+    public static final String THE_ACTION_RECOMMEND_TO_SONG = "com.yangyuning.baidumusic.controller.fragment.musicfragment.RecommendFragment";
 
     /**
      * 点击排行详情行布局播放网络歌曲  向MainActivity发广播 songId
