@@ -1,14 +1,19 @@
 package com.yangyuning.baidumusic.controller.fragment;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.squareup.picasso.Picasso;
 import com.yangyuning.baidumusic.R;
 import com.yangyuning.baidumusic.controller.adapter.VpAdapter;
 import com.yangyuning.baidumusic.controller.fragment.alivefragment.AliveFragment;
@@ -69,8 +74,8 @@ public class MainFragment extends AbsBaseFragment {
         frameTb.getTabAt(2).setText(getString(R.string.tab_title_k));
         frameTb.getTabAt(3).setText(getString(R.string.tab_title_alive));
         frameTb.setTabTextColors(Color.argb(255, 207, 207, 207), Color.WHITE);
-
         initListener();
+
     }
 
     private void initListener() {
@@ -79,6 +84,15 @@ public class MainFragment extends AbsBaseFragment {
             public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.setAction(BaiduMusicValues.THE_ACTION_TO_LOGIN);
+                context.sendBroadcast(intent);
+            }
+        });
+
+        searchImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setAction(BaiduMusicValues.THE_ACTION_TO_SEARCH);
                 context.sendBroadcast(intent);
             }
         });

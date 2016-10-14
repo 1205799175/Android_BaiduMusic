@@ -38,16 +38,10 @@
         android:layout_weight="1"
         android:layout_marginLeft="@dimen/control_margin_pbone_boeder"
         android:layout_marginRight="@dimen/control_margin_pbone_boeder">
-        <TextView
-            android:id="@+id/min_list_pop_tv"
+        <ListView
+            android:id="@+id/min_list_pop_lv"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="222222222222222"
-            android:gravity="center" />
-        <!--<ListView-->
-            <!--android:id="@+id/min_list_pop_lv"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"/>-->
+            android:layout_height="wrap_content"/>
     </RelativeLayout>
 
 </LinearLayout>

@@ -1,8 +1,5 @@
 package com.yangyuning.baidumusic.controller.activity;
 
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -12,7 +9,6 @@ import android.content.ServiceConnection;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -24,7 +20,6 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.Gravity;
@@ -38,7 +33,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
-import android.widget.RemoteViews;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -51,14 +45,18 @@ import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 import com.yangyuning.baidumusic.R;
+import com.yangyuning.baidumusic.controller.adapter.FavoriteLvAdapter;
+import com.yangyuning.baidumusic.controller.adapter.OwnLocalMusicLvAdapter;
 import com.yangyuning.baidumusic.controller.adapter.PlayPageLinearPagerAdapter;
-import com.yangyuning.baidumusic.controller.adapter.PlayPageLyricLvAdapter;
 import com.yangyuning.baidumusic.controller.fragment.LoginFragment;
+import com.yangyuning.baidumusic.controller.fragment.SearchFragment;
 import com.yangyuning.baidumusic.controller.fragment.alivefragment.AliveRvDetailFragment;
 import com.yangyuning.baidumusic.controller.fragment.kfragment.KDetailFragment;
 import com.yangyuning.baidumusic.controller.fragment.musicfragment.RankingDetailFragment;
 import com.yangyuning.baidumusic.controller.fragment.musicfragment.RecommendDetailSongerFragment;
 import com.yangyuning.baidumusic.controller.fragment.musicfragment.SongDetailFragment;
+import com.yangyuning.baidumusic.controller.fragment.ownfragment.DownLoadManageFragment;
+import com.yangyuning.baidumusic.controller.fragment.ownfragment.FavoriteFragment;
 import com.yangyuning.baidumusic.controller.fragment.ownfragment.LocalMusicDetailsFragment;
 import com.yangyuning.baidumusic.controller.fragment.MainFragment;
 import com.yangyuning.baidumusic.controller.services.MusicService;
@@ -71,11 +69,22 @@ import com.yangyuning.baidumusic.model.net.VolleyResult;
 import com.yangyuning.baidumusic.utils.AeroGlassUtil;
 import com.yangyuning.baidumusic.utils.BaiduMusicValues;
 import com.yangyuning.baidumusic.utils.ScreenSizeUtil;
+import com.yangyuning.baidumusic.utils.ToastHelper;
 import com.yangyuning.baidumusic.utils.interfaces.OnChangeMusicListener;
+import com.yangyuning.baidumusic.utils.lyric.DefaultLrcBuilder;
+import com.yangyuning.baidumusic.utils.lyric.ILrcBuilder;
+import com.yangyuning.baidumusic.utils.lyric.ILrcView;
+import com.yangyuning.baidumusic.utils.lyric.ILrcViewListener;
+import com.yangyuning.baidumusic.utils.lyric.LrcRow;
+import com.yangyuning.baidumusic.utils.lyric.LrcView;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class MainActivity extends AbsBaseActivity implements View.OnClickListener, OnChangeMusicListener {
     private TextView minSongTv, minSingerTv;  //底部播放栏歌手名, 歌曲名
@@ -104,8 +113,14 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
     private GestureDetector gestureDetector;
 
     //歌词同步
-    private PlayPageLyricLvAdapter lyricLvAdapter;
-    private ListView lyrivLv;
+    //自定义LrcView，用来展示歌词
+    private ILrcView mLrcView;
+    //更新歌词的频率，每秒更新一次
+    private int mPalyTimerDuration = 1000;
+    //更新歌词的定时器
+    private Timer mTimer;
+    //更新歌词的定时任务
+    private TimerTask mTask;
     private ImageView playPageCenterBgImg;  //播放歌曲中间页背景图片
 
     //播放模式图标
@@ -119,30 +134,15 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
     private View minListPopView;    //min播放列表PopWindow布局
     private ImageView minListPopMode;   //min播放列表PopWindow播放模式
     private Button minListPopBtn;   //min播放列表PopWindow:正在播放列表
-    private TextView minListPopClearAll, minListPopTv;    //全部清空, 清空后显示的文字
-//    private ListView minListLv; //ListView
+    private TextView minListPopClearAll;    //全部清空, 清空后显示的文字
+    private ListView minListView;
+    private OwnLocalMusicLvAdapter minListLvAdapter;//minList的ListView用的适配器是和收藏一样
+    private List<MusicBean> minListDatas;
 
     //服务相关
     private Intent intent;
     private MusicService.MusicBinder musicBinder;
-    private ServiceConnection serviceConnection = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            musicBinder = (MusicService.MusicBinder) service;
-            new Thread(new SeekBarRunnable()).start();
-            // 启动歌词同步线程
-            new Thread(new NotifySynLyricThread()).start();
-            initSeekBar();
-            musicBinder.playMusic();
-            musicBinder.pauseMusic();
-            setMusicTimeInfo();
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-
-        }
-    };
+    private ServiceConnection serviceConnection;
 
     //广播接收者
     private FrameReceiver frameReceiver;
@@ -154,6 +154,8 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
     private KDeatilReceiver kDeatilReceiver;
     private RecommendDetailSongerReceiver recommendDetailSongerReceiver;
     private MainFragmentToLoginReceiver mainFragmentToLoginReceiver;
+    private FavSingleSongReceiver favSingleSongReceiver;
+    private MainFragmentToSearchReceiver mainFragmentToSearchReceiver;
 
     //请求队列
     private RequestQueue queue;
@@ -196,7 +198,7 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
         popDurationTv = (TextView) popView.findViewById(R.id.play_music_duration_tv);
         //歌词界面
         playPageLl = (LinearLayout) LayoutInflater.from(MainActivity.this).inflate(R.layout.fragment_play_page_lyric, null);
-        lyrivLv = (ListView) playPageLl.findViewById(R.id.play_page_lyric_lv);
+        mLrcView = (LrcView) playPageLl.findViewById(R.id.lrcView);
         playPageLyrivLl = (LinearLayout) LayoutInflater.from(MainActivity.this).inflate(R.layout.fragment_playpage_lyric, null);
         playPageCenterBgImg = (ImageView) playPageLyrivLl.findViewById(R.id.play_page_lyric_img);
 
@@ -205,8 +207,7 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
         minListPopMode = (ImageView) minListPopView.findViewById(R.id.min_list_pop_mode_img);
         minListPopBtn = (Button) minListPopView.findViewById(R.id.min_list_pop_isplaying_btn);
         minListPopClearAll = (TextView) minListPopView.findViewById(R.id.min_list_pop_clear_all_tv);
-        minListPopTv = (TextView) minListPopView.findViewById(R.id.min_list_pop_tv);
-//        minListLv = (ListView) minListPopView.findViewById(R.id.min_list_pop_lv);
+        minListView = (ListView) minListPopView.findViewById(R.id.min_list_pop_lv);
 
         popModeImg.setOnClickListener(this);
         popPastImg.setOnClickListener(this);
@@ -270,21 +271,6 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
                     secondStr = "0" + secondStr;
                 }
                 popCurrentTimeTv.setText(minuteStr + ":" + secondStr);
-            } else if (msg.what == 102) {
-                int scrollPos = msg.arg1;
-                lyrivLv.smoothScrollToPosition(scrollPos);
-            } else if (msg.what == 103) {
-                int lvPos = msg.arg1;
-                View view = lyrivLv.getChildAt(lvPos);
-                if (view != null) {
-                    TextView tv = (TextView) view.findViewById(R.id.item_playpage_lyric_tv);
-                    tv.setTextColor(Color.WHITE);
-                    if (lvPos - 1 >= 0) {
-                        View lastView = lyrivLv.getChildAt(lvPos - 1);
-                        TextView lastTv = (TextView) lastView.findViewById(R.id.item_playpage_lyric_tv);
-                        lastTv.setTextColor(Color.DKGRAY);
-                    }
-                }
             }
             return false;
         }
@@ -299,10 +285,18 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
 
         //设置初始播放模式
         initPlayMode();
+        //服务相关
+        initService();
 
-        //绑定服务
-        intent = new Intent(MainActivity.this, MusicService.class);
-        bindService(intent, serviceConnection, BIND_AUTO_CREATE);
+        //设置自定义的LrcView上下拖动歌词时监听
+        mLrcView.setListener(new ILrcViewListener() {
+            //            //当歌词被用户上下拖动的时候回调该方法,从高亮的那一句歌词开始播放
+            public void onLrcSeeked(int newPosition, LrcRow row) {
+                if (musicBinder != null) {
+                    MusicService.mediaPlayer.seekTo((int) row.time);
+                }
+            }
+        });
     }
 
     //替换占位布局
@@ -312,70 +306,6 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.main_frame_layout, MainFragment.newInstance());
         ft.commit();
-    }
-
-    //获取播放界面播放模式图片, 名称
-    private void initPlayMode() {
-        TypedArray playMode;
-        playMode = getResources().obtainTypedArray(R.array.play_page_mode);
-        int len = playMode.length();
-        modeIcon = new int[len];
-        for (int i = 0; i < len; i++)
-            modeIcon[i] = playMode.getResourceId(i, 0);
-        playMode.recycle();
-        popModeImg.setImageResource(modeIcon[0]);
-
-        TypedArray minPlayMode;
-        minPlayMode = getResources().obtainTypedArray(R.array.play_list_mode);
-        int length = minPlayMode.length();
-        minListModeIcon = new int[length];
-        for (int j = 0; j < length; j++)
-            minListModeIcon[j] = minPlayMode.getResourceId(j, 0);
-        minPlayMode.recycle();
-        minListPopMode.setImageResource(minListModeIcon[0]);
-    }
-
-    /**
-     * 在任何界面播放的音乐一改变就会回调该方法,使该界面的播放器播放指定音乐
-     */
-    @Override
-    public void OnChangeMuisc(MusicBean musicBean, int position) {
-        if (musicBinder != null) {
-            musicBinder.setCurrentMusic(musicBean, position);
-            updateUIState();
-        }
-    }
-
-    private void updateUIState() {
-        // 设置音乐
-        setMusicTimeInfo();
-        // 初始化按钮状态
-        initBtnState();
-    }
-
-    //进度条线程
-    private class SeekBarRunnable implements Runnable {
-        @Override
-        public void run() {
-            while (true) {
-                if (musicBinder != null) {
-                    if (musicBinder.getMusicIsPlaying()) {
-                        if (musicBinder != null) {
-                            int currentPosition = musicBinder.getCurrentMusicPosition();
-                            Message message = new Message();
-                            message.what = 101;
-                            message.obj = currentPosition;
-                            handler.sendMessage(message);
-                        }
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-            }
-        }
     }
 
     //注册广播接收者
@@ -433,6 +363,102 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
         IntentFilter loginFilter = new IntentFilter();
         loginFilter.addAction(BaiduMusicValues.THE_ACTION_TO_LOGIN);
         registerReceiver(mainFragmentToLoginReceiver, loginFilter);
+
+        //我的Fragment点击进入我喜欢的单曲
+        favSingleSongReceiver = new FavSingleSongReceiver();
+        IntentFilter favFilter = new IntentFilter();
+        favFilter.addAction(BaiduMusicValues.THE_ACTION_OWN_FAV);
+        registerReceiver(favSingleSongReceiver, favFilter);
+
+        //我的Fragment到搜索界面
+        mainFragmentToSearchReceiver = new MainFragmentToSearchReceiver();
+        IntentFilter searchFilter = new IntentFilter();
+        searchFilter.addAction(BaiduMusicValues.THE_ACTION_TO_SEARCH);
+        registerReceiver(mainFragmentToSearchReceiver, searchFilter);
+    }
+
+    //获取播放界面播放模式图片, 名称
+    private void initPlayMode() {
+        TypedArray playMode;
+        playMode = getResources().obtainTypedArray(R.array.play_page_mode);
+        int len = playMode.length();
+        modeIcon = new int[len];
+        for (int i = 0; i < len; i++)
+            modeIcon[i] = playMode.getResourceId(i, 0);
+        playMode.recycle();
+        popModeImg.setImageResource(modeIcon[0]);
+
+        TypedArray minPlayMode;
+        minPlayMode = getResources().obtainTypedArray(R.array.play_list_mode);
+        int length = minPlayMode.length();
+        minListModeIcon = new int[length];
+        for (int j = 0; j < length; j++)
+            minListModeIcon[j] = minPlayMode.getResourceId(j, 0);
+        minPlayMode.recycle();
+        minListPopMode.setImageResource(minListModeIcon[0]);
+    }
+
+    private void initService() {
+        //绑定服务
+        intent = new Intent(MainActivity.this, MusicService.class);
+        serviceConnection = new ServiceConnection() {
+            @Override
+            public void onServiceConnected(ComponentName name, IBinder service) {
+                musicBinder = (MusicService.MusicBinder) service;
+                new Thread(new SeekBarRunnable()).start();
+                initSeekBar();
+                musicBinder.playMusic();
+                musicBinder.pauseMusic();
+                setMusicTimeInfo();
+            }
+
+            @Override
+            public void onServiceDisconnected(ComponentName name) {
+
+            }
+        };
+        bindService(intent, serviceConnection, BIND_AUTO_CREATE);
+
+    }
+
+    //调用此方法会播放当前音乐
+    @Override
+    public void OnChangeMuisc(MusicBean musicBean, int position) {
+        if (musicBinder != null) {
+            musicBinder.setCurrentMusic(musicBean, position);
+            changeInfo();
+        }
+    }
+
+    private void changeInfo() {
+        // 设置音乐信息
+        setMusicTimeInfo();
+        initBtnState();
+    }
+
+    //进度条线程
+    private class SeekBarRunnable implements Runnable {
+        @Override
+        public void run() {
+            while (true) {
+                if (musicBinder != null) {
+                    if (musicBinder.getMusicIsPlaying()) {
+                        if (musicBinder != null) {
+                            int currentPosition = musicBinder.getCurrentMusicPosition();
+                            Message message = new Message();
+                            message.what = 101;
+                            message.obj = currentPosition;
+                            handler.sendMessage(message);
+                        }
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+        }
     }
 
     //广播接收者  从OwnFragment发送
@@ -453,7 +479,7 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
                     break;
                 case BaiduMusicValues.MAIN_RECEIVER_POSITION_TWO:
                     fragmentTransaction.addToBackStack(null);
-                    fragmentTransaction.replace(R.id.main_frame_layout, LocalMusicDetailsFragment.newInstance());
+                    fragmentTransaction.replace(R.id.main_frame_layout, DownLoadManageFragment.newInstance());
                     break;
                 case BaiduMusicValues.MAIN_RECEIVER_POSITION_THREE:
                     fragmentTransaction.addToBackStack(null);
@@ -513,8 +539,8 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
         public void onReceive(Context context, Intent intent) {
             Bundle bundle = intent.getBundleExtra("bundle");
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                    ft.addToBackStack(null);
-                    ft.replace(R.id.main_frame_layout, SongDetailFragment.newInstance(bundle));
+            ft.addToBackStack(null);
+            ft.replace(R.id.main_frame_layout, SongDetailFragment.newInstance(bundle));
             ft.commit();
         }
     }
@@ -580,7 +606,7 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
     }
 
     //广播接收者 到登录界面
-    private class MainFragmentToLoginReceiver extends BroadcastReceiver{
+    private class MainFragmentToLoginReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
@@ -589,6 +615,29 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
             ft.commit();
         }
     }
+
+    //到搜索界面
+    private class MainFragmentToSearchReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.addToBackStack(null);
+            ft.replace(R.id.main_frame_layout, SearchFragment.newInstance());
+            ft.commit();
+        }
+    }
+
+    //我的Fragment 到我喜欢的单曲
+    private class FavSingleSongReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.addToBackStack(null);
+            ft.replace(R.id.main_frame_layout, FavoriteFragment.newInstance());
+            ft.commit();
+        }
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -596,8 +645,6 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
                 if (musicBinder != null) {
                     musicBinder.pauseMusic();
                     setMusicTimeInfo();
-                    //初始化notification
-                    initNotifocation();
                 }
                 break;
             case R.id.main_next:    //下一曲
@@ -619,6 +666,7 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
                 currentMode++;
                 currentMode = currentMode % modeIcon.length;
                 popModeImg.setImageResource(modeIcon[currentMode]);
+                minListPopMode.setImageResource(minListModeIcon[currentMode]);
                 musicBinder.changePlayMode(currentMode);
                 Toast.makeText(this, modeName[currentMode], Toast.LENGTH_SHORT).show();
                 break;
@@ -653,15 +701,21 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
             case R.id.play_music_lyric_img:  // PopWindow切换歌/词
                 if (flag == false) {
                     popLyricImg.setImageResource(R.mipmap.bt_playpage_button_pic_normal);
-                    popVp.setCurrentItem(2);
+                    popVp.setCurrentItem(1);
                     flag = true;
                 } else if (flag == true) {
                     popLyricImg.setImageResource(R.mipmap.bt_playpage_button_lyric_normal);
-                    popVp.setCurrentItem(1);
+                    popVp.setCurrentItem(0);
                     flag = false;
                 }
                 break;
             case R.id.min_list_pop_clear_all_tv:       //min PopWindow全部清除
+                minListDatas = new ArrayList<>();
+                minListLvAdapter = new OwnLocalMusicLvAdapter(minListDatas, MainActivity.this);
+                minListView.setAdapter(minListLvAdapter);
+                if (musicBinder != null){
+                    musicBinder.pauseMusic();
+                }
                 break;
             case R.id.min_list_pop_isplaying_btn:   //正在播放列表, 点击退出PopWindow
                 minPopWin.dismiss();
@@ -670,40 +724,15 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
                 currentMode++;
                 currentMode = currentMode % minListModeIcon.length;
                 minListPopMode.setImageResource(minListModeIcon[currentMode]);
+                popModeImg.setImageResource(modeIcon[currentMode]);
                 musicBinder.changePlayMode(currentMode);
                 Toast.makeText(this, modeName[currentMode], Toast.LENGTH_SHORT).show();
                 break;
         }
-        //设置播放键状态
-        initBtnState();
+        changeInfo();
     }
 
-    //初始化notification
-    private void initNotifocation() {
-        //管理者
-        NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        //builder
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
-        builder.setSmallIcon(R.mipmap.ic_launcher);
-        //设置内容
-        RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.notification);
-        remoteViews.setTextViewText(R.id.notify_music_title, musicBinder.getCurrentMusicBean().getSonginfo().getTitle());
-        remoteViews.setTextColor(R.id.notify_music_title, Color.BLACK);
-        remoteViews.setTextViewText(R.id.notify_music_singer, musicBinder.getCurrentMusicBean().getSonginfo().getAuthor());
-        remoteViews.setTextColor(R.id.notify_music_singer, Color.BLACK);
-        remoteViews.setImageViewResource(R.id.notify_music_icon, R.mipmap.ic_launcher);
-//        remoteViews.setImageViewResource(R.id.notify_start, R.mipmap.start);
-//        remoteViews.setImageViewResource(R.id.notify_next, R.mipmap.next);
-//        remoteViews.setImageViewResource(R.id.notify_stop, R.mipmap.stop);
-        //延时意图
-//        Intent intent = new Intent(this, MainActivity.class);
-//        PendingIntent pi1 = PendingIntent.getActivity(this, 100, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-//        remoteViews.setOnClickPendingIntent(R.id.notify_img, pi1);
-        builder.setContent(remoteViews);
-        Notification notification = builder.build();
-        manager.notify(2, notification);
-    }
-
+    //显示minBar上的播放列表
     private void showMinListPopWin() {
         minPopWin = new PopupWindow(WindowManager.LayoutParams.MATCH_PARENT, ScreenSizeUtil.getScreenSize(ScreenSizeUtil.ScreenState.HEIGHT) / 2);
         minPopWin.setContentView(minListPopView);
@@ -711,6 +740,12 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
         minPopWin.setOutsideTouchable(true);
         minPopWin.setBackgroundDrawable(new ColorDrawable(0));
         minPopWin.showAtLocation(main_ll, Gravity.BOTTOM, 0, 200);
+        //获得当前播放的歌曲列表
+        minListDatas = new ArrayList<>();
+        minListDatas = MusicService.getDatas();
+        //给ListView设置数据
+        minListLvAdapter = new OwnLocalMusicLvAdapter(minListDatas, MainActivity.this);
+        minListView.setAdapter(minListLvAdapter);
     }
 
     private void initBtnState() {
@@ -750,97 +785,17 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
             requestMusicImg(bean);
         } else {
             //如果没有图片则设置为默认
-            minBgIcon.setImageResource(R.mipmap.img_recommend_lebo_orange);
+            minBgIcon.setImageResource(R.mipmap.view_loading);
         }
         minSingerTv.setText(singer);
         popSonVgTv.setText(song);
         popSingerTv.setText(singer);
         popSeekBar.setMax(bean.getBitrate().getFile_duration());
-    }
-
-    /**
-     * 初始化PopWindow并显示
-     */
-    private void showPopWindow() {
-        popupWindow = new PopupWindow(
-                WindowManager.LayoutParams.MATCH_PARENT,
-                ScreenSizeUtil.getScreenSize(ScreenSizeUtil.ScreenState.HEIGHT) - getStatusBarHeight());
-        BitmapDrawable bg = new BitmapDrawable(getResources(),
-                AeroGlassUtil.doBlur(BitmapFactory.decodeResource(getResources(), R.mipmap.lunbo), 80, false));
-        popupWindow.setBackgroundDrawable(bg);
-        popupWindow.setContentView(popView);
-        popupWindow.setFocusable(true);
-        popupWindow.showAtLocation(main_ll, Gravity.NO_GRAVITY, 0, getStatusBarHeight());
-    }
-
-    /**
-     * 初始化PopWindow数据
-     */
-    private void initPopWindowData() {
-        linearLayouts = new ArrayList<>();
-        playPageLinearPagerAdapter = new PlayPageLinearPagerAdapter(MainActivity.this);
-
-        lyricLvAdapter = new PlayPageLyricLvAdapter(MainActivity.this);
-        lyrivLv.setAdapter(lyricLvAdapter);
-        // 获取歌词数据
-        if (!musicBinder.isLocalMusic()) {
-            VolleyInstance.getInstance().startResult(BaiduMusicValues.SONG_ULR_HEAD + musicBinder.getCurrentMusicBean().getSonginfo().getSong_id() + BaiduMusicValues.SONG_URL_FOOT, new VolleyResult() {
-                @Override
-                public void success(String resultStr) {
-                    resultStr = fixJsonData(resultStr);
-                    // 获得歌曲实体类
-                    Gson gson = new Gson();
-                    MusicBean musicBean = gson.fromJson(resultStr, MusicBean.class);
-                    int duration = musicBean.getBitrate().getFile_duration();
-                    musicBean.getBitrate().setFile_duration(duration * 1000);
-                    // 添加歌曲图片和文字
-                    if (!musicBean.getSonginfo().getPic_premium().equals(""))
-                        Picasso.with(MainActivity.this).load(musicBean.getSonginfo().getPic_premium()).into(playPageCenterBgImg);
-                    // 请求图片
-                    requestMusicImg(musicBean);
-                }
-
-                @Override
-                public void failure() {
-
-                }
-            });
-        }
-        linearLayouts.add(playPageLl);
-        linearLayouts.add(playPageLyrivLl);
-        linearLayouts.add(playPageLl);
-        // 适配器设置数据
-        playPageLinearPagerAdapter.setDatas(linearLayouts);
-        popVp.setAdapter(playPageLinearPagerAdapter);
-        popTb.setupWithViewPager(popVp);
-        popVp.setCurrentItem(1);
-        //滑动时歌/词切换
-        popVp.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                if (position == 2) {
-                    popLyricImg.setImageResource(R.mipmap.bt_playpage_button_pic_press);
-                } else {
-                    popLyricImg.setImageResource(R.mipmap.bt_playpage_button_lyric_press);
-                }
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
+        getLyric(bean);
     }
 
     /**
      * 设置PopWindow背景图片和中间的图片
-     *
-     * @param musicBean
      */
     private void requestMusicImg(MusicBean musicBean) {
         ImageRequest imageRequest = new ImageRequest(musicBean.getSonginfo().getPic_premium(), new Response.Listener<Bitmap>() {
@@ -857,118 +812,141 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
             }
         });
         queue.add(imageRequest);
-        //请求歌词
-        requestLyric(musicBean);
     }
 
     /**
-     * 请求歌词
+     * 初始化PopWindow并显示
      */
-    private void requestLyric(MusicBean musicBean) {
+    private void showPopWindow() {
+        popupWindow = new PopupWindow(
+                WindowManager.LayoutParams.MATCH_PARENT,
+                ScreenSizeUtil.getScreenSize(ScreenSizeUtil.ScreenState.HEIGHT) - getStatusBarHeight());
+        BitmapDrawable bg = new BitmapDrawable(getResources(),
+                AeroGlassUtil.doBlur(BitmapFactory.decodeResource(getResources(), R.mipmap.lunbo), 80, false));
+        popupWindow.setBackgroundDrawable(bg);
+        playPageCenterBgImg.setImageResource(R.mipmap.lunbo);
+        popupWindow.setContentView(popView);
+        popupWindow.setFocusable(true);
+        popupWindow.showAtLocation(main_ll, Gravity.NO_GRAVITY, 0, getStatusBarHeight());
+        changeInfo();
+    }
+
+    /**
+     * 初始化PopWindow数据
+     */
+    private void initPopWindowData() {
+        linearLayouts = new ArrayList<>();
+        playPageLinearPagerAdapter = new PlayPageLinearPagerAdapter(MainActivity.this);
+
+        if (!musicBinder.isLocalMusic()) {
+            if (musicBinder.getCurrentMusicBean().getSonginfo().getSong_id() != null && !musicBinder.getCurrentMusicBean().getSonginfo().getSong_id().equals("")) {
+                String url = BaiduMusicValues.SONG_ULR_HEAD + musicBinder.getCurrentMusicBean().getSonginfo().getSong_id() + BaiduMusicValues.SONG_URL_FOOT;
+                VolleyInstance.getInstance().startResult(url, new VolleyResult() {
+                    @Override
+                    public void success(String resultStr) {
+                        resultStr = fixJsonData(resultStr);
+                        Gson gson = new Gson();
+                        MusicBean musicBean = gson.fromJson(resultStr, MusicBean.class);
+                        int duration = musicBean.getBitrate().getFile_duration();
+                        musicBean.getBitrate().setFile_duration(duration * 1000);
+                        if (!musicBean.getSonginfo().getPic_premium().equals("")) {
+                            Picasso.with(MainActivity.this).load(musicBean.getSonginfo().getPic_premium()).into(playPageCenterBgImg);
+                        } else {
+                            playPageCenterBgImg.setImageResource(R.mipmap.lunbo);
+                        }
+                        getLyric(musicBean);
+                    }
+
+                    @Override
+                    public void failure() {
+
+                    }
+                });
+            }
+        }
+        linearLayouts.add(playPageLyrivLl);
+        linearLayouts.add(playPageLl);
+        // 适配器设置数据
+        playPageLinearPagerAdapter.setDatas(linearLayouts);
+        popVp.setAdapter(playPageLinearPagerAdapter);
+        popTb.setupWithViewPager(popVp);
+        //滑动时歌/词切换
+        popVp.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (position == 1) {
+                    popLyricImg.setImageResource(R.mipmap.bt_playpage_button_pic_press);
+                } else {
+                    popLyricImg.setImageResource(R.mipmap.bt_playpage_button_lyric_press);
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+            }
+        });
+    }
+
+    /**
+     * 获取歌词
+     */
+    private void getLyric(MusicBean musicBean) {
         VolleyInstance.getInstance().startResult(musicBean.getSonginfo().getLrclink(), new VolleyResult() {
             @Override
             public void success(String resultStr) {
                 // 解决中文乱码问题
                 String praseResult = "";
                 try {
-                    praseResult = new String(resultStr.getBytes("ISO8859-1"), "utf-8"); // 解决中文乱码问题
+                    if (java.nio.charset.Charset.forName("ISO-8859-1").newEncoder().canEncode(resultStr)) {
+                        praseResult = new String(resultStr.getBytes("ISO8859-1"), "utf-8"); // 解决中文乱码问题
+                    } else {
+                        praseResult = resultStr;
+                    }
                 } catch (UnsupportedEncodingException e1) {
                     e1.printStackTrace();
                 }
-                // 把整个歌词 按行分割成 单行歌词实体
-                List<LyricBean> stringList = new ArrayList<>();
-                // 保存上一行的结束(\n)位置
-                int lastLine = 0;
-                // 按行分割
-                for (int i = 0; i < praseResult.length(); i++) {
-                    if (praseResult.charAt(i) == '\n') {    // 如果遍历到回车符就截取该行
-                        int min = 0;
-                        int sec = 0;
-                        int msec10 = 0;
-                        String pieceAll = praseResult.substring(lastLine, i);   // 单行歌词
-                        String piece = "";
-                        // 去掉时间的单行歌词
-                        if (pieceAll.length() >= 10 && Character.isDigit(pieceAll.charAt(1))) {
-                            min = Integer.parseInt(pieceAll.substring(1, 3));   // 时间项的获取
-                            sec = Integer.parseInt(pieceAll.substring(4, 6));
-                            msec10 = Integer.parseInt(pieceAll.substring(7, 9));
-                            for (int l = 0; l < pieceAll.length(); l++) {
-                                if (pieceAll.charAt(l) == ']') {
-                                    piece = pieceAll.substring(l + 1, pieceAll.length());
-                                    break;
-                                }
-                            }
-                        } else {
-                            lastLine = i + 1;   // 保存该行的结束位置
-                            continue;
-                        }
-                        stringList.add(new LyricBean(piece, min, sec, msec10)); // 把拆分的数据封装到实体类,便于操作
-                        lastLine = i + 1;   // 保存该行的结束位置
-                    }
-                }
-                if (lyricLvAdapter != null)
-                    lyricLvAdapter.setDatas(stringList);
+                //解析歌词构造器
+                ILrcBuilder builder = new DefaultLrcBuilder();
+                //解析歌词返回LrcRow集合
+                List<LrcRow> rows = builder.getLrcRows(praseResult);
+                //将得到的歌词集合传给mLrcView用来展示
+                mLrcView.setLrc(rows);
+
+                mTimer = new Timer();
+                mTask = new LrcTask();
+                mTimer.scheduleAtFixedRate(mTask, 0, mPalyTimerDuration);
             }
 
             @Override
             public void failure() {
-                Toast.makeText(MainActivity.this, "请求歌词失败", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    private int lastPos = 0;
-
-    public void OnColorChanged(int pos) {
-        if (lastPos != pos) {
-            Message colorMessage = new Message();
-            colorMessage.what = 103;
-            colorMessage.arg1 = pos;
-            handler.sendMessage(colorMessage);
-            lastPos = pos;
-        } else {
-            lastPos = pos;
-        }
-    }
-
     /**
-     * 控制歌词同步的线程
+     * 展示歌曲的定时任务
      */
-    private class NotifySynLyricThread extends Thread {
-        public boolean isRun = true;
-
+    class LrcTask extends TimerTask {
         @Override
         public void run() {
-            while (isRun) {
-                if (musicBinder != null && musicBinder.getMusicIsPlaying()) {
-                    if (lyricLvAdapter != null) {
-                        for (int i = 0; i < lyricLvAdapter.getCount() - 1; i++) {
-                            LyricBean beanLast = lyricLvAdapter.getItem(i);
-                            LyricBean beanNext = lyricLvAdapter.getItem(i + 1);
-                            int lastSec = beanLast.getSeconds();
-                            int nextSec = beanNext.getSeconds();
-                            long seek = musicBinder.getCurrentMusicPosition();
-                            int seekSec = (int) (seek / 1000);
-                            if (seekSec >= lastSec && seekSec <= nextSec) {
-                                lyrivLv.smoothScrollToPositionFromTop(i + 1, lyrivLv.getMeasuredHeight() / 2);
-                                OnColorChanged(i);
-                                try {
-                                    Thread.sleep(200);
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
-                                }
-                                break;
-                            }
-                        }
-                    }
+            //获取歌曲播放的位置
+            final long timePassed = musicBinder.getCurrentMusicPosition();
+            MainActivity.this.runOnUiThread(new Runnable() {
+                public void run() {
+                    //滚动歌词
+                    mLrcView.seekLrcToTime(timePassed);
                 }
-            }
+            });
+
         }
     }
 
     /**
      * 获取屏幕顶部标题栏高度
-     *
      * @return 标题栏高度
      */
     public int getStatusBarHeight() {
@@ -1020,9 +998,10 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
             Toast.makeText(getApplicationContext(), R.string.exit_app, Toast.LENGTH_SHORT).show();
             mHandler.sendEmptyMessageDelayed(0, 2000);
         } else {
-            Intent intent = new Intent(Intent.ACTION_MAIN);
-            intent.addCategory(Intent.CATEGORY_HOME);
-            startActivity(intent);
+//            Intent intent = new Intent(Intent.ACTION_MAIN);
+//            intent.addCategory(Intent.CATEGORY_HOME);
+//            startActivity(intent);
+            finish();
             System.exit(0);
         }
     }
@@ -1041,6 +1020,7 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
         unregisterReceiver(kDeatilReceiver);
         unregisterReceiver(recommendDetailSongerReceiver);
         unregisterReceiver(mainFragmentToLoginReceiver);
+        unregisterReceiver(mainFragmentToSearchReceiver);
         unbindService(serviceConnection);
         if (musicBinder != null) {
             musicBinder.stopMusic();

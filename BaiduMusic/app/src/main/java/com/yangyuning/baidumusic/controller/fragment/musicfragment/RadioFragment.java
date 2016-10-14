@@ -25,9 +25,7 @@ public class RadioFragment extends AbsBaseFragment {
     private MusicRadioRvAdapter musicRadioRvAdapter;
 
     public static RadioFragment newInstance() {
-
         Bundle args = new Bundle();
-
         RadioFragment fragment = new RadioFragment();
         fragment.setArguments(args);
         return fragment;

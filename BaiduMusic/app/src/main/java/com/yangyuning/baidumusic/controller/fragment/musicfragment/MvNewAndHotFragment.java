@@ -24,7 +24,6 @@ public class MvNewAndHotFragment extends AbsBaseFragment {
     private MusicMvRvAdapter musicMvRvAdapter;
 
     public static MvNewAndHotFragment newInstance(String url) {
-
         Bundle args = new Bundle();
         args.putString(BaiduMusicValues.THE_NEWINSTANCE_URL_KEY, url);
         MvNewAndHotFragment fragment = new MvNewAndHotFragment();

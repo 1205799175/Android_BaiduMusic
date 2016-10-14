@@ -31,9 +31,7 @@ public class LocalMusicDetailsFragment extends AbsBaseFragment {
     private TextView localMusicBack;
 
     public static LocalMusicDetailsFragment newInstance() {
-        
         Bundle args = new Bundle();
-        
         LocalMusicDetailsFragment fragment = new LocalMusicDetailsFragment();
         fragment.setArguments(args);
         return fragment;
@@ -54,7 +52,6 @@ public class LocalMusicDetailsFragment extends AbsBaseFragment {
     @Override
     protected void initDatas() {
         datas = new ArrayList<>();
-        //假数据
         datas.add(LocalMusicTabFragment.newInstance());
         datas.add(LocalMusicTabFragment.newInstance());
         datas.add(LocalMusicTabFragment.newInstance());

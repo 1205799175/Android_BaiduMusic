@@ -27,23 +27,28 @@ import java.util.List;
  */
 public class RankingDetailRvAdapter extends RecyclerView.Adapter<RankingDetailRvAdapter.MyViewHolder> {
 
-    private List<RankingDetailRvBean.SongListBean> datas;
+    private List<MusicBean> datas;
     private Context context;
 
     private int height = ScreenSizeUtil.getScreenSize(ScreenSizeUtil.ScreenState.HEIGHT) / 7;
     private int width = ScreenSizeUtil.getScreenSize(ScreenSizeUtil.ScreenState.WIDTH) / 4;
 
-    private OnRvItemClick<RankingDetailRvBean.SongListBean> onRvItemClickListener;
+    private OnRvItemClick<MusicBean> onRvItemClickListener;
+    private OnRvItemClick<MusicBean> onRvMoreClickListener;
 
-    public void setOnRvItemClickListener(OnRvItemClick<RankingDetailRvBean.SongListBean> onRvItemClickListener) {
+    public void setOnRvItemClickListener(OnRvItemClick<MusicBean> onRvItemClickListener) {
         this.onRvItemClickListener = onRvItemClickListener;
+    }
+
+    public void setOnRvMoreClickListener(OnRvItemClick<MusicBean> onRvMoreClickListener) {
+        this.onRvMoreClickListener = onRvMoreClickListener;
     }
 
     public RankingDetailRvAdapter(Context context) {
         this.context = context;
     }
 
-    public void setDatas(List<RankingDetailRvBean.SongListBean> datas) {
+    public void setDatas(List<MusicBean> datas) {
         this.datas = datas;
         notifyDataSetChanged();
     }
@@ -56,10 +61,9 @@ public class RankingDetailRvAdapter extends RecyclerView.Adapter<RankingDetailRv
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
-        Log.d("sss", "datas.size():" + datas.size());
-        holder.title.setText(datas.get(position).getTitle());
-        holder.author.setText(datas.get(position).getAuthor());
-        Glide.with(context).load(datas.get(position).getPic_small()).override(width, height).into(holder.coverIv);
+        holder.title.setText(datas.get(position).getSonginfo().getTitle());
+        holder.author.setText(datas.get(position).getSonginfo().getAuthor());
+        Glide.with(context).load(datas.get(position).getSonginfo().getPic_small()).override(width, height).into(holder.coverIv);
 
         //点击事件
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -67,8 +71,18 @@ public class RankingDetailRvAdapter extends RecyclerView.Adapter<RankingDetailRv
             public void onClick(View v) {
                 if (onRvItemClickListener != null){
                     int position = holder.getLayoutPosition();
-                    RankingDetailRvBean.SongListBean bean = datas.get(position);
+                    MusicBean bean = datas.get(position);
                     onRvItemClickListener.onRvItemClickListener(position, bean);
+                }
+            }
+        });
+        holder.moreIv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onRvMoreClickListener != null){
+                    int position = holder.getLayoutPosition();
+                    MusicBean bean = datas.get(position);
+                    onRvMoreClickListener.onRvItemClickListener(position, bean);
                 }
             }
         });

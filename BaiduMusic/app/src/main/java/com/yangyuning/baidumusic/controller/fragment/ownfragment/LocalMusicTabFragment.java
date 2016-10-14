@@ -69,10 +69,8 @@ public class LocalMusicTabFragment extends AbsBaseFragment {
         datas = MusicService.getLocalMusicInfo();
         ownLocalMusicLvAdapter = new OwnLocalMusicLvAdapter(datas, context);
         listView.setAdapter(ownLocalMusicLvAdapter);
-
         //ListView行点击事件播放歌曲
         playMusic();
-
         initListView();
     }
 
@@ -85,8 +83,7 @@ public class LocalMusicTabFragment extends AbsBaseFragment {
         //添加尾布局
         View footView = LayoutInflater.from(context).inflate(R.layout.item_foot_local_music_lv, null);
         countTv = (TextView) footView.findViewById(R.id.local_music_count_tv);
-        countTv.setText(datas.size() + "首歌曲");
-//        listView.setFooterDividersEnabled(false);
+        countTv.setText(datas.size() + context.getResources().getString(R.string.music));
         listView.addFooterView(footView);
     }
 
@@ -96,8 +93,11 @@ public class LocalMusicTabFragment extends AbsBaseFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // 点击本地音乐
-                if (position > 0 && position < datas.size()) {
+                if (position > 0 && position <= datas.size()) {
+                    MusicService.setDatas(datas);
                     onChangeMusicListener.OnChangeMuisc(datas.get(position - 1), position - 1);
+                    //通知适配器刷新数据, 改变当前播放歌曲的颜色
+                    ownLocalMusicLvAdapter.notifyDataSetChanged();
                 }
             }
         });

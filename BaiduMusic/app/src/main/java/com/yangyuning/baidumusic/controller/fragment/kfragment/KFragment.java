@@ -242,6 +242,7 @@ public class KFragment extends AbsBaseFragment implements View.OnClickListener {
     @Override
     public void onPause() {
         super.onPause();
+        rotateRunnable = null;
         isRotate = false;
     }
 

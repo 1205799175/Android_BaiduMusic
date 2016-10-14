@@ -1,29 +1,43 @@
 package com.yangyuning.baidumusic.controller.fragment;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
 import com.yangyuning.baidumusic.R;
 import com.yangyuning.baidumusic.controller.app.BaiduMusicApp;
+import com.yangyuning.baidumusic.utils.BaiduMusicValues;
+
+import org.greenrobot.eventbus.EventBus;
+
+import java.util.HashMap;
+
+import cn.sharesdk.framework.Platform;
+import cn.sharesdk.framework.PlatformActionListener;
+import cn.sharesdk.framework.PlatformDb;
+import cn.sharesdk.framework.ShareSDK;
+import cn.sharesdk.tencent.qq.QQ;
 
 /**
  * Created by dllo on 16/10/5.
  * 登录Fragment
  */
 public class LoginFragment extends AbsBaseFragment implements View.OnClickListener {
-    private TextView backTv, skinImg, soundImg, scanImg, importImg, vipImg, ktvImg;
-    private Button loginBtn;
+    private TextView backTv, skinImg, soundImg, scanImg, importImg, vipImg, ktvImg, nameTv;
+    private TextView loginTv;
     private boolean setipautoFlag = true, desktopFlag = true, locksrcFlag = true;
     private ImageView wifiImg, setipautoImg, deskTopImg, lockscrImg;
     private LinearLayout settingLl, activityLl, appLl;
-    private String url = "http://wappass.baidu.com/passport/?login&tpl=wimn&ssid%3D0%26amp%3Bfrom%3D1001703y%26amp%3Buid%3D%26amp%3Bpu%3Dsz%2540320_1001%252Cta%2540iphone_2_5.0_3_537%26amp%3Bbd_page_type%3D1&tn=&regtype=1&u=https%3A%2F%2Fm.baidu.com";
     private WifiManager wifiManager;
 
     public static LoginFragment newInstance() {
@@ -41,7 +55,7 @@ public class LoginFragment extends AbsBaseFragment implements View.OnClickListen
     @Override
     protected void initView() {
         backTv = byView(R.id.login_back);
-        loginBtn = byView(R.id.login_login);
+        loginTv = byView(R.id.login_login);
         wifiImg = byView(R.id.login_wifi);
         setipautoImg = byView(R.id.login_setipauto);
         deskTopImg = byView(R.id.login_desktop);
@@ -55,9 +69,10 @@ public class LoginFragment extends AbsBaseFragment implements View.OnClickListen
         settingLl = byView(R.id.login_setting);
         activityLl = byView(R.id.login_activity);
         appLl = byView(R.id.login_app);
+        nameTv = byView(R.id.name);
 
         backTv.setOnClickListener(this);
-        loginBtn.setOnClickListener(this);
+        loginTv.setOnClickListener(this);
         wifiImg.setOnClickListener(this);
         setipautoImg.setOnClickListener(this);
         deskTopImg.setOnClickListener(this);
@@ -88,8 +103,6 @@ public class LoginFragment extends AbsBaseFragment implements View.OnClickListen
                 getFragmentManager().popBackStack();
                 break;
             case R.id.login_login:
-                WebView webView = new WebView(context);
-                webView.loadUrl(url);
                 break;
             case R.id.login_wifi:
                 if (wifiManager.isWifiEnabled()) {

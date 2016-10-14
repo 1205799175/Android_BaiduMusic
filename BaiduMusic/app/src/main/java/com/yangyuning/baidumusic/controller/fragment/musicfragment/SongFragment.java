@@ -69,31 +69,10 @@ public class SongFragment extends AbsBaseFragment {
         rv.setAdapter(musicSongRvAdapter);
         //设置布局管理器
         rv.setLayoutManager(new GridLayoutManager(context, BaiduMusicValues.MV_RECYCLERVIEW_ROW_NUM));
-        addListener();
-
+        initListener();
     }
 
-    private void addListener() {
-        //弹出PopWindow
-        imgPopWindow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PopupWindow pw = new PopupWindow(context);
-                //设置Popwindow的宽高
-                pw.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
-                int height = ScreenSizeUtil.getScreenSize(ScreenSizeUtil.ScreenState.HEIGHT) / 2;
-                pw.setHeight(height);
-                //显示内容
-                View view = LayoutInflater.from(context).inflate(R.layout.fragment_music_song_popwindow, null);
-                pw.setContentView(view);
-                //点击外界popWindow消失
-                pw.setFocusable(true);
-                pw.setOutsideTouchable(true);
-                //显示
-                pw.showAtLocation(rootView, Gravity.BOTTOM, 0, 100);
-            }
-        });
-
+    private void initListener() {
         //进入详情
         musicSongRvAdapter.setOnRvItemClickListener(new OnRvItemClick<MusicSongBean.ContentBean>() {
             @Override

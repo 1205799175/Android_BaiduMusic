@@ -39,6 +39,7 @@
     <color name="colorBgWhite">#ffffff</color>
     <color name="colorBgPlayPage">#53c2c2</color>
     <color name="colarBgNotif">#000000</color>
+    <color name="search_bg">#3ea6e7</color>
 
 
 </resources>

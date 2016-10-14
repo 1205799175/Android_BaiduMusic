@@ -9,14 +9,27 @@ public class BaiduMusicValues {
     }
 
     /**
+     * 数据库名
+     */
+    public static final String DB_NAME = "BaiduMusic.db";
+
+    /**
      * 到登录界面 广播
      */
     public static final String THE_ACTION_TO_LOGIN = "com.yangyuning.baidumusic.controller.fragment.MainFragment";
+    /**
+     * 到搜索界面
+     */
+    public static final String THE_ACTION_TO_SEARCH = "com.yangyuning.baidumusic.controller.fragment.SearchFragment";
 
     /**
      * 我的Fragment本地歌曲到二级页面 广播 getAction
      */
     public static final String THE_ACTION_OWN_LOCAL = "com.yangyuning.baidumusic.controller.fragment.ownfragmet.OwnFragment";
+    /**
+     * 跳转到我喜欢的单曲 二级页面
+     */
+    public static final String THE_ACTION_OWN_FAV = "com.yangyuning.baidumusic.controller.fragment.ownfragment.FavoriteFragment";
     /**
      * 直播FragmentRv到二级页面 广播
      */
@@ -97,16 +110,35 @@ public class BaiduMusicValues {
     public static final String RECOMMEND_SONGER_JAPAN_TEAM = "日本组合";
     public static final String RECOMMEND_SONGER_OTHER = "其他歌手";
 
+    /**
+     * 我喜欢的单曲
+     */
+    public static final String FAV_SONG_ADD = "已添加到我喜欢的单曲";
+    public static final String FAV_SONG_CANCEL = "已取消喜欢";
+
+    public static final String UPDATE_DATA = "更新日期:";
+
 
     public static final String THE_ACTION_K_TO_DETAIL = "com.yangyuning.baidumusic.controller.fragment.kfragment.KFragment";
     public static final String K_KEY = "key";
 
+    public static final String DOWN_LOAD_HAVE_LEFT = "已下载(";
+    public static final String DOWN_LOAD_HAVE_RIGHT = ")";
+    public static final String DOWN_LOAD_IS = "正在下载(0)";
+    public static final String DOWNLOAD = "已经下载过该歌曲,请勿重复下载";
+    public static final String ORDER = "顺序播放完成";
+    public static final String NO_SONG = "没有可播放的歌曲";
 
     /**
      * Fragment复用传网址的key
      */
     public static final String THE_NEWINSTANCE_URL_KEY = "key";
 
+    /**
+     * 登录Fragment发送头像到MainFragment 广播
+     */
+    public static final String THE_ACTION_LOGIN_TO_MAINFRAGMENT = "com.yangyuning.baidumusic.controller.fragment.LoginFragment";
+    public static final String INTENT_KEY = "icon";
     /**
      * MainActivity广播接收者  position
      */
@@ -237,5 +269,11 @@ public class BaiduMusicValues {
      */
     public static final String SONG_ULR_HEAD = "http://tingapi.ting.baidu.com/v1/restserver/ting?from=webapp_music&method=baidu.ting.song.play&format=json&callback=&songid=";
     public static final String SONG_URL_FOOT = "&_=1413017198449";
+
+    /**
+     * 搜索界面
+     */
+    public static final String SEARCH_HEAD = "http://tingapi.ting.baidu.com/v1/restserver/ting?method=baidu.ting.search.merge&query=";
+    public static final String SEARCH_FOOT = "&page_size=50&page_no=1&type=-1&format=json&from=ios&version=5.2.5&from=ios&channel=appstore";
 
 }

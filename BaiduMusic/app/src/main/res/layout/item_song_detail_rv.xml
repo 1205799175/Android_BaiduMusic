@@ -41,6 +41,7 @@
         android:layout_marginRight="@dimen/common_margin"/>
 
     <ImageView
+        android:id="@+id/item_songlist_more"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@mipmap/ic_list_more_normal" />

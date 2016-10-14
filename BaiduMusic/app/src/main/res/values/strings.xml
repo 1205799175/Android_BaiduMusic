@@ -6,7 +6,7 @@
     <string name="tab_title_music">乐库</string>
     <string name="tab_title_k">K歌</string>
     <string name="tab_title_alive">直播</string>
-    
+
     <!--我的界面-ListView-行布局名称-->
     <string name="own_lv_local_music">本地音乐</string>
     <string name="own_lv_recently_play">最近播放</string>
@@ -68,7 +68,7 @@
     <string name="music_radio_more_kinds">更多电台分类</string>
 
     <!--乐库 推荐-->
-    <string name="music_recommend_songList">歌单推荐</string>    
+    <string name="music_recommend_songList">歌单推荐</string>
     <string name="music_recommend_new_disk">新碟上架</string>
     <string name="music_recommend_hot_sold">热销专辑</string>
     <string name="music_recommend_scence_radio">场景电台</string>
@@ -142,5 +142,24 @@
     <string name="login_setting">设置</string>
     <string name="login_activity">活动专区</string>
     <string name="login_app">精品应用</string>
+
+    <!--PopWindow更多-->
+    <string name="play_next">下一首播放</string>
+    <string name="like_txt">喜欢</string>
+    <string name="download_txt">下载</string>
+    <string name="share_txt">分享</string>
+    <string name="add_txt">添加到</string>
+    <string name="mv_txt">MV</string>
+
+    <string name="search_hint">歌曲, 歌手, 专辑, 歌词, 伴奏</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="total">共</string>
+    <string name="song">首歌</string>
+    <string name="piece">首</string>
+    <string name="music">首歌曲</string>
+    <string name="songlist_num">个歌单</string>
+    <string name="baidumusic">百度音乐, 听到极致</string>
 
 </resources>

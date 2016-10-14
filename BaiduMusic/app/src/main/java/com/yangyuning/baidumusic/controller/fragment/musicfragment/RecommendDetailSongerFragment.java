@@ -21,6 +21,7 @@ import java.util.List;
 
 /**
  * Created by dllo on 16/9/29.
+ * 推荐 歌手 详情
  */
 public class RecommendDetailSongerFragment extends AbsBaseFragment {
 
@@ -58,7 +59,7 @@ public class RecommendDetailSongerFragment extends AbsBaseFragment {
         adapter = new RecommendSongerLvAdapter(context);
         //给ListView设置数据
         initListView();
-        addListener();
+        initListener();
     }
 
     private void initListView() {
@@ -80,7 +81,7 @@ public class RecommendDetailSongerFragment extends AbsBaseFragment {
         adapter.setDatas(datas);
     }
 
-    private void addListener() {
+    private void initListener() {
         backTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

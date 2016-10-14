@@ -33,7 +33,6 @@ public class KRotateAdapter extends PagerAdapter {
         notifyDataSetChanged();
     }
 
-
     @Override
     public int getCount() {
         // 设置页数为int最大值,这样向下滑动永远都是下一页
@@ -47,7 +46,7 @@ public class KRotateAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        // position是int最大值所以这里可能是几百甚至上千,因此取余避免数组越界
+        // 取余避免数组越界
         int newPosition = position % datas.size();
         View convertView = inflater.inflate(R.layout.item_rotate_vp, container, false);
         ImageView imageView = (ImageView) convertView.findViewById(R.id.item_vp_rotate_img);

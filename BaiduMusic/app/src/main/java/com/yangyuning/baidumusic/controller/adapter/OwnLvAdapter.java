@@ -55,6 +55,7 @@ public class OwnLvAdapter extends BaseAdapter {
         viewHolder.numberTv.setText(datas.get(position).getNumber());
         viewHolder.img.setImageResource(datas.get(position).getImgId());
         viewHolder.arrowImg.setImageResource(datas.get(position).getArrowImgId());
+
         return convertView;
     }
 

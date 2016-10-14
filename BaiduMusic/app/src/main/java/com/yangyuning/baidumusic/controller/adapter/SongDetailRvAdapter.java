@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.yangyuning.baidumusic.R;
@@ -15,15 +16,21 @@ import java.util.List;
 
 /**
  * Created by dllo on 16/9/30.
+ * 歌单 详情 Rv 适配器
  */
 public class SongDetailRvAdapter extends RecyclerView.Adapter<SongDetailRvAdapter.ViewHolder> {
 
     private Context context;
     private List<MusicBean> datas;
     private OnRvItemClick<MusicBean> onRvItemClickListener;
+    private OnRvItemClick<MusicBean> onRvMoreClickListener;
 
     public void setOnRvItemClickListener(OnRvItemClick<MusicBean> onRvItemClickListener) {
         this.onRvItemClickListener = onRvItemClickListener;
+    }
+
+    public void setOnRvMoreClickListener(OnRvItemClick<MusicBean> onRvMoreClickListener) {
+        this.onRvMoreClickListener = onRvMoreClickListener;
     }
 
     public SongDetailRvAdapter(Context context) {
@@ -44,8 +51,10 @@ public class SongDetailRvAdapter extends RecyclerView.Adapter<SongDetailRvAdapte
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        holder.titleTv.setText(datas.get(position).getSonginfo().getTitle());
-        holder.artistTv.setText(datas.get(position).getSonginfo().getAuthor());
+        if (datas.get(position).getSonginfo() != null) {
+            holder.titleTv.setText(datas.get(position).getSonginfo().getTitle());
+            holder.artistTv.setText(datas.get(position).getSonginfo().getAuthor());
+        }
         //点击事件
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,8 +66,17 @@ public class SongDetailRvAdapter extends RecyclerView.Adapter<SongDetailRvAdapte
                 }
             }
         });
+        holder.moreImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onRvItemClickListener != null){
+                    int position = holder.getLayoutPosition();
+                    MusicBean bean = datas.get(position);
+                    onRvMoreClickListener.onRvItemClickListener(position, bean);
+                }
+            }
+        });
     }
-
 
     @Override
     public int getItemCount() {
@@ -68,16 +86,14 @@ public class SongDetailRvAdapter extends RecyclerView.Adapter<SongDetailRvAdapte
     class ViewHolder extends RecyclerView.ViewHolder {
         private TextView titleTv;
         private TextView artistTv;
+        private ImageView moreImg;
 
         public ViewHolder(View itemView) {
             super(itemView);
             titleTv = (TextView) itemView.findViewById(R.id.item_songlist_title_tv);
             artistTv = (TextView) itemView.findViewById(R.id.item_songlist_artist_tv);
+            moreImg = (ImageView) itemView.findViewById(R.id.item_songlist_more);
         }
-
-
     }
-
-
 }
 

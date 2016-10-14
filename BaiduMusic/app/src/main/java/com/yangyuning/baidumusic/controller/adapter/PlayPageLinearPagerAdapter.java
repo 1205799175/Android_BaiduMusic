@@ -11,6 +11,7 @@ import java.util.List;
 
 /**
  * Created by dllo on 16/9/28.
+ * 播放PopWindow 线性布局的适配器
  */
 public class PlayPageLinearPagerAdapter extends PagerAdapter {
     private Context context;

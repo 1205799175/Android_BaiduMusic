@@ -82,8 +82,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="@dimen/common_margin"
-                android:layout_weight="1"
-                android:text="111" />
+                android:layout_weight="1" />
 
             <ImageView
                 android:id="@+id/rank_detail_down_load_all"

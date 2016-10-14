@@ -179,6 +179,7 @@ public class RecommendFragment extends AbsBaseFragment implements View.OnClickLi
         });
     }
 
+    //初始化适配器
     private void initAdapter() {
         entryAdapter = new RecommendEntryRvAdapter(context);
         diyRvAdapter = new RecommendDiyRvAdapter(context);
@@ -192,6 +193,7 @@ public class RecommendFragment extends AbsBaseFragment implements View.OnClickLi
         mod7RvAdapter = new RecommendMod7RvAdapter(context);
     }
 
+    //绑定适配器, 布局管理器
     private void doAdapter() {
         recommendEntryRv.setAdapter(entryAdapter);
         recommendEntryRv.setLayoutManager(new GridLayoutManager(context, 3));
@@ -399,6 +401,7 @@ public class RecommendFragment extends AbsBaseFragment implements View.OnClickLi
     @Override
     public void onPause() {
         super.onPause();
+        rotateRunnable = null;
         isRotate = false;
     }
 

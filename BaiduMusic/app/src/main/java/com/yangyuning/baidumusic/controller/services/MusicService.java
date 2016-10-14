@@ -36,7 +36,7 @@ public class MusicService extends Service {
     //当前歌曲
     private int currentIndex = 0;
     //播放器
-    private MediaPlayer mediaPlayer;
+    public static MediaPlayer mediaPlayer;
 
     //播放模式
     private int currentPlayMode = 0;
@@ -46,6 +46,10 @@ public class MusicService extends Service {
     public static void setDatas(List<MusicBean> datas){
         MusicService.datas = datas;
         isLocalMusic = false;
+    }
+
+    public static List<MusicBean> getDatas() {
+        return datas;
     }
 
     @Nullable
@@ -151,7 +155,7 @@ public class MusicService extends Service {
             if (currentIndex == datas.size()) {
                 currentIndex = 0;
                 if (playMode[currentPlayMode] == PLAY_MODE.ORDER) {
-                    Toast.makeText(MusicService.this, "顺序播放完成", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MusicService.this, BaiduMusicValues.ORDER, Toast.LENGTH_SHORT).show();
                     resetPlayer();
                     return;
                 }
@@ -188,7 +192,7 @@ public class MusicService extends Service {
             if (currentIndex < 0) {
                 currentIndex = datas.size() - 1;
                 if (playMode[currentPlayMode] == PLAY_MODE.ORDER) {
-                    Toast.makeText(MusicService.this, "没有可播放的歌曲", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MusicService.this, BaiduMusicValues.NO_SONG, Toast.LENGTH_SHORT).show();
                     resetPlayer();
                     return;
                 }
@@ -307,7 +311,7 @@ public class MusicService extends Service {
 
     //获取歌曲
     public static List<MusicBean> getLocalMusicInfo() {
-        datas = new ArrayList<>();
+        List<MusicBean> musicBeanList = new ArrayList<>();
         Cursor cursor = BaiduMusicApp.getContext().getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, null, null, null, null);
         while (cursor.moveToNext()) {
             String title = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.TITLE));   //歌曲名
@@ -316,23 +320,25 @@ public class MusicService extends Service {
             String url = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DATA));      //歌曲地址
             int isMusic = cursor.getInt(cursor.getColumnIndex(MediaStore.Audio.Media.IS_MUSIC));    //是否是音乐
             String display = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DISPLAY_NAME));//专辑
-            MusicBean musicBean = new MusicBean();
-            //设置歌曲路径, 时长
-            MusicBean.BitrateBean bitrateBean = new MusicBean.BitrateBean();
-            bitrateBean.setFile_link(url);
-            bitrateBean.setFile_duration((int) duration);
-            musicBean.setBitrate(bitrateBean);
-            //设置歌曲信息
-            MusicBean.SonginfoBean songinfoBean = new MusicBean.SonginfoBean();
-            songinfoBean.setAuthor(singer);
-            songinfoBean.setTitle(title);
-            songinfoBean.setAlbum_title(display);
-            musicBean.setSonginfo(songinfoBean);
-            //添加数据
-            datas.add(musicBean);
+            if (isMusic != 0 && duration / (1000 * 60) >= 1) {
+                MusicBean musicBean = new MusicBean();
+                //设置歌曲路径, 时长
+                MusicBean.BitrateBean bitrateBean = new MusicBean.BitrateBean();
+                bitrateBean.setFile_link(url);
+                bitrateBean.setFile_duration((int) duration);
+                musicBean.setBitrate(bitrateBean);
+                //设置歌曲信息
+                MusicBean.SonginfoBean songinfoBean = new MusicBean.SonginfoBean();
+                songinfoBean.setAuthor(singer);
+                songinfoBean.setTitle(title);
+                songinfoBean.setAlbum_title(display);
+                musicBean.setSonginfo(songinfoBean);
+                //添加数据
+                musicBeanList.add(musicBean);
+            }
         }
         cursor.close();
-        return datas;
+        return musicBeanList;
     }
 
     /**

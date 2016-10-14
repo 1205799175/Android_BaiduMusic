@@ -2,13 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:id="@+id/play_page_lyric">
     <!--播放页面 最右 歌词 ListView-->
 
-    <ListView
-        android:id="@+id/play_page_lyric_lv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+    <com.yangyuning.baidumusic.utils.lyric.LrcView
+        android:id="@+id/lrcView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

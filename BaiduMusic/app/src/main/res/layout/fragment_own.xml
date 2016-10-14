@@ -13,6 +13,14 @@
             android:layout_height="@dimen/margin_bg_height"
             android:background="@color/main_title_layout">
 
+            <ImageView
+                android:id="@+id/mine_header_bg_img"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@mipmap/ic_mymusic_picture"
+                android:tint="@color/colorPrimary"
+                android:scaleType="fitXY"/>
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -32,6 +40,7 @@
                     android:id="@+id/own_head_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/colorLocalMusic"
                     android:layout_marginBottom="@dimen/control_margin_pbone_boeder"
                     android:text="@string/own_listen"
                     android:textSize="@dimen/own_text_size" />
@@ -73,6 +82,7 @@
                 android:gravity="center">
 
                 <ImageView
+                    android:id="@+id/own_login_iv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@mipmap/icon_tips_login" />

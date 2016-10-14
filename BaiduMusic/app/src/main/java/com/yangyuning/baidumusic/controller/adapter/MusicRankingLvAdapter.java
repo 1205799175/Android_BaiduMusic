@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 import com.yangyuning.baidumusic.R;
 import com.yangyuning.baidumusic.model.bean.MusicRankingBean;
+import com.yangyuning.baidumusic.model.bean.MusicSongBean;
 import com.yangyuning.baidumusic.utils.ScreenSizeUtil;
 
 import java.util.List;
@@ -38,6 +39,17 @@ public class MusicRankingLvAdapter extends BaseAdapter {
         this.datas = datas;
         notifyDataSetChanged();
     }
+
+    /**
+     * 根据点击位置获取歌曲列表
+     * @param pos 数据的索引
+     * @return 返回歌曲列表信息
+     */
+    public MusicRankingBean.ContentBean getList(int pos) {
+        MusicRankingBean.ContentBean contentBean = datas.get(pos);
+        return contentBean;
+    }
+
 
     @Override
     public int getCount() {

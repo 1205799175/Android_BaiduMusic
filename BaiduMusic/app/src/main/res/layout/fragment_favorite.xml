@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <!--本地 我最喜欢的单曲-->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin_zero"
+        android:gravity="center"
+        android:layout_weight="1">
+        <LinearLayout
+            android:id="@+id/fav_bg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+            <ImageView
+                android:id="@+id/fav_bg_one"
+                android:layout_width="@dimen/margin_zero"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY"
+                android:src="@mipmap/ic_classify_img02"/>
+            <ImageView
+                android:id="@+id/fav_bg_two"
+                android:layout_width="@dimen/margin_zero"
+                android:layout_weight="1"
+                android:scaleType="fitXY"
+                android:layout_height="match_parent"
+                android:src="@mipmap/ic_classify_img03"/>
+            <ImageView
+                android:id="@+id/fav_bg_three"
+                android:layout_width="@dimen/margin_zero"
+                android:layout_weight="1"
+                android:scaleType="fitXY"
+                android:layout_height="match_parent"
+                android:src="@mipmap/ic_classify_img04"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/common_margin">
+            <ImageView
+                android:id="@+id/fav_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/ic_back_normal"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/fav_bg"
+            android:layout_marginLeft="@dimen/common_margin"
+            android:layout_marginBottom="@dimen/common_margin"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="我喜欢的单曲"/>
+            <TextView
+                android:id="@+id/fav_song_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0首"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/common_margin"
+            android:layout_marginRight="@dimen/common_margin"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/btn_online_topic_detail_playall_normal"/>
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/fav_lv"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin_zero"
+        android:layout_weight="4"/>
+
+</LinearLayout>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+    <!--下载管理详情-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/main_title_layout"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/detail_title_back"
+            android:layout_width="@dimen/margin_zero"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:drawableLeft="@mipmap/bt_return_nor"
+            android:drawablePadding="@dimen/control_margin_pbone_boeder"
+            android:text="@string/own_lv_download_manage"
+            android:layout_gravity="center_vertical"
+            android:paddingTop="@dimen/common_margin"
+            android:paddingBottom="@dimen/common_margin"
+            android:paddingLeft="@dimen/control_margin_pbone_boeder"
+            android:textColor="@color/colorLocalMusic" />
+
+    </LinearLayout>
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/down_manage_tb"
+        android:layout_width="match_parent"
+        app:tabTextColor="@color/text_color_black"
+        app:tabIndicatorColor="@color/main_title_layout"
+        app:tabSelectedTextColor="@color/main_title_layout"
+        android:layout_height="wrap_content"/>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/down_manage_vp"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin_zero"
+        android:layout_weight="1"/>
+
+</LinearLayout>

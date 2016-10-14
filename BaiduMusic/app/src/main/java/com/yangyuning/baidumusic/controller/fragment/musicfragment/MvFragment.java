@@ -17,9 +17,7 @@ public class MvFragment extends AbsBaseFragment {
     private RadioGroup radioGroup;
 
     public static MvFragment newInstance() {
-
         Bundle args = new Bundle();
-
         MvFragment fragment = new MvFragment();
         fragment.setArguments(args);
         return fragment;

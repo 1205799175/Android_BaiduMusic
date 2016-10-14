@@ -52,9 +52,18 @@ public class LyricBean {
         this.msec10 = msec10;
     }
 
+    /**
+     * 获得毫秒数
+     * @return 毫秒数
+     */
     public int getMSecond() {
         return (min * 60 + sec) * 1000 + msec10 * 10;
     }
+
+    /**
+     * 获得秒数
+     * @return 秒数
+     */
     public int getSeconds() {
         return min * 60 + sec;
     }

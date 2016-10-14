@@ -19,6 +19,7 @@ import java.util.List;
 
 /**
  * Created by dllo on 16/9/29.
+ * K歌详情Fragment
  */
 public class KDetailFragment extends AbsBaseFragment {
 
